@@ -212,7 +212,7 @@ function parseitem(jNode) {
   t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <a style="text-decoration:none;" id="t30a" href="https://www.t30p.ru/search.aspx?s=' + userID + '" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></a>';
   t30span.id = 't30sp';
   t30span.style = "display:none";
-  $(t30span).css("color", "#555555");
+  //$(t30span).css("color", "#555555");
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
     if(Date.parse(Dparse(arrayDB[foundID + 1])) > botTargetDay) {
