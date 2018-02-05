@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180204
+// @version      180205
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.meta.js
@@ -43,7 +43,8 @@ if(window.location.hostname == "dislikemeter.com" || window.location.hostname ==
 } else if(window.location.pathname == '/channel/UCwBID52XA-aajCKYuwsQxWA/about') {
   var msgu = getURLParameter('msgu', location.search);
   var msgc = getURLParameter('msgc', location.search);
-  if(msgu !== null & msgc !== null) {
+  var msgn = getURLParameter('msgn', location.search);
+  if(msgu !== null & msgc !== null & msgn !== null) {
     if(document.querySelector("meta[http-equiv='origin-trial']")) {
       $.fn.sendkeys = function(x) {
         x = x.replace(/([^{])\n/g, '$1{enter}');
@@ -53,7 +54,7 @@ if(window.location.hostname == "dislikemeter.com" || window.location.hostname ==
         });
       };
       waitForKeyElements('div#labelAndInputContainer', function insertMsgNew(jNode) {
-        $(jNode).find('input#input').sendkeys('MetaBot_report_v2: https://www.youtube.com/watch?v=' + msgu + '&lc=' + msgc);
+        $(jNode).find('input#input').sendkeys('MetaBot_report_v2: https://www.youtube.com/watch?v=' + msgu + '&lc=' + msgc + ' - ' + msgn);
       });
       waitForKeyElements('ytd-button-renderer.style-scope.ytd-channel-about-metadata-renderer.style-default', function sendMsgNew(jNode) {
         if($(jNode).find('g.style-scope.yt-icon').children().length == 2) {
@@ -63,7 +64,7 @@ if(window.location.hostname == "dislikemeter.com" || window.location.hostname ==
     } else {
       waitForKeyElements('iframe#js-prefetch', function dmIDins(jNode) {
         document.querySelector('button.channel-msg-button').click();
-        document.querySelector('textarea.compose-message').value = 'MetaBot_report_v1: https://www.youtube.com/watch?v=' + msgu + '&lc=' + msgc;
+        document.querySelector('textarea.compose-message').value = 'MetaBot_report_v1: https://www.youtube.com/watch?v=' + msgu + '&lc=' + msgc + ' - ' + msgn;
       });
       waitForKeyElements('button.channel-msg-button', function(jNode) {
         $(jNode).css({
@@ -212,7 +213,6 @@ function parseitem(jNode) {
   t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <a style="text-decoration:none;" id="t30a" href="https://www.t30p.ru/search.aspx?s=' + userID + '" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></a>';
   t30span.id = 't30sp';
   t30span.style = "display:none";
-  //$(t30span).css("color", "#555555");
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
     if(Date.parse(Dparse(arrayDB[foundID + 1])) > botTargetDay) {
@@ -232,7 +232,7 @@ function parseitem(jNode) {
       checkdate(pNode);
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfo() {
-      sendinfo($(jNode).find("#sendlink"), $(comURL).find("a")[0].href, regexliold);
+      sendinfo($(jNode).find("#sendlink"), $(comURL).find("a")[0].href, $(jNode).parent().parent().find("img")[0].alt, regexliold);
       $(jNode).find("#sendlink").css("text-decoration", "line-through");
     }, false);
   }
@@ -281,7 +281,7 @@ function parseitemNew(jNode) {
       checkdateNew($(pNode).parent());
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfoNew() {
-      sendinfo($(comURL).find("#sendlink")[0], $(comURL).find("a")[0].href, regexlinew);
+      sendinfo($(comURL).find("#sendlink")[0], $(comURL).find("a")[0].href, $(jNode).parent().find("img#img")[0].alt, regexlinew);
       $(jNode).find("#sendlink").css("text-decoration", "line-through");
     }, false);
   }
@@ -321,9 +321,9 @@ function deleteitemNew(jNode, url) {
   }
 }
 
-function sendinfo(jNode, link, regexpid) {
+function sendinfo(jNode, link, username, regexpid) {
   if(regexpid.exec(document.body.innerHTML)[1] == "1") {
-    window.open('https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/about?msgu=' + getURLParameter('v', link) + '&msgc=' + getURLParameter('lc', link));
+    window.open('https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/about?msgu=' + getURLParameter('v', link) + '&msgc=' + getURLParameter('lc', link) + '&msgn=' + username);
   } else {
     alert("Для отправки сообщений необходимо войти в аккаунт Google.");
   }
