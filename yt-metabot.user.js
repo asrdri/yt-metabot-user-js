@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180205
+// @version      180207
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.meta.js
@@ -111,6 +111,10 @@ if(window.location.hostname == "dislikemeter.com" || window.location.hostname ==
 
 function resortcheckNew() {
   waitForKeyElements('paper-spinner-lite.ytd-item-section-renderer[aria-hidden="true"]', function(jNode) {
+    if (getURLParameter('v', location.search) === null) {
+      return;
+    }
+    console.log('[MetaBot for Youtube] Comment loading spinner found.');
     var mutationObserver = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
         if(!$(jNode).find("#spinnerContainer").hasClass("cooldown")) {
@@ -135,7 +139,7 @@ function resortcheckNew() {
       characterDataOldValue: false
     });
     var changes = mutationObserver.takeRecords();
-  }, true);
+  }, false);
 }
 
 function insertdm(jNode) {
