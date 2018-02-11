@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180207
+// @version      180210
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.meta.js
@@ -219,11 +219,7 @@ function parseitem(jNode) {
   t30span.style = "display:none";
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
-    if(Date.parse(Dparse(arrayDB[foundID + 1])) > botTargetDay) {
-      markred(pNode, arrayDB[foundID + 1]);
-    } else {
-      markgreen(pNode, arrayDB[foundID + 1]);
-    }
+    markred(pNode, arrayDB[foundID + 1]);
     $(comURL).after(t30span);
   } else {
     var newspan = document.createElement('span');
@@ -267,11 +263,7 @@ function parseitemNew(jNode) {
   newspan.id = 'checksp';
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
-    if(Date.parse(Dparse(arrayDB[foundID + 1])) > botTargetDay) {
-      markredNew($(pNode).parent(), arrayDB[foundID + 1]);
-    } else {
-      markgreenNew($(pNode).parent(), arrayDB[foundID + 1]);
-    }
+    markredNew($(pNode).parent(), arrayDB[foundID + 1]);
     $(comURL).append(t30span);
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
     pNode.insertBefore(newspan, pNode.firstChild);
@@ -352,20 +344,20 @@ function checkdate(jNode) {
           window.aboutSTAT = tempHTML.getElementsByClassName('about-stat');
           var testday = Dparse(aboutSTAT[aboutSTAT.length - 1].innerHTML);
           if(Date.parse(testday) > botTargetDay) {
-            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + morange + '" title="- дата регистрации" /> ' + testday;
+            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
             cNode = jNode.nextSibling;
             $(cNode).css({
-              "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(250,150,0,0.4))",
-              "border-left": "3px solid #fad700",
-              "border-right": "3px solid #fad700"
+              "background": "rgba(250,200,0,0.3)",
+              "border-left": "3px solid rgba(250,200,0,0.3)",
+              "padding-left": "3px"
             });
           } else {
-            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="- дата регистрации" /> ' + testday;
+            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
             cNode = jNode.nextSibling;
             $(cNode).css({
-              "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(100,250,100,0.4))",
-              "border-left": "3px solid #d7fad7",
-              "border-right": "3px solid #d7fad7"
+              "background": "rgba(100,250,100,0.3)",
+              "border-left": "3px solid rgba(100,250,100,0.3)",
+              "padding-left": "3px"
             });
           }
           delete window.aboutSTAT;
@@ -405,28 +397,28 @@ function checkdateNew(jNode) {
           newspan.id = 'botmark';
           var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
           if(Date.parse(testday) > botTargetDay) {
-            newspan.innerHTML = '<img src="' + morange + '" title="- дата регистрации" /> ' + testday;
+            newspan.innerHTML = '<img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
             $(aNode).append(newspan);
             if($(checkBadge).length > 0) {
               $(checkBadge).attr('hidden', '');
               $(aNode).removeAttr('hidden');
             }
             $(cNode).parent().css({
-              "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(250,150,0,0.4))",
-              "border-left": "3px solid #fad700",
-              "border-right": "3px solid #fad700"
+              "background": "rgba(250,200,0,0.3)",
+              "border-left": "3px solid rgba(250,200,0,0.3)",
+              "padding-left": "3px"
             });
           } else {
-            newspan.innerHTML = '<img src="' + mgreen + '" title="- дата регистрации" /> ' + testday;
+            newspan.innerHTML = '<img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
             $(aNode).append(newspan);
             if($(checkBadge).length > 0) {
               $(checkBadge).attr('hidden', '');
               $(aNode).removeAttr('hidden');
             }
             $(cNode).parent().css({
-              "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(100,250,100,0.4))",
-              "border-left": "3px solid #d7fad7",
-              "border-right": "3px solid #d7fad7"
+              "background": "rgba(100,250,100,0.3)",
+              "border-left": "3px solid rgba(100,250,100,0.3)",
+              "padding-left": "3px"
             });
           }
           aNode = $(jNode).find("#checksp");
@@ -443,24 +435,14 @@ function checkdateNew(jNode) {
 }
 
 function markred(jNode, day) {
-  $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mred + '" title="- дата регистрации" /> ' + day;
+  $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
   cNode = jNode.nextSibling;
-  $(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
-  $(cNode).css("font-weight", "bold");
+  //$(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
+  //$(cNode).css("font-weight", "bold");
   $(cNode).css({
-    "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(250,100,100,0.4))",
-    "border-left": "3px solid #fad7d7",
-    "border-right": "3px solid #fad7d7"
-  });
-}
-
-function markgreen(jNode, day) {
-  $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="- дата регистрации" /> ' + day;
-  cNode = jNode.nextSibling;
-  $(cNode).css({
-    "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(100,250,100,0.4))",
-    "border-left": "3px solid #fad700",
-    "border-right": "3px solid #fad700"
+    "background": "rgba(250,100,100,0.3)",
+    "border-left": "3px solid rgba(250,100,100,0.3)",
+    "padding-left": "3px"
   });
 }
 
@@ -469,38 +451,20 @@ function markredNew(jNode, day) {
   var cNode = $(jNode).parent().find("#content-text")[0];
   var newspanN = document.createElement('span');
   newspanN.id = 'botmark';
-  newspanN.innerHTML = '<img src="' + mred + '" title="- дата регистрации" /> ' + day;
+  newspanN.innerHTML = '<img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
   $(aNode).append(newspanN);
   var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
   if($(checkBadge).length > 0) {
     $(checkBadge).attr('hidden', '');
     $(aNode).removeAttr('hidden');
   }
-  $(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
-  $(cNode).css("font-weight", "bold");
+  //$(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
+  //$(cNode).css("font-weight", "bold");
   $(cNode).parent().css({
-    "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(250,100,100,0.4))",
-    "border-left": "3px solid #fad7d7",
-    "border-right": "3px solid #fad7d7"
-  });
-}
-
-function markgreenNew(jNode, day) {
-  var aNode = $(jNode).find("#author-text")[0];
-  var cNode = $(jNode).parent().find("#content-text")[0];
-  var newspanN = document.createElement('span');
-  newspanN.id = 'botmark';
-  newspanN.innerHTML = '<img src="' + mgreen + '" title="- дата регистрации" /> ' + day;
-  $(aNode).append(newspanN);
-  var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
-  if($(checkBadge).length > 0) {
-    $(checkBadge).attr('hidden', '');
-    $(aNode).removeAttr('hidden');
-  }
-  $(cNode).parent().css({
-    "background": "linear-gradient(to right bottom, rgba(0,0,0,0), rgba(100,250,100,0.4))",
-    "border-left": "3px solid #d7fad7",
-    "border-right": "3px solid #d7fad7"
+    "background": "rgba(250,100,100,0.3)",
+    "border-left": "3px solid rgba(250,100,100,0.3)",
+    "padding-left": "3px"
+    //"border-right": "2px solid rgba(250,100,100,0.2)"
   });
 }
 
