@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180210
+// @version      180226
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.meta.js
@@ -26,10 +26,12 @@ const imgdma = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3
 const imgdmd = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAZCAMAAACM5megAAAAllBMVEUAAAB/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAx6H3iAAAAMXRSTlMABAgMFBgcICQoLDA8QERITFBUWGBkaGx4fICDj5OXo6evs7e7v8PH09ff4+fr8/f7vr5GKgAAAN5JREFUeAGFy/FagjAARfEbIoSCWqLJXJoZltEm9/1fru2DPidM+v19DhyjRXEorbftFH654tV7hBtJZsw+yFoKa0dDPcMl2Dqh8U1rA9dLTYvnAFagaNUpXIsLPaoQQBShEdX0kQByHQOWpFcFILGldaZfCkCXQBDHU96xf4DkHhPFAUqRGQoOu6yBFQcc86cxgNGJ983QSmVFPx3gakmvHVwHeugxXI+afVvcymr2ZOhYsyf8v1HokjR+NK3qk0aJriONBI05jVd0fdkfrZzGEl1zIYoJWuFGiBX+/AIRxGBfReXU6wAAAABJRU5ErkJggg==';
 const botTargetDay = Date.parse('1 June 2017');
 const regexdate = /joinedDateText(.*?)"},{"text":"(.*?)"}]},/;
+const regexdatemob = /joined_date_text(.*?)"}, {"text": "(.*?)"}]/;
 const regexid = /"video_id":"(.*?)"/;
 const regexlinew = /"logged_in","value":"(.*?)"/;
 const regexliold = /"logged_in":"(.*?)"/;
 const regexlang = /"host_language":"(.*?)"/;
+const regexlangmob = /\\"host_language\\": \\"(.*?)\\"/;
 const mainDBurl = 'https://raw.githubusercontent.com/YTObserver/YT-ACC-DB/master/mainDB';
 if(window.location.hostname == "dislikemeter.com" || window.location.hostname == "www.dislikemeter.com") {
   var videoid = getURLParameter('v', location.search);
@@ -100,31 +102,34 @@ if(window.location.hostname == "dislikemeter.com" || window.location.hostname ==
   requestDB.open("GET", mainDBurl, true);
   requestDB.send(null);
   if(document.querySelector("meta[http-equiv='origin-trial']")) {
-    resortcheckNew();
+    console.log('[MetaBot for Youtube] YouTube New design detected.');
+    spinnercheckNew();
     waitForKeyElements('div#main.style-scope.ytd-comment-renderer', parseitemNew);
     waitForKeyElements('div#flex', insertdmNew);
+  } else if(document.querySelector("meta[http-equiv='Content-Type']")) {
+    console.log('[MetaBot for Youtube] YouTube Mobile mode detected.');
+    waitForKeyElements('div.vpb', parseitemMob);
   } else {
+    console.log('[MetaBot for Youtube] YouTube Classic design detected.');
     waitForKeyElements('.comment-renderer-header', parseitem);
     waitForKeyElements('div#watch7-views-info', insertdm);
   }
 }
 
-function resortcheckNew() {
+function spinnercheckNew() {
   waitForKeyElements('paper-spinner-lite.ytd-item-section-renderer[aria-hidden="true"]', function(jNode) {
     if (getURLParameter('v', location.search) === null) {
       return;
     }
-    console.log('[MetaBot for Youtube] Comment loading spinner found.');
+    console.log('[MetaBot for Youtube] Comment sorting spinner found.');
     var mutationObserver = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
-        if(!$(jNode).find("#spinnerContainer").hasClass("cooldown")) {
+        if($(jNode).find("#spinnerContainer").hasClass("cooldown")) {
+          setTimeout(recheckallNew, 2000);
+        } else {
           $('div#main.style-scope.ytd-comment-renderer').each(function() {
             var cNode = $(this).find("#published-time-text")[0];
             deleteitemNew(this, $(cNode).find("a")[0].href);
-          });
-        } else {
-          $('div#main.style-scope.ytd-comment-renderer').each(function() {
-            setTimeout(recheckNew, 2000, this);
           });
         }
       });
@@ -138,8 +143,57 @@ function resortcheckNew() {
       attributeOldValue: false,
       characterDataOldValue: false
     });
-    var changes = mutationObserver.takeRecords();
   }, false);
+  waitForKeyElements('paper-spinner#spinner.yt-next-continuation[aria-hidden="true"]', function(jNode) {
+    if (getURLParameter('v', location.search) === null) {
+      return;
+    }
+    console.log('[MetaBot for Youtube] Comment loading spinner found.');
+    var mutationObserver = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if($(jNode).find("#spinnerContainer").hasClass("cooldown")) {
+          setTimeout(recheckallNew, 2000);
+        } else {
+          setTimeout(recheckallNew, 2000);
+        }
+      });
+    });
+    mutationObserver.observe($(jNode).get(0), {
+      attributes: true,
+      attributeFilter: ['active'],
+      characterData: false,
+      childList: false,
+      subtree: true,
+      attributeOldValue: false,
+      characterDataOldValue: false
+    });
+  }, false);
+  waitForKeyElements('paper-spinner#spinner.yt-next-continuation[active]', function(jNode) {
+    if (getURLParameter('v', location.search) === null) {
+      return;
+    }
+    console.log('[MetaBot for Youtube] Comment replies loading spinner found.');
+    var mutationObserver = new MutationObserver(function(mutations) {
+      if (mutations[0].removedNodes) {
+        mutationObserver.disconnect();
+        setTimeout(recheckallNew, 2000);
+      }
+    });
+    mutationObserver.observe($(jNode).get(0).parentNode, {
+      attributes: true,
+      characterData: false,
+      childList: false,
+      subtree: false,
+      attributeOldValue: false,
+      characterDataOldValue: false
+    });
+  }, false);
+}
+
+function recheckallNew(){
+  $('div#main.style-scope.ytd-comment-renderer').each(function() {
+    recheckNew(this);
+  });
 }
 
 function insertdm(jNode) {
@@ -214,7 +268,7 @@ function parseitem(jNode) {
   var foundID = arrayDB.indexOf(userID);
   var comURL = $(jNode).find("span")[0];
   var t30span = document.createElement('span');
-  t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <a style="text-decoration:none;" id="t30a" href="https://www.t30p.ru/search.aspx?s=' + userID + '" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></a>';
+  t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <span id="top30" style="cursor: pointer" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></span>';
   t30span.id = 't30sp';
   t30span.style = "display:none";
   if(foundID > -1) {
@@ -226,7 +280,7 @@ function parseitem(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     newspan.id = 'checksp';
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += ' \u2022 <span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">Сообщить</span>';
+    t30span.innerHTML += ' \u2022 <span id="sendlinkoff" title="Пожалуйста, проверьте другие комментарии пользователя кнопкой top30">Сообщить</span><span id="sendlink" style="cursor: pointer; display: none" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">Сообщить</span>';
     $(comURL).after(t30span);
     $(jNode).find("img")[0].addEventListener("click", function checkcomment() {
       checkdate(pNode);
@@ -239,10 +293,37 @@ function parseitem(jNode) {
   $(jNode).find("#about")[0].addEventListener("click", function openaboutNew() {
     window.open($(jNode).find("a")[0].href + '/about');
   }, false);
-  $(jNode).find("a#t30a")[0].addEventListener("mouseover", function t30Over() {
-    this.removeEventListener("mouseover", t30Over);
-    this.target = "_blank";
+  $(jNode).find("#top30")[0].addEventListener("click", function openaboutNew() {
+    window.open('https://www.t30p.ru/search.aspx?s=' + $(jNode).find("a")[0].href.split('/').pop());
+    $(jNode).find("#sendlinkoff").hide();
+    $(jNode).find("#sendlink").show();
   }, false);
+}
+
+function parseitemMob(jNode) {
+  var userID = $(jNode).find("a")[0].href.split('/').pop();
+  var foundID = arrayDB.indexOf(userID);
+  if(foundID > -1) {
+    console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
+    markredMob(jNode, arrayDB[foundID + 1]);
+  } else {
+    $(jNode)[0].addEventListener("touchstart", function () {
+      $(this).data('moved', '0');
+    }, false);
+    $(jNode)[0].addEventListener("touchmove", function () {
+      $(this).data('moved', '1');
+    }, false);
+    $(jNode)[0].addEventListener("touchend", function ttend() {
+      if($(this).data('moved') == 0){
+        if(['en', 'en-US', 'en-GB', 'ru', 'uk'].indexOf(currentlangmob()) < 0) {
+          alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\nВы можете сменить язык интерфейса в меню настроек YouTube.');
+          return;
+        }
+        this.removeEventListener("touchend", ttend);
+        checkdateMob(this);
+      }
+    }, false);
+  }
 }
 
 function parseitemNew(jNode) {
@@ -256,7 +337,7 @@ function parseitemNew(jNode) {
   var foundID = arrayDB.indexOf(userID);
   var comURL = $(jNode).find("#published-time-text")[0];
   var t30span = document.createElement('span');
-  t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <a target="_blank" style="text-decoration:none;" href="https://www.t30p.ru/search.aspx?s=' + userID + '" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></a>';
+  t30span.innerHTML = ' \u2022 <span id="about" style="cursor: pointer" title="Открыть страницу с датой регистрации">?</span> \u2022 <span id="top30" style="cursor: pointer" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></span>';
   t30span.id = 't30sp';
   t30span.style = "display:none";
   var newspan = document.createElement('span');
@@ -271,7 +352,7 @@ function parseitemNew(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += ' \u2022 <span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">СООБЩИТЬ</span>';
+    t30span.innerHTML += ' \u2022 <span id="sendlinkoff" title="Пожалуйста, проверьте другие комментарии пользователя кнопкой top30">СООБЩИТЬ</span><span id="sendlink" style="cursor: pointer; display: none" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">СООБЩИТЬ</span>';
     $(comURL).append(t30span);
     $(jNode).find("#checkbtn")[0].addEventListener("click", function checkcommentNew() {
       checkdateNew($(pNode).parent());
@@ -283,6 +364,11 @@ function parseitemNew(jNode) {
   }
   $(jNode).find("#about")[0].addEventListener("click", function openaboutNew() {
     window.open($(jNode).find("a")[0].href + '/about');
+  }, false);
+  $(jNode).find("#top30")[0].addEventListener("click", function openaboutNew() {
+    window.open('https://www.t30p.ru/search.aspx?s=' + $(jNode).find("a")[0].href.split('/').pop());
+    $(jNode).find("#sendlinkoff").hide();
+    $(jNode).find("#sendlink").show();
   }, false);
   this.addEventListener('yt-navigate-start', function wipeitemNewS() {
     this.removeEventListener('yt-navigate-start', wipeitemNewS);
@@ -326,8 +412,8 @@ function sendinfo(jNode, link, username, regexpid) {
 }
 
 function checkdate(jNode) {
-  if(['en', 'en-US', 'en-GB', 'ru'].indexOf(currentlang()) < 0) {
-    alert('Функция поддерживается только на языках: English, Русский.\nВы можете сменить язык интерфейса в меню настроек YouTube.');
+  if(['en', 'en-US', 'en-GB', 'ru', 'uk'].indexOf(currentlang()) < 0) {
+    alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\nВы можете сменить язык интерфейса в меню настроек YouTube.');
     return;
   }
   $(jNode).find("img")[0].remove();
@@ -372,16 +458,8 @@ function checkdate(jNode) {
   request.send(null);
 }
 
-function checkdateNew(jNode) {
-  if(['en', 'en-US', 'en-GB', 'ru'].indexOf(currentlang()) < 0) {
-    alert('Функция поддерживается только на языках: English, Русский.\nВы можете сменить язык интерфейса в меню настроек YouTube.');
-    return;
-  }
-  var idspan = document.createElement('span');
-  idspan.id = 'checked';
-  idspan.innerHTML = 'checked';
-  $(jNode).find("#checkbtn")[0].remove();
-  var channelURL = $(jNode).find("a")[0].href + '/about';
+function checkdateMob(jNode) {
+  var channelURL = $(jNode).find("a")[0].href + '/about?ajax=1';
   var request = new XMLHttpRequest();
   request.onreadystatechange = function() {
     if(request.readyState === 4) {
@@ -389,41 +467,25 @@ function checkdateNew(jNode) {
         var response = request.responseText;
         if(response !== "") {
           console.log("[MetaBot for Youtube] XMLHttpRequest succeed.");
-          var matches = regexdate.exec(response);
-          var testday = Dparse(matches[2]);
-          var aNode = $(jNode).find("#author-text")[0];
-          var cNode = $(jNode).parent().find("#content-text")[0];
-          var newspan = document.createElement('span');
-          newspan.id = 'botmark';
-          var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
+          var matches = regexdatemob.exec(response);
+          var testday = Dparse(decodeURIComponent(JSON.parse('"' + matches[2] + '"')));
           if(Date.parse(testday) > botTargetDay) {
-            newspan.innerHTML = '<img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
-            $(aNode).append(newspan);
-            if($(checkBadge).length > 0) {
-              $(checkBadge).attr('hidden', '');
-              $(aNode).removeAttr('hidden');
-            }
-            $(cNode).parent().css({
+            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
+            cNode = $(jNode).find("div.tpb")[0];
+            $(cNode).css({
               "background": "rgba(250,200,0,0.3)",
               "border-left": "3px solid rgba(250,200,0,0.3)",
               "padding-left": "3px"
             });
           } else {
-            newspan.innerHTML = '<img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
-            $(aNode).append(newspan);
-            if($(checkBadge).length > 0) {
-              $(checkBadge).attr('hidden', '');
-              $(aNode).removeAttr('hidden');
-            }
-            $(cNode).parent().css({
+            $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
+            cNode = $(jNode).find("div.tpb")[0];
+            $(cNode).css({
               "background": "rgba(100,250,100,0.3)",
               "border-left": "3px solid rgba(100,250,100,0.3)",
               "padding-left": "3px"
             });
           }
-          aNode = $(jNode).find("#checksp");
-          aNode.attr('data-chan', $(jNode).find("a#author-text")[0].href);
-          aNode.hide();
         } else {
           console.log("[MetaBot for Youtube] XMLHttpRequest failed.");
         }
@@ -434,11 +496,88 @@ function checkdateNew(jNode) {
   request.send(null);
 }
 
+function checkdateNew(jNode) {
+  if(['en', 'en-US', 'en-GB', 'ru', 'uk'].indexOf(currentlang()) < 0) {
+    alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\nВы можете сменить язык интерфейса в меню настроек YouTube.');
+    return;
+  }
+  var idspan = document.createElement('span');
+  idspan.id = 'checked';
+  idspan.innerHTML = 'checked';
+  $(jNode).find("#checkbtn")[0].remove();
+  var userID = $(jNode).find("a")[0].href.split('/').pop();
+  var foundID = arrayDB.indexOf(userID);
+  if(foundID > -1) {
+    console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
+    markredNew(jNode, arrayDB[foundID + 1]);
+  } else {
+    var channelURL = $(jNode).find("a")[0].href + '/about';
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if(request.readyState === 4) {
+        if(request.status === 200) {
+          var response = request.responseText;
+          if(response !== "") {
+            console.log("[MetaBot for Youtube] XMLHttpRequest succeed.");
+            var matches = regexdate.exec(response);
+            var testday = Dparse(matches[2]);
+            var aNode = $(jNode).find("#author-text")[0];
+            var cNode = $(jNode).parent().find("#content-text")[0];
+            var newspan = document.createElement('span');
+            newspan.id = 'botmark';
+            var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
+            if(Date.parse(testday) > botTargetDay) {
+              newspan.innerHTML = '<img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
+              $(aNode).append(newspan);
+              if($(checkBadge).length > 0) {
+                $(checkBadge).attr('hidden', '');
+                $(aNode).removeAttr('hidden');
+              }
+              $(cNode).parent().css({
+                "background": "rgba(250,200,0,0.3)",
+                "border-left": "3px solid rgba(250,200,0,0.3)",
+                "padding-left": "3px"
+              });
+            } else {
+              newspan.innerHTML = '<img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
+              $(aNode).append(newspan);
+              if($(checkBadge).length > 0) {
+                $(checkBadge).attr('hidden', '');
+                $(aNode).removeAttr('hidden');
+              }
+              $(cNode).parent().css({
+                "background": "rgba(100,250,100,0.3)",
+                "border-left": "3px solid rgba(100,250,100,0.3)",
+                "padding-left": "3px"
+              });
+            }
+            aNode = $(jNode).find("#checksp");
+            aNode.attr('data-chan', $(jNode).find("a#author-text")[0].href);
+            aNode.hide();
+          } else {
+            console.log("[MetaBot for Youtube] XMLHttpRequest failed.");
+          }
+        }
+      }
+    };
+    request.open("GET", channelURL, true);
+    request.send(null);
+  }
+}
+
 function markred(jNode, day) {
   $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
   cNode = jNode.nextSibling;
-  //$(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
-  //$(cNode).css("font-weight", "bold");
+  $(cNode).css({
+    "background": "rgba(250,100,100,0.3)",
+    "border-left": "3px solid rgba(250,100,100,0.3)",
+    "padding-left": "3px"
+  });
+}
+
+function markredMob(jNode, day) {
+  $(jNode).find("a")[0].innerHTML = $(jNode).find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
+  cNode = $(jNode).find("div.tpb")[0];
   $(cNode).css({
     "background": "rgba(250,100,100,0.3)",
     "border-left": "3px solid rgba(250,100,100,0.3)",
@@ -458,37 +597,37 @@ function markredNew(jNode, day) {
     $(checkBadge).attr('hidden', '');
     $(aNode).removeAttr('hidden');
   }
-  //$(cNode).css("font-family", "Comic Sans MS, Chalkboard SE, Comic Neue, cursive, sans-serif");
-  //$(cNode).css("font-weight", "bold");
   $(cNode).parent().css({
     "background": "rgba(250,100,100,0.3)",
     "border-left": "3px solid rgba(250,100,100,0.3)",
     "padding-left": "3px"
-    //"border-right": "2px solid rgba(250,100,100,0.2)"
   });
 }
 
 function Dparse(day) {
-  day = day.replace('Joined ', '');
-  day = day.replace('Дата регистрации: ', '');
-  day = day.replace(' г.', '');
-  day = day.replace(/ янв. | января /i, ' Jan,');
-  day = day.replace(/ февр. | февраля /i, ' Feb, ');
-  day = day.replace(/ мар. | марта /i, ' Mar, ');
-  day = day.replace(/ апр. | апреля /i, ' Apr, ');
-  day = day.replace(/ мая. | мая /i, ' May, ');
-  day = day.replace(/ июн. | июня /i, ' Jun, ');
-  day = day.replace(/ июл. | июля /i, ' Jul, ');
-  day = day.replace(/ авг. | августа /i, ' Aug, ');
-  day = day.replace(/ сент. | сентября /i, ' Sep, ');
-  day = day.replace(/ окт. | октября /i, ' Oct, ');
-  day = day.replace(/ нояб. | ноября /i, ' Nov, ');
-  day = day.replace(/ дек. | декабря /i, ' Dec, ');
+  day = day.replace(/Joined |Дата регистрации: |Ви приєдналися /i, '');
+  day = day.replace(/ янв. | января | січ. /i, ' Jan, ');
+  day = day.replace(/ февр. | февраля | лют. /i, ' Feb, ');
+  day = day.replace(/ мар. | марта | бер. /i, ' Mar, ');
+  day = day.replace(/ апр. | апреля | квіт. /i, ' Apr, ');
+  day = day.replace(/ мая. | мая | трав. /i, ' May, ');
+  day = day.replace(/ июн. | июня | черв./i, ' Jun, ');
+  day = day.replace(/ июл. | июля | лип. /i, ' Jul, ');
+  day = day.replace(/ авг. | августа | серп. /i, ' Aug, ');
+  day = day.replace(/ сент. | сентября | вер. /i, ' Sep, ');
+  day = day.replace(/ окт. | октября | жовт. /i, ' Oct, ');
+  day = day.replace(/ нояб. | ноября | лист. /i, ' Nov, ');
+  day = day.replace(/ дек. | декабря | груд. /i, ' Dec, ');
+  day = day.replace(/ г.| р./i, '');
   return day;
 }
 
 function currentlang() {
   return regexlang.exec(document.body.innerHTML)[1];
+}
+
+function currentlangmob() {
+  return regexlangmob.exec(document.body.innerHTML)[1];
 }
 
 function getURLParameter(name, link) {
