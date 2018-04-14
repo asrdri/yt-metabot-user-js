@@ -16,5 +16,3 @@
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
-
-alert('This is a test.');
