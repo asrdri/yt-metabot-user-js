@@ -302,7 +302,7 @@ function parseitemNew(jNode) {
   newspan.id = 'checksp';
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
-    markredNew($(pNode).parent(), arrayDB[foundID + 1]);
+    markredNew($(pNode).parent(), arrayDB[foundID + 1], userID);
     $(comURL).append(t30span);
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
     pNode.insertBefore(newspan, pNode.firstChild);
@@ -460,7 +460,7 @@ function checkdateNew(jNode) {
   var foundID = arrayDB.indexOf(userID);
   if(foundID > -1) {
     console.log("[MetaBot for Youtube] user found in mainDB: " + userID);
-    markredNew(jNode, arrayDB[foundID + 1]);
+    markredNew(jNode, arrayDB[foundID + 1], userID);
   } else {
     var channelURL = $(jNode).find("a")[0].href + '/about';
     var request = new XMLHttpRequest();
@@ -536,23 +536,116 @@ function markredMob(jNode, day) {
   });
 }
 
-function markredNew(jNode, day) {
-  var aNode = $(jNode).find("#author-text")[0];
-  var cNode = $(jNode).parent().find("#content-text")[0];
-  var newspanN = document.createElement('span');
-  newspanN.id = 'botmark';
-  newspanN.innerHTML = '<img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
-  $(aNode).append(newspanN);
-  var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
-  if($(checkBadge).length > 0) {
-    $(checkBadge).attr('hidden', '');
-    $(aNode).removeAttr('hidden');
-  }
-  $(cNode).parent().css({
-    "background": "rgba(250,100,100,0.3)",
-    "border-left": "3px solid rgba(250,100,100,0.3)",
-    "padding-left": "3px"
-  });
+function markredNew(jNode, day, botId) {
+    var aNode = $(jNode).find("#author-text")[0];
+    var cNode = $(jNode).parent().find("#content-text")[0];
+    var dislike = $(jNode).parent().find("#dislike-button:not(.style-default-active)");
+    var raport = $(jNode).parent().parent().find("#action-menu button");
+    if (dislike.length > 0) {
+        dislike[0].click();
+        console.log('clicked dislike', dislike);
+    }
+
+    var commentParams = findReportPostParams(jNode, botId)
+    if (commentParams) {
+        var data = reportUrlSearchParams(commentParams);
+        fetchEndpointData("getReportEndpoint", data)
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (json) {
+                var submitEndpoint = json.data.actions[0].openPopupAction.popup.reportFormModalRenderer.optionsSupportedRenderers.optionsRenderer.items[0].optionSelectableItemRenderer.submitEndpoint
+                var paramObj = {
+                    sej: {
+                        clickTrackingParams: submitEndpoint.clickTrackingParams,
+                        flagEndpoint: {
+                            flagAction: submitEndpoint.flagEndpoint.flagAction
+                        },
+                        commandMetaData: {
+                            webCommandMetaData: {
+                                url: "/service_ajax",
+                                sendPost: true
+                            }
+                        }
+                    }
+                }
+                var submitData = reportUrlSearchParams(paramObj)
+                fetchEndpointData("flagEndpoint", submitData)
+                    .then(function (res) {
+                        return res.json();
+                    })
+                    .then(function () {
+                            console.log('reported comment', commentParams.commentText);
+                    })
+                    .catch(function (error) {
+                        console.log('error reporting comment', error);
+                    })
+            })
+
+    }
+
+    var newspanN = document.createElement('span');
+    newspanN.id = 'botmark';
+    newspanN.innerHTML = '<img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
+    $(aNode).append(newspanN);
+    var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
+    if ($(checkBadge).length > 0) {
+        $(checkBadge).attr('hidden', '');
+        $(aNode).removeAttr('hidden');
+    }
+    $(cNode).parent().css({
+        "background": "rgba(250,100,100,0.3)",
+        "border-left": "3px solid rgba(250,100,100,0.3)",
+        "padding-left": "3px"
+    });
+}
+
+
+function findReportPostParams(jNode, botId) {
+    const commentDataArr = window["ytInitialData"].contents.twoColumnWatchNextResults.results.results.contents[2].itemSectionRenderer.contents
+    var commentContainer = jNode.closest('ytd-comment-thread-renderer')
+    var i = $('#contents ytd-comment-thread-renderer').index(commentContainer)
+    // console.log(i)
+    var comment = commentDataArr[i].commentThreadRenderer.comment.commentRenderer;
+    var authorId = comment.authorEndpoint.browseEndpoint.browseId;
+    // console.log(`authorId = ${authorId}, botId = ${botId}`)
+    if (authorId === botId) {
+        var postParams = comment.actionMenu.menuRenderer.items[0].menuServiceItemRenderer.serviceEndpoint;
+        var clickTrackingParams = postParams.clickTrackingParams;
+        var getReportFormEndpoint = postParams.getReportFormEndpoint;
+        return {
+            commentText: comment.contentText.runs[0].text,
+            sej: {
+                clickTrackingParams: clickTrackingParams,
+                commandMetaData: {webCommandMetadata: {url: "/service_ajax", sendPost: true}},
+                getReportFormEndpoint: getReportFormEndpoint
+            }
+        }
+    }
+}
+
+function reportUrlSearchParams(paramObj) {
+    var data = new URLSearchParams();
+    data.append('sej', JSON.stringify(paramObj.sej));
+    data.append('session_token', window.yt.config_.XSRF_TOKEN);
+    return data;
+}
+
+
+function fetchEndpointData(url, data) {
+    var headers = new Headers();
+
+    headers.append('Accept', '*/*');
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return fetch('https://www.youtube.com/service_ajax?name=' + url,
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: headers,
+            body: data
+        }
+    )
 }
 
 function Dparse(day) {
