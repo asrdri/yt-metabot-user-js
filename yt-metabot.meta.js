@@ -2,17 +2,17 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180405
+// @version      180418
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
-// @updateURL    https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.meta.js
-// @downloadURL  https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js
-// @icon         https://github.com/asrdri/yt-metabot-user-js/raw/master/logo.png
+// @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
+// @downloadURL  https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.user.js
+// @icon         https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png
 // @include      https://*youtube.com/*
 // @include      https://*dislikemeter.com/?v*
-// @exclude      https://*youtube.com/*/about
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
-// @require      https://github.com/dwachss/bililiteRange/raw/master/bililiteRange.js
-// @grant        none
+// @require      https://raw.githubusercontent.com/sizzlemctwizzle/GM_config/master/gm_config.js
+// @grant        GM_getValue
+// @grant        GM_setValue
 // @run-at       document-start
 // ==/UserScript==
