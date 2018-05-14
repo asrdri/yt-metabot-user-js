@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180418
+// @version      180514
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -111,16 +111,16 @@ if (window.location.hostname == "dislikemeter.com" || window.location.hostname =
           console.log("[MetaBot for Youtube] XMLHttpRequest succeed: ERKY-db loaded.");
           arrayERKY = responseDB.match(/[^\r\n=]+/g);
           if (document.querySelector("meta[http-equiv='origin-trial']")) {
-            console.log('[MetaBot for Youtube] YouTube New design detected.');
+            console.log("[MetaBot for Youtube] YouTube New design detected.");
             spinnercheckNew();
             waitForKeyElements('div#main.style-scope.ytd-comment-renderer', parseitemNew);
             waitForKeyElements('yt-view-count-renderer.style-scope.ytd-video-primary-info-renderer', insertdmNew);
             waitForKeyElements('div#channel-header.ytd-c4-tabbed-header-renderer', insertchanNew);
           } else if (document.querySelector("meta[http-equiv='Content-Type']")) {
-            console.log('[MetaBot for Youtube] YouTube Mobile mode detected.');
-            waitForKeyElements('div.xqb', parseitemMob);
+            console.log("[MetaBot for Youtube] YouTube Mobile mode detected.");
+            waitForKeyElements('div.brb', parseitemMob);
           } else {
-            console.log('[MetaBot for Youtube] YouTube Classic design detected.');
+            console.log("[MetaBot for Youtube] YouTube Classic design detected.");
             waitForKeyElements('.comment-renderer-header', parseitem);
             waitForKeyElements('div#watch7-views-info', insertdm);
             waitForKeyElements('div#c4-primary-header-contents.primary-header-contents.clearfix', insertchan);
@@ -200,7 +200,7 @@ function spinnercheckNew() {
     if (getURLParameter('v', location.search) === null) {
       return;
     }
-    console.log('[MetaBot for Youtube] Comment sorting spinner found.');
+    console.log("[MetaBot for Youtube] Comment sorting spinner found.");
     var mutationObserver = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
         if ($(jNode).find("#spinnerContainer").hasClass("cooldown")) {
@@ -227,7 +227,7 @@ function spinnercheckNew() {
     if (getURLParameter('v', location.search) === null) {
       return;
     }
-    console.log('[MetaBot for Youtube] Comment loading spinner found.');
+    console.log("[MetaBot for Youtube] Comment loading spinner found.");
     var mutationObserver = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
         if (!$(jNode).find("#spinnerContainer").hasClass("cooldown")) {
@@ -249,7 +249,7 @@ function spinnercheckNew() {
     if (getURLParameter('v', location.search) === null) {
       return;
     }
-    console.log('[MetaBot for Youtube] Comment replies loading spinner found.');
+    console.log("[MetaBot for Youtube] Comment replies loading spinner found.");
     var mutationObserver = new MutationObserver(function(mutations) {
       if (mutations[0].removedNodes) {
         mutationObserver.disconnect();
@@ -290,14 +290,24 @@ function insertchan(jNode) {
 }
 
 function insertchanNew(jNode) {
-  console.log('1');
+  this.addEventListener('yt-navigate-finish', function insertchanNewR() {
+    this.removeEventListener('yt-navigate-finish', insertchanNewR);
+    setTimeout(insertchanNew, 300, jNode);
+  });
   var chanURL = window.location.protocol + '//' + window.location.hostname + window.location.pathname.replace(/\/featured|\/videos|\/playlists|\/channels|\/discussion|\/about/i, '');
   if (chanURL.slice(-1) == '/') {
     chanURL = chanURL.slice(0, -1);
   }
-  console.log('2');
+  var reuse = false;
   var userID = chanURL.split('/').pop();
-  var noticespan = document.createElement('span');
+  if ($(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer')[0]) {
+    var noticespan = $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer')[0];
+    reuse = true;
+  } else {
+    var noticespan = document.createElement('span');
+    noticespan.id = 'subscriber-count';
+    noticespan.classList.add("ytd-c4-tabbed-header-renderer");
+  }
   var foundID = arrayERKY.indexOf(userID);
   if (foundID > -1) {
     noticespan.innerHTML = '<img src="' + mred + '" /> Пользователь найден в списке ЕРКЮ, дата регистрации: <a href="' + chanURL + '/about" style="color:hsl(206.1, 79.3%, 52.7%);text-decoration:none" title="Открыть страницу с датой регистрации">' + arrayERKY[foundID + 1] + "</a>";
@@ -306,10 +316,10 @@ function insertchanNew(jNode) {
     noticespan.innerHTML = 'Пользователь не найден в списке ЕРКЮ <a href="' + chanURL + '/about"><img src="' + morange + '" title="Открыть страницу с датой регистрации" /></a>';
     noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
   }
-  noticespan.id = 'subscriber-count';
-  noticespan.classList.add("ytd-c4-tabbed-header-renderer");
-  $(jNode).find('h1#channel-title-container.ytd-c4-tabbed-header-renderer').after(noticespan);
-  $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer').after('<br>');
+  if (!reuse) {
+    $(jNode).find('h1#channel-title-container.ytd-c4-tabbed-header-renderer').after(noticespan);
+    $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer').after('<br>');
+  }
 }
 
 function insertdm(jNode) {
@@ -345,7 +355,7 @@ function insertdmNew(jNode) {
   if (!videoid) {
     return;
   }
-  var pNode = $(jNode).parent().parent().find('div#flex')[0];
+  var pNode = $(jNode).parent().parent().parent().find('div#flex')[0];
   if (typeof pNode === 'undefined') {
     return;
   }
@@ -820,15 +830,15 @@ function checkdateMob(jNode) {
           var matches = regexdatemob.exec(response);
           var testday = Dparse(decodeURIComponent(JSON.parse('"' + matches[2] + '"')));
           if (Date.parse(testday) > botTargetDay) {
-            $(jNode).find("div.tqb").find("a")[0].innerHTML = $(jNode).find("div.tqb").find("a")[0].innerHTML + ' <img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
-            $(jNode).find("div.rqb").css({
+            $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + morange + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
+            $(jNode).parent().find("div.zqb").css({
               "background": "rgba(250,200,0,0.3)",
               "border-left": "3px solid rgba(250,200,0,0.3)",
               "padding-left": "3px"
             });
           } else {
-            $(jNode).find("div.tqb").find("a")[0].innerHTML = $(jNode).find("div.tqb").find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
-            $(jNode).find("div.rqb").css({
+            $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
+            $(jNode).parent().find("div.zqb").css({
               "background": "rgba(100,250,100,0.3)",
               "border-left": "3px solid rgba(100,250,100,0.3)",
               "padding-left": "3px"
@@ -926,8 +936,8 @@ function markred(jNode, day) {
 }
 
 function markredMob(jNode, day) {
-  $(jNode).find("div.tqb").find("a")[0].innerHTML = $(jNode).find("div.tqb").find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
-  $(jNode).find("div.rqb").css({
+  $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в списке ЕРКЮ" /> ' + day;
+  $(jNode).parent().find("div.zqb").css({
     "background": "rgba(250,100,100,0.3)",
     "border-left": "3px solid rgba(250,100,100,0.3)",
     "padding-left": "3px"
