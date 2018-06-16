@@ -1,5 +1,5 @@
-Название списка=Описание списка, [подробнее](https://github.com/asrdri/yt-metabot-user-js/issues/23)
-UCaJT4-n2xsJbAm4DnvNEYOg=7 мая 2018
-UC-4QI02eKzM_INIVAYNOzMA=27 сентября 2017
-UCwBID52XA-aajCKYuwsQxWA=5 октября 2016
-UCE1BRAVfvPUykIp1PwM86EQ=12 июня 2018
+РќР°Р·РІР°РЅРёРµ СЃРїРёСЃРєР°=РћРїРёСЃР°РЅРёРµ СЃРїРёСЃРєР°, [РїРѕРґСЂРѕР±РЅРµРµ](https://github.com/asrdri/yt-metabot-user-js/issues/23)
+UCaJT4-n2xsJbAm4DnvNEYOg=7 РјР°СЏ 2018
+UC-4QI02eKzM_INIVAYNOzMA=27 СЃРµРЅС‚СЏР±СЂСЏ 2017
+UCwBID52XA-aajCKYuwsQxWA=5 РѕРєС‚СЏР±СЂСЏ 2016
+UCE1BRAVfvPUykIp1PwM86EQ=12 РёСЋРЅСЏ 2018
