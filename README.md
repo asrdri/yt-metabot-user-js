@@ -17,24 +17,29 @@ Userscript для Violentmonkey/Tampermonkey/Greasemonkey.
 - Получение даты регистрации работает только на языках English, Русский, Українська, Беларуская и Български.
 
 # Установка
-Chrome:
+### Chrome:
 1. Установите расширение для поддержки userscript, рекомендую [Violentmonkey](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag).<br>Альтернатива: [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
 2. Пройдите по ссылке [yt-metabot.user.js](https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js) - установленное расширение предложит установить скрипт. Установите.
 
-Firefox:
+### Firefox:
 1. Установите расширение для поддержки userscript, рекомендую [Violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/).<br>Альтернативы: [Tampermonkey](https://addons.mozilla.org/firefox/addon/tampermonkey/), [Greasemonkey](https://addons.mozilla.org/firefox/addon/greasemonkey/).
 2. Пройдите по ссылке [yt-metabot.user.js](https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js) - установленное расширение предложит установить скрипт. Установите.
+3. Ознакомьтесь с [дополнительной информацией](https://github.com/asrdri/yt-metabot-user-js/issues/29).
 
-Opera:
+### Opera:
 1. Установите расширение для поддержки Chrome Web Store - [Install Chrome Extensions](https://addons.opera.com/extensions/details/install-chrome-extensions/).
 2. Установите расширение для поддержки userscript, рекомендую [Violentmonkey](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag).<br>Альтернатива: [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
 3. Пройдите по ссылке [yt-metabot.user.js](https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js) - установленное расширение предложит установить скрипт. Установите.
 
-Дополнительно:
+### Другие браузеры:
+1. Откройте страницу [расширения Tampermonkey](https://tampermonkey.net). Если ваш браузер поддерживается, установите соответствующую версию расширения.
+2. Пройдите по ссылке [yt-metabot.user.js](https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js) - установленное расширение предложит установить скрипт. Установите.
+
+### Дополнительно:
 - По умолчанию браузер будет автоматически обновлять расширение.
 - По умолчанию расширение будет автоматически обновлять скрипт.
 - Рекомендую Violentmonkey из-за простоты и доступности. Tampermonkey имеет больше функционала, но менее наглядный интерфейс. В процессе тестирования и отладки больше всего проблем замечено в Greasemonkey (по состоянию на июнь 2018).
-- В Firefox после выхода версии 57 до сих пор имеются проблемы в работе всех расширений для userscript. Если какой-то элемент не отображается как нужно, может понадобиться обновить страницу.
+- В Firefox после выхода версии 57 до сих пор имеются проблемы в работе всех расширений для userscript. Если какой-то элемент не отображается как нужно, может понадобиться обновить страницу. Информация [здесь](https://github.com/asrdri/yt-metabot-user-js/issues/29).
 
 # Удаление
 - Скрипт можно удалить через интерфейс установленного расширения.
