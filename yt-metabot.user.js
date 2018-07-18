@@ -232,11 +232,11 @@ function filllist(numArr, response, code, url) {
         var dbname = "Custom list #3";
         descc3 = '[' + (arrayListC3.length / 2 - 1) + '] ' + Aparse(arrayListC3[0]) + ': ' + Aparse(arrayListC3[1]) + '<br>\u2003';
     }
-    if (code === 200) {
-      console.log("[MetaBot for Youtube] " + dbname + " loaded. Code " + code);
-    } else {
-      console.log("[MetaBot for Youtube] " + dbname + " load error. Code " + code);
-    }
+  }
+  if (code === 200) {
+    console.log("[MetaBot for Youtube] " + dbname + " loaded. Code " + code);
+  } else {
+    console.log("[MetaBot for Youtube] " + dbname + " load error. Code " + code);
   }
   listqueue--;
 }
