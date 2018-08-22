@@ -45,6 +45,11 @@ GM_config.init( {
       'type': 'checkbox',
       'default': true
     },
+    'option5': {
+      'label': 'Send alert to server',
+      'type': 'checkbox',
+      'default': false
+    },
     'listp1': {
       'label': 'Bookmarks (personal list)',
       'type': 'text',
@@ -109,6 +114,8 @@ const ERKYurl = 'https://raw.githubusercontent.com/YTObserver/YT-ACC-DB/master/m
 const annYTOurl = 'https://raw.githubusercontent.com/YTObserver/YT-ACC-DB/master/announcement.txt';
 const minDCTime = 36*61;
 const maxDCTime = 71*58;
+const alertURL = 'https://кремлеботы.рф/alert';
+var alertSent = false;
 var annYTOtxt = [];
 var arrayERKY = [];
 var arrayListP1 = [];
@@ -509,7 +516,7 @@ function insertann(jNode) {
   $(jNode).find('h2.comment-section-header-renderer').after(ytoinfosspan);
   $(jNode).find("span#ytoinfo").toggle();
   var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:460px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 440px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom1" style="height: 1rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom2" style="height: 1rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom3" style="height: 1rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить новый дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6);display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();">\uD83D\uDD03обновить страницу</span>.</span></span>';
+  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:460px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Информация о наличии ботов под роликом будет отправлена на кремлеботы.рф"><input type="checkbox" id="mbcbox4">Уведомлять сервер при обнаружении ботов</label><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 440px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom1" style="height: 1rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom2" style="height: 1rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom3" style="height: 1rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить новый дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6);display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();">\uD83D\uDD03обновить страницу</span>.</span></span>';
   settingsspan.id = 'config';
   settingsspan.style = 'max-width:605px;margin:0 auto 1em auto;display:table';
   $(settingsspan).toggle();
@@ -562,6 +569,7 @@ function insertann(jNode) {
   $(jNode).find("select#mbcddm1").val(GM_config.get('option1'));
   $(jNode).find("input#mbcbox1").prop('checked', GM_config.get('option2'));
   $(jNode).find("input#mbcbox3").prop('checked', GM_config.get('option4'));
+  $(jNode).find("input#mbcbox4").prop('checked', GM_config.get('option5'));
   $(jNode).find("textarea#listpersonal").text(GM_config.get('listp1'));
   $(jNode).find("input#listcustom1").val(GM_config.get('listc1'));
   $(jNode).find("input#listcustom2").val(GM_config.get('listc2'));
@@ -576,7 +584,7 @@ function insertann(jNode) {
   if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
     $(jNode).find("span#mbcswg2").hide();
   }
-  $(jNode).find("input#mbcbox1, input#mbcbox3, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
+  $(jNode).find("input#mbcbox1, input#mbcbox3, input#mbcbox4, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
     if ($(jNode).find("select#mbcddm1").val() == 2) {
       $(jNode).find("span#mbcswg1").hide();
     } else {
@@ -626,7 +634,7 @@ function insertannNew(jNode) {
   ytoinfosspan.style = 'max-width:640px;margin:-10px auto 1em auto;display:none';
   $(jNode).find('div#title').after(ytoinfosspan);
   var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить классический дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
+  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Информация о наличии ботов под роликом будет отправлена на кремлеботы.рф"><input type="checkbox" id="mbcbox4">Уведомлять сервер при обнаружении ботов</label><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить классический дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
   settingsspan.id = 'config';
   settingsspan.classList.add("description");
   settingsspan.classList.add("content");
@@ -683,6 +691,7 @@ function insertannNew(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', GM_config.get('option2'));
   $(jNode).find("input#mbcbox2").prop('checked', GM_config.get('option3'));
   $(jNode).find("input#mbcbox3").prop('checked', GM_config.get('option4'));
+  $(jNode).find("input#mbcbox4").prop('checked', GM_config.get('option5'));
   $(jNode).find("textarea#listpersonal").text(GM_config.get('listp1'));
   $(jNode).find("input#listcustom1").val(GM_config.get('listc1'));
   $(jNode).find("input#listcustom2").val(GM_config.get('listc2'));
@@ -697,7 +706,7 @@ function insertannNew(jNode) {
   if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
     $(jNode).find("span#mbcswg2").hide();
   }
-  $(jNode).find("input#mbcbox1, input#mbcbox2, input#mbcbox3, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
+  $(jNode).find("input#mbcbox1, input#mbcbox2, input#mbcbox3, input#mbcbox4, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
     if ($(jNode).find("select#mbcddm1").val() == 2) {
       $(jNode).find("span#mbcswg1").hide();
     } else {
@@ -716,6 +725,7 @@ function saveconfig(jNode) {
   GM_config.set('option1', $(jNode).find("select#mbcddm1").val());
   GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
   GM_config.set('option4', $(jNode).find("input#mbcbox3").is(":checked"));
+  GM_config.set('option5', $(jNode).find("input#mbcbox4").is(":checked"));
   GM_config.set('listp1', $(jNode).find("textarea#listpersonal").val());
   GM_config.set('listc1', $(jNode).find("input#listcustom1").val());
   GM_config.set('listc2', $(jNode).find("input#listcustom2").val());
@@ -736,6 +746,7 @@ function saveconfigNew(jNode) {
   GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
   GM_config.set('option3', $(jNode).find("input#mbcbox2").is(":checked"));
   GM_config.set('option4', $(jNode).find("input#mbcbox3").is(":checked"));
+  GM_config.set('option5', $(jNode).find("input#mbcbox4").is(":checked"));
   GM_config.set('listp1', $(jNode).find("textarea#listpersonal").val());
   GM_config.set('listc1', $(jNode).find("input#listcustom1").val());
   GM_config.set('listc2', $(jNode).find("input#listcustom2").val());
@@ -758,6 +769,7 @@ function resetconfig(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', false);
   $(jNode).find("input#mbcbox2").prop('checked', true);
   $(jNode).find("input#mbcbox3").prop('checked', true);
+  $(jNode).find("input#mbcbox4").prop('checked', false);
   $(jNode).find("input#listcustom1").val('https://github.com/asrdri/yt-metabot-user-js/raw/master/list-sample.txt');
   $(jNode).find("input#listcustom2").val('');
   $(jNode).find("input#listcustom3").val('');
@@ -774,6 +786,7 @@ function resetconfigNew(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', false);
   $(jNode).find("input#mbcbox2").prop('checked', true);
   $(jNode).find("input#mbcbox3").prop('checked', true);
+  $(jNode).find("input#mbcbox4").prop('checked', false);
   $(jNode).find("input#listcustom1").val('https://github.com/asrdri/yt-metabot-user-js/raw/master/list-sample.txt');
   $(jNode).find("input#listcustom2").val('');
   $(jNode).find("input#listcustom3").val('');
@@ -781,6 +794,29 @@ function resetconfigNew(jNode) {
   $(jNode).find("input#colorcustom1").val(parseColor(8388863, false));
   $(jNode).find("input#colorcustom2").val(parseColor(16744448, false));
   $(jNode).find("input#colorcustom3").val(parseColor(8421504, false));
+}
+
+function sendAlert(jNode) {
+  if (alertSent || GM_config.get('option5') === false)
+    return;
+
+  if (ytmode === 1) {
+    var commentURL = $(jNode).find('#published-time-text a').prop('href');
+  } else {
+    var commentURL = $(jNode).find('.comment-renderer-time a').prop('href');
+  }
+
+  var commendid = getURLParameter('lc', commentURL);
+  var videoid = getURLParameter('v', location.search);
+
+  var data = $.param({v: videoid, lc: commendid});
+
+  var request = new XMLHttpRequest();
+
+  request.open("POST", alertURL, true);
+  request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  request.send(data);
+  alertSent = true;
 }
 
 function parseitem(jNode) {
@@ -825,6 +861,7 @@ function parseitem(jNode) {
   t30span.id = 't30sp';
   t30span.style = "display:none";
   if (foundID > -1) {
+    sendAlert(jNode);
     console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
     if (GM_config.get('option1') == 2) {
       foundIDp1 = -1;
@@ -960,6 +997,7 @@ function parseitemNew(jNode) {
   var newspan = document.createElement('span');
   newspan.id = 'checksp';
   if (foundID > -1) {
+    sendAlert(jNode);
     console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
     if (GM_config.get('option1') == 2) {
       foundIDp1 = -1;
