@@ -816,7 +816,12 @@ function sendAlert(jNode) {
   request.open("POST", alertURL, true);
   request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   request.send(data);
+
   alertSent = true;
+  this.addEventListener('yt-navigate-start', function clearAlertSentFlag() {
+    this.removeEventListener('yt-navigate-start', clearAlertSentFlag);
+    alertSent = false;
+  });
 }
 
 function parseitem(jNode) {
