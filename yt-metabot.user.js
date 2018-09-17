@@ -195,6 +195,99 @@ if (window.location.hostname == "dislikemeter.com" || window.location.hostname =
     }
   }
   waitforlists();
+
+
+  var posterURL = 'https://кремлеботы.рф/poster';
+
+  var posterCache = {};
+
+  document.addEventListener('yt-load-next-continuation', function patchContinuationMethods(e) {
+    document.removeEventListener('yt-load-next-continuation', patchContinuationMethods);
+
+    // we patch method to modify comment badge
+    var sections = document.querySelector('#comments > #sections');
+
+    var patchMethod = function(context, fnName, fn) {
+      var original = context[fnName];
+      context[fnName] = function() {
+        fn.apply(context, arguments);
+        original.apply(context, arguments);
+      };
+    };
+
+    var modifyResponse = function(r) {
+    var videoid = getURLParameter('v', location.search);
+      if (!(videoid in posterCache))
+        return;
+
+      var commentId = posterCache[videoid].lc;
+      var a = r.response.continuationContents.itemSectionContinuation;
+      //var a = r.response.continuationContents.commentRepliesContinuation;
+      if (a && a.contents.length) {
+        var firstCommentRenderer = a.contents[0].commentThreadRenderer.comment.commentRenderer;
+        if (firstCommentRenderer.commentId == commentId) {
+          var pinnedCommentBadge = {
+            "pinnedCommentBadgeRenderer": {
+              "icon": {"iconType":"KEEP"},
+              "label": {"simpleText":"Комментарий закреплен MetaBot'ом"},
+              "color": {"basicColorPaletteData":{"foregroundTitleColor":1712394513}}
+            }
+          }
+          delete firstCommentRenderer.linkedCommentBadge;
+          firstCommentRenderer.pinnedCommentBadge = pinnedCommentBadge;
+        }
+      }
+    };
+
+    patchMethod(sections, 'updateNextContinuationData_', function(path, r) {
+      modifyResponse(r);
+    });
+
+    patchMethod(sections, 'onReloadContinuationData_', function(r) {
+      modifyResponse(r);
+    });
+  }, true);
+
+  var onLoadStart = function() {
+    var videoid = getURLParameter('v', location.search);
+    var commentid = getURLParameter('lc', location.search);
+
+    console.log('onLoadStart', videoid);
+    if (!videoid || commentid)
+      return;
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          if (!request.responseText)
+            return;
+          var response = JSON.parse(request.responseText);
+          posterCache[videoid] = response;
+          console.log('posterRetreived', videoid);
+        }
+      }
+    };
+    request.open("GET", posterURL + '?' + $.param({v: videoid}), true);
+    request.send(null);
+  }
+
+  onLoadFinish = function() {
+    document.addEventListener('yt-load-next-continuation', function replaceContinuationToken(e) {
+      document.removeEventListener('yt-load-next-continuation', replaceContinuationToken, true);
+
+      var videoid = getURLParameter('v', location.search);
+      if (videoid in posterCache) {
+        e.target.data.continuation = posterCache[videoid].ctoken;
+      }
+    }, true);
+  }
+
+  onLoadStart();
+  onLoadFinish();
+  window.addEventListener('yt-navigate-start', onLoadStart);
+  window.addEventListener('yt-navigate-finish', onLoadFinish);
+
 }
 
 function filllist(numArr, response, code, url) {
