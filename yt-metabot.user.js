@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      180617
+// @version      181010
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -846,13 +846,13 @@ function parseitem(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     newspan.id = 'checksp';
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += '\u2003<span id="sendlinkoff" style="cursor: not-allowed; color: #767676;" title="Извините, сообщения временно не принимаются">Сообщить</span><span id="sendlink" style="cursor: pointer; display: none" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">Сообщить</span>';
+    t30span.innerHTML += '\u2003<span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">Сообщить</span>';
     $(comURL).after(t30span);
     $(jNode).find("img")[0].addEventListener("click", function checkcomment() {
       checkdate(pNode);
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfo() {
-      sendinfo($(jNode).find("#sendlink"), $(comURL).find("a")[0].href, $(jNode).parent().parent().find("img")[0].alt, regexliold);
+      sendinfo();
       $(jNode).find("#sendlink").css("text-decoration", "line-through");
     }, false);
   }
@@ -984,13 +984,13 @@ function parseitemNew(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += '\u2003<span id="sendlinkoff" style="cursor: not-allowed;" title="Извините, сообщения временно не принимаются">СООБЩИТЬ</span><span id="sendlink" style="cursor: pointer; display: none" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">СООБЩИТЬ</span>';
+    t30span.innerHTML += '\u2003<span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам ссылку на подозрительный комментарий">СООБЩИТЬ</span>';
     $(comURL).append(t30span);
     $(jNode).find("#checkbtn")[0].addEventListener("click", function checkcommentNew() {
       checkdateNew($(pNode).parent());
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfoNew() {
-      sendinfo($(comURL).find("#sendlink")[0], $(comURL).find("a")[0].href, $(jNode).parent().find("img#img")[0].alt, regexlinew);
+      sendinfo();
       $(jNode).find("#sendlink").css("text-decoration", "line-through");
     }, false);
   }
@@ -1064,7 +1064,8 @@ function deleteitemNew(jNode, url) {
   }
 }
 
-function sendinfo(jNode, link, username, regexpid) {
+function sendinfo() {
+  window.open('tg://join?invite=Fei-E00mcIZy_15xqaE4aQ');
 }
 
 function listpadd(jNode, response, url) {
