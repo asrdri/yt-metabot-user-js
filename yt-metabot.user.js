@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      181121
+// @version      190126
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -812,7 +812,7 @@ function sendAlert(jNode) {
     var commentURL = $(jNode).find('.comment-renderer-time a').prop('href');
   }
   var commendid = getURLParameter('lc', commentURL);
-  var videoid = getURLParameter('v', location.search);
+  var videoid = getURLParameter('v', commentURL);
   var data = $.param({v: videoid, lc: commendid});
   var request = new XMLHttpRequest();
   request.open("POST", alerturl, true);
