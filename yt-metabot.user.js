@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      190126
+// @version      190719
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -10,7 +10,7 @@
 // @icon         https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png
 // @include      https://*youtube.com/*
 // @include      https://*dislikemeter.com/?v*
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js
 // @require      https://raw.githubusercontent.com/sizzlemctwizzle/GM_config/master/gm_config.js
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -94,15 +94,13 @@ GM_config.init( {
 });
 
 const checkb = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAPCAMAAADXs89aAAAA+VBMVEUAAAD///+qqqp/f39mZmZubm5vb29sbGxtbW1tbW1tbW1ubm5ubm5tbW1ubm5tbW1ubm5ubm5ubm5tbW1tbW1ubm5ubm5tbW1ubm5ubm5tbW1ubm5ubm5vb29wcHBxcXFzc3N0dHR1dXV3d3d4eHh6enp7e3t8fHyAgICCgoKFhYWMjIyOjo6Pj4+QkJCSkpKUlJSWlpaZmZmampqdnZ2hoaGqqqqwsLC0tLS1tbW2tra5ubm+vr7ExMTKysrLy8vQ0NDR0dHS0tLU1NTV1dXW1tbe3t7i4uLj4+Pk5OTl5eXn5+fo6Ojq6urs7Ozu7u7w8PD9/f3////SCMufAAAAHHRSTlMAAAMEBSUnKCpbXV9htre6u87Q0dPp6uvs7u/8pkhKVQAAAMdJREFUeNpN0NdWwlAUANEbgvTeQhnQIE1B1ChYQcEC0gL+/8ewzPWwmMf9OMowDKWUP5YqU0pGTaXTHMqdOcM7G7LBIw4Vnc3b89i9BytwYH+uv7oAOqsbyJjCMb4d/urOgYhwqr55wmvdhIRwufXT0zzrgCVM1X2tA5xva1ARLvE4aQCMXoCCcJLaZNpvX71/3QJx4ShUBx+Lz4fp7hrCwmYWL3v5u7XTPmEVtLRfuk7+5OhJIKP9NO2psDIjCatSiId9/7oHY28awgWqV+8AAAAASUVORK5CYII=';
+const minf = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAAM1BMVEUAAAB/f39vb29sbGxtbW1ubm5ubm5sbGxubm5ubm7////Pz8+Li4uampp8fHzb29uSkpKUSDd+AAAACXRSTlMABCcoXbfQ6/zS5clrAAAAYUlEQVQIHQXBAQLCMAgEsBxs+v/32oJJkE5lZ+8Suhu4Z7R6m2c/NVW28zbmew8xeV4A+FWgkjSkCuYDqAo4gNQCgK0BAFMLHsD2pqjL1rqnSSysOdt2U8C9I0insrN3+QOBPC04AhR0BwAAAABJRU5ErkJggg==';
 const mred = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAApVBMVEUzMzP/MzP+MzP+MzP+MzP+MzP9MzP+NTP+NTP/XDP+NTP+NTP+MzP+MzP+NDP+NDP+PTP9NDP+OTP9MzP+NTP+NTP+MzP5MzP/MzP/////e3v/NTP/PT3/Tk7/YWH/UVH/TU3/9/f/+fn/cnL/5eX/QED/ZGT/09P/1tb/wcH/xcX/6Oj/Z2f/hYX/aWn/b2//39//cXH/dXX/oqL/paX/T0//dnb54rKOAAAAGHRSTlMABFzrJurQ1O4Fu+8nt7nQKv1ht17tzyc2HRLDAAAAj0lEQVQIHQXABVIDARAEwLmLuwK9SXB35/9Po5JktB5P9sP5tkmSZDlwsdvtfi2mSbI84rqqvuh1k9EAZ1V1h36TNZxW1Tm0GcOhqm5hlgm4rCvQyR7c1DNYZQju6wF0MgeP9QQ22YKX1zfQplnA+8cnHDfJtIfv+kGvmyQnfQ5/B/rdJEmadtZZdTZtk+QfVeIRvDroEMEAAAAASUVORK5CYII=';
-const mgreen = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAAxlBMVEUzMzN3u3dlzGVcrVxUsVRXtVdWslZVsVVWslZVslVVtFVWs1ZVslVWs1ZVs1VVslVWslZWs1ZVslVVs1VVslVVs1VWslZWslZVslVVs1VWslZWs1b////7/ftjuWNYtFhkuWRvvm9xv3F2wXZ5w3l9xH2AxYCFyYWIyYiKyoqMy4yOzY6RzZGTzpOn16e94b3Q6dDU69Tb79vd793e8N7g8eBgt2D8/fz9/f39/v1huGH3+/f6/fri8uLs9uzu+O7z+fP1+vVFdYnIAAAAG3RSTlMAAwQFJScoKltdX2G2t7q7ztDR0+nq6+zu7/wFCQO8AAAAmElEQVR4XjXK17KCQBAG4XEVJZtX4B8w5pxzOOf9X8oFar+7rmpSik41RODbgjKVJnKNcpYdaNJQc1PXZdOtC3J0Pg68hUVVnUe+r+FRiGQ3AJIT31aAJGDP337vzNclgIgCDP/48+Z4AaVNPjD6Z47nSLlkAxg/XzNkTBINAJNpnrUCUVlCa5VIMerI1VSmhOXJqO2aaqYfFzUVVuMvR48AAAAASUVORK5CYII=';
-const myellow = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAA8FBMVEUAAAD+wAD/wwD/qgD+wQD+wwD+wgD+wAD+wQD+wwD+wgD+wgD+wQD+wQD+wQD+wgD+wgD+wQD+wgD/7gD+wwD+wAD+wgD+wgD+wgD/wwD/wAD+wQD+wgD+wQD/wgD/////1U//2Fj/zSv/4H7/yh//zjL/wgL/8sj/7rf/+/D/xAr/66r/1lX/wwH/xAf/8ML/33r/wwX/22v/9db/7bP/yRz/ySH/wwT/887/7LD/9tn///z/2WD/zzX/553/7bX/+ej/zzb/1lb/zzf/++//1Ej/9NT/1U7///3/00X/44v/5ZL/0kP//PT/xQz/xQ5VAx1gAAAAHnRSTlMAJwQF7l65KdNc6u7r/NHQzuq1A1oltuy6YGC7/umoU48YAAAApklEQVR4Xh2JVRbCQBAEJwGCB3fowd3d3fX+t2Ez9VOvuklhSye9Wbvh0ElwutApvisDmJpkApsRM+8L8KnB5sLkzI3xku8PBHRKASX+TDGb8wJwUwYo5/NAtcZ1IE5eCM0WcxvwEIRuj7mv7Ce79JBXa8shMqS3vBOHySE+HE/iKOmm5cv1ZikYIdJ8AJ78ApCLkUILAN/CT72SRLo77vGHwtGIij+N7xiv1SoiugAAAABJRU5ErkJggg==';
 const imgdm = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3VRAAACfFBMVEUAAAD+wgD+wQD+wQD/qgD/vwD1ugD+wQD/vwD+wQD+wQD+wgD+wgD5vwD+xwD9wAD7vwD5vQD+wQD1uwD/zADyuAD0uQDyuADytwDzuADxtwDztwDytwDwuAD+wgDzuAD+wgDyuQD+wgD1ugDxtwD0tgBaanv+wgBEW5H+wAD+wQDytwDxtgBIXpL+wQBPZZb+wgD+wQBmeKP+wgBXa5r//wD+wQBic5ldcZ9ccJ5SZ5dEW5H+wgD+wgBlcHD+wAD+wQBEXZD+wQD3vADzuAB0dGltfaZKX5T+xAD6vgDfnwBGXJFVaZpfcp5EWpD/wgDyuAD+wQD19fVuf7OOeiHyugT7vwD+wgCykRY8RTno6OiGgF1oeq7ksQinsc3nswf7vwHyuwr8wQL9wQD2zEf068/18OP03pj20mGBgnjv7++oscV9e2dpe6/CmxL11nf18uv11nb9wAByaCn2uwCrjBj8wADl5uZqd5J+fGiXiE3rtAXj5einsMWZiUrz8/NYaI1SZ5xCSTj8wAH3yDX9wQK0mTpTaJtabqNZbqJUaZrh5Orb3OF1aihESjdSZ5r03ZP06cSAjalpcHemiRr6vgD09PTBmhKFf1+0vNTp6enbqwpeWy/YrR7GoizIoyuwlz2dqcM2QTtvgKjKpSmReyD4vgVpdo32zUnxugv3vgb7wAT6wQz1ugD0ugAoOD/6wAn179310FgwPT2ihhvEnBFZWDHl5eb5vQCEfmDR1Nvv8PLr6+uEkrFARzi4lBW3lBWMgljS1+Ht7e2VoLs/RziSfCC6wdivjxdHTDbN0t7n6e34vQLutwV/cCb4vQD10V318ef2yTv0uQDkLrBbAAAAT3RSTlMATOr6AwQ4shjgmfhtLBf5/vJjNQWgSfyz2PuA8CT3wOdUvsaHMR9+ZCn+jDi3t9Au+fR22AKW7+XlyjiC+zJB0Typ+MPO9xgaMwg61+5oF3I9zwAAAY1JREFUeAFtzfObG1EUxvETu7Zt2zb63snERVMbTZPatm3b7tr2/kN7JzO7d7PPfn79Pue8pLE6LbamzZr37NWbEjSxO6DyfenakgSdHkJ5h45G0rQwoL7brLVJuxBB9Y8NVDf0aCjatg1xdmD7Q8B/qwRAzAt4YxHWvhWR1QFcLgOWf10J4EQACFxBlHUncgK4+/PX7z+PwL1OS8/IzYOPtSOygCsofLG7FFzYEwx6wpBYJxPZ0Jhq1pm6QPjwftVqxH1mg8ggwqtjx6/e3KrYf+CgmbpBI+1ZukyWVxQrDh0+4qIeiPv47tr1G9tkOd+tuPN3Xx/qC27N2nXrN2zcpBVu85Z+1H8AENmxc9cnCf9FOZo0mGgIpIrKKgkQhds7lGjY8G/ff/jB3ePlvlYejCCikSdPnYbizNlz5y9cVL9dGsXL6DFQ+R8/efrsuTv0cuy48RMmEmecNBm13rxNTkmdQnWmToNGyszKzplOgkk3Qw9IvpmzZheF5sylBMZ5882uBbRw0eIlpKgB/8u5fuwF0eAAAAAASUVORK5CYII=';
 const imgdma = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3VRAAABsFBMVEUAAAD+wQD+wgD/qgD+wQD/vwD+wQD+wgD+wgD+wQD+xwBatlz/vwD+wQBft1n+wQDxtwD1ugD9wADyuAD0uQD/zAD7vwD5vQDxtwDzuADyuQDztwDyuADytwDytwDytwDwuAD+wgD0tgCstyvzuAD1uwD+wgD+wgD+wgD+wAD+wQD+wQD+wgD+wQD+wgD//wD+wQD+wgD+wgD+wAD+wQD+wQD+xACtvC1Ztl3/wgD///97uEnyuAD+wQCBu1CWujp7xX32uwCOeiGrjBiykRabx2qc1J5nvWryugRat108RTn7vwH7vwD+wgD9wADxwAb4vQB/cCaSfCAoOD95tkmGt0CihhteWy+ReyDBmhIwPT1HTDb8wAB6t0n6vgD7wAT2zUn03ZP06cR4wXQ2QTv9wQD2zEf068/18OP03pj20mF5ulhyaCnutwX11nf18uv11nb6wQzbqwr10V318ef2yTvksQjCmxI/Rzj6wAn179310FimiRr8wAH3yDX9wQKV0ZdZWDFARzj0uQD5vQDnswdCSTi4lBVESjeKukCvjxe3lBV1aij0ugD4vQLEnBHgcTooAAAAOXRSTlMA6kwD+gTgbfiyF+gYmd5jh8b5/EkF/vL72FSAoLOM8CT3MVjANee+fin+ty75dgKWgvtB0akaVEpkodaYAAABOUlEQVR4XnXPVXMiURCG4SYES4C4u7uvfSO4S9zd3d3d1/5yOAWEGYq8N33xVFdXUyS9RqfOzM3LSK8kWSkGLcIF/lbXSCBJgVi9+UXKKKQlQ9q0UKyKbMgBeBRKwzcUiM+alc3EAJzsA8HLfwDsHsBj7xYKcoj0WuBPH3A88ATg2QE4XmEVCok0AMbGh//fjQDA6P3L79N+BIQSIh0AvE8sbm4x8dt8PpsfolCmIjUS9SCUU0UMesx8KKfTxPODQ1UkecbsZXGchQ0j1UZBnJySipfqwjAzOze/IJd6BkvLK6tr6xtyaWgEurd3dvdE8HKhJogHh0ciACcnyUXU3HJ2fhFEAqHWq+sbsEwWFsfdsuEOSVs7wsXfIVJ2dCYUVte3r4RUSd8VeJNKKn2m/PHTyMTlcjP49QE0u4VtSVu7kQAAAABJRU5ErkJggg==';
 const imgdmd = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAZCAMAAACM5megAAAAllBMVEUAAAB/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAx6H3iAAAAMXRSTlMABAgMFBgcICQoLDA8QERITFBUWGBkaGx4fICDj5OXo6evs7e7v8PH09ff4+fr8/f7vr5GKgAAAN1JREFUGBl9wY1agjAABdAbIoSCWiIJLn8yLKNN7vu/XBvQJ87JOegZLfJDaew3U7ilklcfAW5EiTb7JGtRGFtq8hV9BTsntH5orNH3VrNx9mB4kkYdo29xoUPlAwgCtIKaLgJAqkI0BJ0qABEFGme6xQBUCXhhOOUDuycI7jCRHCAlmSDnsEsGrDjgmL6MAYxOfGyGTiwquikPV0s6bdF3oIMao+9Z8d4Gt5KadxJYMt7xYclok7AJar+KRvVFrYTtSC1Ca07tHbZvkhU6KbUlbPOiyCfo+OuiWOHfHxHEYF/PvYVrAAAAAElFTkSuQmCC';
 const imgyto = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAACJVBMVEX///+qAADMMzP/MzPjKiXbJiPVIyPZJSPFGx/QIiLBGB7cKSXRIiLeKSnkKyfOICHcIiLRISLJHB7jKybCGB/QISHVKSDgKifMGRnhKyXMHR/CGR3ZJSPiLCbdKSXiKybFFyLCGR7WJCLdJyTDGB3JHSDhKiXIHB/ZJiPMHiHQIiLXIyPTIyLKHR/FGCDFGh/lMxnjKyXDGR3GGx/cJyTEGR7BGh7NICDUIiLOHiPcLiLiKyXgKSXhKyXPHyHXJSPNICDgKibgKSbJHB/XJCPnLiLfKSXfKSTfKSbDGR7EGR7KHB/CGR3CGB3CGB7BGB7BGB3BGR3////NHyHLHiDo4ODWJCPMHiD//v7p4eHaJyTZJiTYJiTOICHXJSPYJSPPICHeKSXQISHVJCPunZzFGh/UIyPqmpvnzMv89PTlxMTYUVL78vL08fHomZrzzM399/f+/Pzm09PXTk7QNDbfKiXGGx/pmprnj47XSUvktrbompryxMXVOTncKCXKHSDHHB/t5+f7+vrdKCXbJyTsnJvcOTfhgYDIHB/18fHqm5v05eXaMzHZVFTYTEvHGx/++vrZLy3spKThiYnTLi78+vrs19fqnJzYKynVNDXjrq7VPT7rm5vJHSDebm3XKCbRISLZWFrTIyLSIiLtrKzEGh7cZmXWJiXgKibvtLTWQ0Tlvr7bXVzfd3bwvL3sm5vjW1nTIiLDGh7hKybtnJviKybCGR58TkH5AAAAUnRSTlMAAwUFie17+rn8r7n8HzqvFu9b73vWH1sK54nnida5/BaYr1uJ7fqal+cWOu/6H5oKr/q5mls6H9Y6Fnzte3vnfJeYmOcW7Zqa7e2Y1u/8/O/WqnF1KAAAAb9JREFUeF6FzGOb61AYheGV1B3btu05tLHbsY1j27Zt2/h9k7SnyZt0p7m/ruda0BAi59VkxGVlxWXUtEUKMBJhTflLpFgjwNO6qPC3TuHiZQiStPwDR3sStCwr9hpYaQFRnTliKLOa/IWNhBCmftafDqk+0OUdM5EHn2jbGRO2aMiKexU/zvVyFUOS6OhTjG85cKWPw5EIIL1fNc7Y5fM3+4OlA8KCIdUfxtjde18fDOktFVA2SEih5OL0s+eDOmWwdxJnmc+pk7Pv3ndq2JE7Rsih/7Tn85cxKhfNk8R3qQmcdhy6SpZmlL8injDV1p6OR9eUpRyun4Qc0tNduwOLC+GviUuMmrl9R1nCEfOCoOGO+w/JEoOEUWJKyW7cOjpKJSBqmNjP/Ha+eTysFYX5A4Q/7P74aUBvIVo8hBx2fzvoCdYCoYSEhxk7stnDUSIAqV2qbdtfdnGlAmiq8Cr2ePkqmiBZctzUGshKC56aKCiFT+wFE7H4r+hESEUIEOuuh1AnQpHs3GfImQxCrJowUCVCq2HVW47VDQiSnVP7S6c2Jxs8lflp/4i0/EoYERrj3WvXrd+wcZM7vlEANQfRAClqAtKfNQAAAABJRU5ErkJggg==';
-const botTargetDay = Date.parse('1 June 2017');
-const regexdate = /joinedDateText(.*?)ext":"(.*?)"}/;
+const regexdate = /joinedDateText(.*?)ext":"(.*?)ext":"(.*?)"}/;
 const regexdatemob = /joined_date_text(.*?)"}, {"text": "(.*?)"}]/;
 const regexid = /"video_id":"(.*?)"/;
 const regexlinew = /"logged_in","value":"(.*?)"/;
@@ -261,7 +259,7 @@ function waitforlists() {
       case 1:
         spinnercheckNew();
         waitForKeyElements('div#main.style-scope.ytd-comment-renderer', parseitemNew);
-        waitForKeyElements('yt-view-count-renderer.style-scope.ytd-video-primary-info-renderer', insertdmNew);
+        waitForKeyElements('yt-view-count-renderer.style-scope.ytd-video-primary-info-renderer', preparedmNew);
         waitForKeyElements('div#channel-header.ytd-c4-tabbed-header-renderer', insertchanNew);
         break;
       case 2:
@@ -398,7 +396,7 @@ function insertchan(jNode) {
     noticespan.innerHTML = '<img src="' + mred + '" /> Пользователь найден в ЕРКЮ, дата регистрации: <a href="' + chanURL + '/about" title="Открыть страницу с датой регистрации">' + arrayERKY[foundID + 1] + "</a>";
     noticespan.style = 'background:rgba(255,50,50,0.3);border-radius:5px;padding:4px 7px 4px 7px';
   } else {
-    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + myellow + '" title="Открыть страницу с датой регистрации" /></a>';
+    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + minf + '" title="Открыть страницу с датой регистрации" /></a>';
     noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px';
   }
   noticespan.id = 'erkynotice';
@@ -429,7 +427,7 @@ function insertchanNew(jNode) {
     noticespan.innerHTML = '<img src="' + mred + '" /> Пользователь найден в ЕРКЮ, дата регистрации: <a href="' + chanURL + '/about" style="color:hsl(206.1, 79.3%, 52.7%);text-decoration:none" title="Открыть страницу с датой регистрации">' + arrayERKY[foundID + 1] + "</a>";
     noticespan.style = 'background:rgba(255,50,50,0.3);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
   } else {
-    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + myellow + '" title="Открыть страницу с датой регистрации" /></a>';
+    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + minf + '" title="Открыть страницу с датой регистрации" /></a>';
     noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
   }
   if (!reuse) {
@@ -459,19 +457,22 @@ function insertdm(jNode) {
   }, false);
 }
 
-function insertdmNew(jNode) {
-  this.addEventListener('yt-navigate-finish', function insertdmNewR() {
-    this.removeEventListener('yt-navigate-finish', insertdmNewR);
-    setTimeout(insertdmNew, 300, jNode);
+function preparedmNew(jNode) {
+  this.addEventListener('yt-navigate-finish', function preparedmNewR() {
+    this.removeEventListener('yt-navigate-finish', preparedmNewR);
+    setTimeout(preparedmNew, 300, jNode);
   });
   var videoid = getURLParameter('v', location.search);
   if (!videoid) {
+    console.log("[MetaBot for Youtube] Dislikemeter: video id not found.");
     return;
   }
   var pNode = $(jNode).parent().parent().parent().find('div#flex')[0];
   if (typeof pNode === 'undefined') {
+    console.log("[MetaBot for Youtube] Dislikemeter: node not found.");
     return;
   }
+  pNode.innerHTML = '';
   if (GM_config.get('option3')) {
     var btnText = $(pNode).parent().find('ytd-button-renderer.ytd-menu-renderer')[0];
     if ($(btnText).find('yt-formatted-string#text').length > 0) {
@@ -484,21 +485,36 @@ function insertdmNew(jNode) {
       $(btnText).find('yt-formatted-string#text').html('');
     }
   }
-  pNode.innerHTML = '';
-  var newspan = document.createElement('span');
-  newspan.innerHTML = '<yt-icon-button style="padding:0 0 0 0" class="style-scope ytd-toggle-button-renderer style-default-active" onclick="window.open(\'https://dislikemeter.com/?v=' + videoid + '\', \'_blank\');" title="Добавить видео на анализатор Дизлайкметр"><a style="padding:0 0 0 1px"><img src="' + imgdma + '" /></a></yt-icon-button><span style="padding:0 0.5em 0 0"></span><yt-icon-button style="padding:0 0 0 0" class="style-scope ytd-toggle-button-renderer style-default-active" onclick="window.open(\'https://dislikemeter.com/video/' + videoid + '\', \'_blank\');" title="Открыть статистику видео на анализаторе Дизлайкметр"><a style="padding:0 0 0 1px"><img src="' + imgdm + '" /></a></yt-icon-button><span style="padding:0 1em 0 0"></span>';
-  newspan.id = 'dmPanel';
-  $(pNode).css('text-align', 'right');
-  pNode.insertBefore(newspan, pNode.firstChild);
-  $(pNode).find("#dmPanel")[0].addEventListener("click", function dmClick() {
-    this.removeEventListener("click", dmClick);
-    var newspan = document.createElement('span');
-    newspan.innerHTML = '<yt-icon-button style="padding:0 0 0 0" class="style-scope ytd-toggle-button-renderer style-default-active" onclick="window.open(\'https://dislikemeter.com/?donate\', \'_blank\');" title="Помочь проекту Дизлайкметр"><a style="padding:0 0 0 1px"><img src="' + imgdmd + '" /></a></yt-icon-button><span style="padding:0 0.5em 0 0"></span>';
-    $(pNode).find("#dmPanel")[0].insertBefore(newspan, $(pNode).find("#dmPanel")[0].firstChild);
-  }, false);
-  $(pNode).find("#dmPanel")[0].addEventListener("mouseover", function dmOver() {
-    this.removeEventListener("mouseover", dmOver);
-  }, false);
+  console.log("[MetaBot for Youtube] Dislikemeter: requesting data for video id " + videoid);
+  getlist(insertdmNew, pNode, 'https://dislikemeter.com/iframe/?vid=' + videoid);
+}
+
+function insertdmNew(jNode, response, code, url) {
+  if (response.indexOf('"submit"') >= 0){
+    console.log("[MetaBot for Youtube] Dislikemeter: video already added.");
+    var dmurl = url.replace('iframe/?vid=', 'video/');
+    var dmtxt = 'Открыть статистику видео на анализаторе Дизлайкметр';
+    var dmclr = 'var(--yt-spec-call-to-action)';
+  } else {
+    console.log("[MetaBot for Youtube] Dislikemeter: video not added yet.");
+    var dmurl = url.replace('iframe/?vid=', '?v=');
+    var dmtxt = 'Добавить видео на анализатор Дизлайкметр';
+    var dmclr = 'var(--yt-spec-icon-inactive)';
+  }
+  jNode.style.textAlign = "right";
+  var dmbutton = document.createElement('ytd-button-renderer');
+  dmbutton.id = 'dmbutton';
+  dmbutton.setAttribute('button-renderer', '');
+  dmbutton.setAttribute('is-icon-button', '');
+  dmbutton.classList.add("style-scope");
+  dmbutton.classList.add("ytd-menu-renderer");
+  dmbutton.classList.add("force-icon-button");
+  dmbutton.classList.add("style-default");
+  dmbutton.classList.add("size-default");
+  dmbutton.style.marginTop = "3px";
+  dmbutton.style.marginRight = "4px";
+  $(jNode).prepend(dmbutton);
+  $(jNode).find('ytd-button-renderer#dmbutton').html('<a class="yt-simple-endpoint style-scope ytd-button-renderer"><yt-icon-button id="button" class="style-scope ytd-button-renderer style-default size-default" style="padding:8px;width:36px;height:36px;color:rgb(255,200,0)" onclick="window.open(\'' + dmurl + '\', \'_blank\');"><svg viewBox="0 0 20 20" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope yt-icon" style="pointer-events: none; display: block; width: 100%; height: 100%; fill:' + dmclr + '"><g class="style-scope yt-icon"><path d="m0 2c0 5.5 8 5.5 8 0 0-1-2-1-2 0 0 3-4 3-4 0 0-1-2-1-2 0m12 0c0 5.5 8 5.5 8 0 0-1-2-1-2 0 0 3-4 3-4 0 0-1-2-1-2 0m-12 16q2-6.5 10-6.5v2q-6 0-8 4.5c0 0.5-2 0.7-2 0m6 2v-3l4-1v4m1 0v-8h4v8m1 0v-11l4-1v12" class="style-scope yt-icon"></path></g></svg></yt-icon-button><paper-tooltip>' + dmtxt + '</paper-tooltip></a>');
 }
 
 function insertann(jNode) {
@@ -638,7 +654,7 @@ function insertannNew(jNode) {
   ytoinfosspan.classList.add("description");
   ytoinfosspan.classList.add("content");
   ytoinfosspan.classList.add("ytd-video-secondary-info-renderer");
-  ytoinfosspan.style = 'max-width:640px;margin:-10px auto 1em auto;display:none';
+  ytoinfosspan.style = 'font-size:1.4rem;max-width:640px;margin:-10px auto 1em auto;display:none';
   $(jNode).find('div#title').after(ytoinfosspan);
   var settingsspan = document.createElement('span');
   settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Информация о наличии ботов под роликом будет отправлена на кремлеботы.рф"><input type="checkbox" id="mbcbox4">Уведомлять сервер при обнаружении ботов</label><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить классический дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
@@ -646,7 +662,7 @@ function insertannNew(jNode) {
   settingsspan.classList.add("description");
   settingsspan.classList.add("content");
   settingsspan.classList.add("ytd-video-secondary-info-renderer");
-  settingsspan.style = 'max-width:635px;margin:-10px auto 1em auto;display:none';
+  settingsspan.style = 'font-size:1.4rem;max-width:635px;margin:-10px auto 1em auto;display:none';
   $(jNode).find('div#title').after(settingsspan);
   var annexspan = document.createElement('span');
   annexspan.innerHTML = Aparse(annYTOtxt[3]);
@@ -1184,7 +1200,7 @@ function listpadd(jNode, response, url) {
 
 function listpaddNew(jNode, response, url) {
   var matches = regexdate.exec(response);
-  var day = Dparse(matches[2]);
+  var day = Dparse(matches[3]);
   $('textarea#listpersonal')[0].value += url.substring(0, url.length - 6).split('/').pop() + '=' + day + '\n';
   var tempArray = $('textarea#listpersonal')[0].value.split('\n');
   var uniqArray = tempArray.reduce(function(a,b){
@@ -1254,22 +1270,13 @@ function checkdateMob(jNode) {
         if (response !== "") {
           console.log("[MetaBot for Youtube] XMLHttpRequest done.");
           var matches = regexdatemob.exec(response);
-          var testday = Dparse(decodeURIComponent(JSON.parse('"' + matches[2] + '"')));
-          if (Date.parse(testday) > botTargetDay) {
-            $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + myellow + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
-            $(jNode).parent().find("div.zqb").css({
-              "background": "rgba(240,250,0,0.3)",
-              "border-left": "3px solid rgba(240,250,0,0.3)",
-              "padding-left": "3px"
-            });
-          } else {
-            $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
-            $(jNode).parent().find("div.zqb").css({
-              "background": "rgba(100,250,100,0.3)",
-              "border-left": "3px solid rgba(100,250,100,0.3)",
-              "padding-left": "3px"
-            });
-          }
+          var testday = Dparse(decodeURIComponent(JSON.parse('"' + matches[3] + '"')));
+          $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + minf + '" title="Дата регистрации:" /> ' + testday;
+          $(jNode).parent().find("div.zqb").css({
+            "background": "rgba(170,170,170,0.3)",
+            "border-left": "3px solid rgba(170,170,170,0.3)",
+            "padding-left": "3px"
+          });
         } else {
           console.log("[MetaBot for Youtube] XMLHttpRequest failed.");
         }
@@ -1303,60 +1310,36 @@ function procdate(jNode, response, url) {
   var testday = Dparse(aboutSTAT[aboutSTAT.length - 1].innerHTML);
   var newspan = document.createElement('span');
   newspan.id = 'botmark';
-  if (Date.parse(testday) > botTargetDay) {
-    newspan.innerHTML = ' <img src="' + myellow + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
-    $(jNode).find("a.comment-author-text").after(newspan);
-    $(jNode).next().css({
-      "background": "rgba(240,250,0,0.3)",
-      "border-left": "3px solid rgba(240,250,0,0.3)",
-      "padding-left": "3px"
-    });
-  } else {
-    newspan.innerHTML = ' <img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
-    $(jNode).find("a.comment-author-text").after(newspan);
-    $(jNode).next().css({
-      "background": "rgba(100,250,100,0.3)",
-      "border-left": "3px solid rgba(100,250,100,0.3)",
-      "padding-left": "3px"
-    });
-  }
+  newspan.innerHTML = ' <img src="' + minf + '" title="Дата регистрации:" /> ' + testday;
+  $(jNode).find("a.comment-author-text").after(newspan);
+  $(jNode).next().css({
+    "background": "rgba(170,170,170,0.3)",
+    "border-left": "3px solid rgba(170,170,170,0.3)",
+    "padding-left": "3px"
+  });
   delete window.aboutSTAT;
   delete window.tempHTML;
 }
 
 function procdateNew(jNode, response, url) {
   var matches = regexdate.exec(response);
-  var testday = Dparse(matches[2]);
+  var testday = Dparse(matches[3]);
   var aNode = $(jNode).find("#author-text")[0];
   var cNode = $(jNode).parent().find("#content-text")[0];
   var newspan = document.createElement('span');
   newspan.id = 'botmark';
   var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
-  if (Date.parse(testday) > botTargetDay) {
-    newspan.innerHTML = '<img src="' + myellow + '" title="Дата регистрации позже 1 июня 2017" /> ' + testday;
-    $(aNode).append(newspan);
-    if ($(checkBadge).length > 0) {
-      $(checkBadge).attr('hidden', '');
-      $(aNode).removeAttr('hidden');
-    }
-    $(cNode).parent().css({
-      "background": "rgba(240,250,0,0.3)",
-      "border-left": "3px solid rgba(240,250,0,0.3)",
-      "padding-left": "3px"
-    });
-  } else {
-    newspan.innerHTML = '<img src="' + mgreen + '" title="Дата регистрации раньше 1 июня 2017" /> ' + testday;
-    $(aNode).append(newspan);
-    if ($(checkBadge).length > 0) {
-      $(checkBadge).attr('hidden', '');
-      $(aNode).removeAttr('hidden');
-    }
-    $(cNode).parent().css({
-      "background": "rgba(100,250,100,0.3)",
-      "border-left": "3px solid rgba(100,250,100,0.3)",
-      "padding-left": "3px"
-    });
+  newspan.innerHTML = '<img src="' + minf + '" title="Дата регистрации:" /> ' + testday;
+  $(aNode).append(newspan);
+  if ($(checkBadge).length > 0) {
+    $(checkBadge).attr('hidden', '');
+    $(aNode).removeAttr('hidden');
   }
+  $(cNode).parent().css({
+    "background": "rgba(170,170,170,0.3)",
+    "border-left": "3px solid rgba(170,170,170,0.3)",
+    "padding-left": "3px"
+  });
   aNode = $(jNode).find("#checksp");
   aNode.attr('data-chan', $(jNode).find("a#author-text")[0].href);
   aNode.hide();
