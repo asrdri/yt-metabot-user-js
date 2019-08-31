@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      190719
+// @version      190831
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -431,7 +431,7 @@ function insertchanNew(jNode) {
     noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
   }
   if (!reuse) {
-    $(jNode).find('h1#channel-title-container.ytd-c4-tabbed-header-renderer').after(noticespan);
+    $(jNode).find('ytd-channel-name#channel-name.ytd-c4-tabbed-header-renderer').after(noticespan);
     $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer').after('<br>');
   }
 }
