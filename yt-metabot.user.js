@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      191217
+// @version      200322
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -114,12 +114,7 @@ const annYTOurl = 'https://raw.githubusercontent.com/YTObserver/YT-ACC-DB/master
 const minDCTime = 36*61;
 const maxDCTime = 71*58;
 const alerturl = 'https://кремлеботы.рф/alert';
-const reporturl = 'http://h134224.s23.test-hf.su/0xJvXVyCI252wZL.php';
-const reportparv = 'tmcLmrBkistDeCj=';
-const reportparlc = '&pEcmTXm4aFmtGPj=';
-const reportparbid = '&MzpVezaWBKy4HB4=';
-const reportparbn = '&0gsgbZk9RCqiaCp=';
-const reportparun = '&SVpoJEzFPFwm9SM=';
+const reporturl = 'tg://resolve?domain=observers_chat';
 var alertSent = false;
 var annYTOtxt = [];
 var arrayERKY = [];
@@ -905,13 +900,13 @@ function parseitem(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     newspan.id = 'checksp';
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += '\u2003<span id="sendlinkoff" style="cursor: pointer; text-decoration: line-through; display: none" title="Спасибо, данный пользователь будет проверен">Сообщить</span><span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам данные о подозрительном комментарии">Сообщить</span>';
+    t30span.innerHTML += '\u2003<span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам данные о подозрительном комментарии">\u27A4</span>';
     $(comURL).after(t30span);
     $(jNode).find("img")[0].addEventListener("click", function checkcomment() {
       checkdate(pNode);
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfo() {
-      sendinfo($(jNode).find("#t30sp"), $(comURL).find("a")[0].href, userID, $(jNode).parent().parent().find("img")[0].alt, regexliold);
+      sendinfo();
     }, false);
   }
   if (GM_config.get('option4') === true) {
@@ -1043,13 +1038,13 @@ function parseitemNew(jNode) {
     newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
     pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += '\u2003<span id="sendlinkoff" style="cursor: pointer; text-decoration: line-through; display: none" title="Спасибо, данный пользователь будет проверен">СООБЩИТЬ</span><span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам данные о подозрительном комментарии">СООБЩИТЬ</span>';
+    t30span.innerHTML += '\u2003<span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам данные о подозрительном комментарии">\u27A4</span>';
     $(comURL).append(t30span);
     $(jNode).find("#checkbtn")[0].addEventListener("click", function checkcommentNew() {
       checkdateNew($(pNode).parent());
     }, false);
     $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfoNew() {
-      sendinfo($(jNode).find("#t30sp"), $(comURL).find("a")[0].href, userID, $(jNode).parent().find("img#img")[0].alt, regexlinew);
+      sendinfo();
     }, false);
   }
   if (GM_config.get('option4') === true) {
@@ -1122,58 +1117,12 @@ function deleteitemNew(jNode, url) {
   }
 }
 
-function sendinfo(jNode, comlink, botid, botname, regexpid) {
-  if(regexpid.exec(document.body.innerHTML)[1] == "1") {
-    var urlv = getURLParameter('v', comlink);
-    var urllc = getURLParameter('lc', comlink);
-    var txtun = regexun.exec(document.body.innerHTML)[1];
-    var params = reportparv + urlv + 
-      reportparlc + urllc + 
-      reportparbid + botid + 
-      reportparbn + window.btoa(unescape(encodeURIComponent(botname))) + 
-      reportparun + window.btoa(unescape(encodeURIComponent(txtun)));
-    console.log('params ' + params);
-    var answer = confirm('Ссылка на комментарий: ' + comlink +
-      '\nID профиля автора: ' + botid +
-      '\nИмя профиля автора: ' + botname +
-      '\nИмя вашего профиля (для защиты от спама): ' + txtun +
-      '\n\nДанные будут отправлены по протоколу HTTP без шифрования.\nПродолжить?');
-    if (answer) {
-      $(jNode).find("#sendlink").html('');
-      if (typeof GM_xmlhttpRequest !== 'undefined') {
-        GM_xmlhttpRequest({
-          method: "POST",
-          url: reporturl,
-          data: params,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          onload: function(response) {
-            console.log("[MetaBot for Youtube] Report sent for user ID " + botid + ". Code " + response.status);
-            $(jNode).find("#sendlink").hide();
-            $(jNode).find("#sendlinkoff").show();
-          }
-        });
-      } else if (typeof GM !== 'undefined') {
-        GM.xmlHttpRequest({
-          method: "POST",
-          url: reporturl,
-          data: params,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          onload: function(response) {
-            console.log("[MetaBot for Youtube] Report sent for user ID " + botid + ". Code " + response.status);
-            $(jNode).find("#sendlink").hide();
-            $(jNode).find("#sendlinkoff").show();
-          }
-        });
-      } else {
-        console.log("[MetaBot for Youtube] Unable to get supported cross-origin XMLHttpRequest function.");
-      }
-    }
-  } else {
-    alert("Необходимо войти в аккаунт Google.");
+function sendinfo() {
+  var answer = confirm('Будет запущен Telegram.' +
+    '\n\nПрисоединитесь к группе, отправьте ссылку на подозрительный' +
+    '\nкомментарий (можно скопировать из даты публикации) и обоснуйте подозрения.\n\nПерейти к группе?');
+  if (answer) {
+    window.open(reporturl);
   }
 }
 
