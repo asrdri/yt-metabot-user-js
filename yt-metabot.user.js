@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      200322
+// @version      200705
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -100,17 +100,16 @@ const imgdm = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3V
 const imgdma = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3VRAAABsFBMVEUAAAD+wQD+wgD/qgD+wQD/vwD+wQD+wgD+wgD+wQD+xwBatlz/vwD+wQBft1n+wQDxtwD1ugD9wADyuAD0uQD/zAD7vwD5vQDxtwDzuADyuQDztwDyuADytwDytwDytwDwuAD+wgD0tgCstyvzuAD1uwD+wgD+wgD+wgD+wAD+wQD+wQD+wgD+wQD+wgD//wD+wQD+wgD+wgD+wAD+wQD+wQD+xACtvC1Ztl3/wgD///97uEnyuAD+wQCBu1CWujp7xX32uwCOeiGrjBiykRabx2qc1J5nvWryugRat108RTn7vwH7vwD+wgD9wADxwAb4vQB/cCaSfCAoOD95tkmGt0CihhteWy+ReyDBmhIwPT1HTDb8wAB6t0n6vgD7wAT2zUn03ZP06cR4wXQ2QTv9wQD2zEf068/18OP03pj20mF5ulhyaCnutwX11nf18uv11nb6wQzbqwr10V318ef2yTvksQjCmxI/Rzj6wAn179310FimiRr8wAH3yDX9wQKV0ZdZWDFARzj0uQD5vQDnswdCSTi4lBVESjeKukCvjxe3lBV1aij0ugD4vQLEnBHgcTooAAAAOXRSTlMA6kwD+gTgbfiyF+gYmd5jh8b5/EkF/vL72FSAoLOM8CT3MVjANee+fin+ty75dgKWgvtB0akaVEpkodaYAAABOUlEQVR4XnXPVXMiURCG4SYES4C4u7uvfSO4S9zd3d3d1/5yOAWEGYq8N33xVFdXUyS9RqfOzM3LSK8kWSkGLcIF/lbXSCBJgVi9+UXKKKQlQ9q0UKyKbMgBeBRKwzcUiM+alc3EAJzsA8HLfwDsHsBj7xYKcoj0WuBPH3A88ATg2QE4XmEVCok0AMbGh//fjQDA6P3L79N+BIQSIh0AvE8sbm4x8dt8PpsfolCmIjUS9SCUU0UMesx8KKfTxPODQ1UkecbsZXGchQ0j1UZBnJySipfqwjAzOze/IJd6BkvLK6tr6xtyaWgEurd3dvdE8HKhJogHh0ciACcnyUXU3HJ2fhFEAqHWq+sbsEwWFsfdsuEOSVs7wsXfIVJ2dCYUVte3r4RUSd8VeJNKKn2m/PHTyMTlcjP49QE0u4VtSVu7kQAAAABJRU5ErkJggg==';
 const imgdmd = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAZCAMAAACM5megAAAAllBMVEUAAAB/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAx6H3iAAAAMXRSTlMABAgMFBgcICQoLDA8QERITFBUWGBkaGx4fICDj5OXo6evs7e7v8PH09ff4+fr8/f7vr5GKgAAAN1JREFUGBl9wY1agjAABdAbIoSCWiIJLn8yLKNN7vu/XBvQJ87JOegZLfJDaew3U7ilklcfAW5EiTb7JGtRGFtq8hV9BTsntH5orNH3VrNx9mB4kkYdo29xoUPlAwgCtIKaLgJAqkI0BJ0qABEFGme6xQBUCXhhOOUDuycI7jCRHCAlmSDnsEsGrDjgmL6MAYxOfGyGTiwquikPV0s6bdF3oIMao+9Z8d4Gt5KadxJYMt7xYclok7AJar+KRvVFrYTtSC1Ca07tHbZvkhU6KbUlbPOiyCfo+OuiWOHfHxHEYF/PvYVrAAAAAElFTkSuQmCC';
 const imgyto = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAACJVBMVEX///+qAADMMzP/MzPjKiXbJiPVIyPZJSPFGx/QIiLBGB7cKSXRIiLeKSnkKyfOICHcIiLRISLJHB7jKybCGB/QISHVKSDgKifMGRnhKyXMHR/CGR3ZJSPiLCbdKSXiKybFFyLCGR7WJCLdJyTDGB3JHSDhKiXIHB/ZJiPMHiHQIiLXIyPTIyLKHR/FGCDFGh/lMxnjKyXDGR3GGx/cJyTEGR7BGh7NICDUIiLOHiPcLiLiKyXgKSXhKyXPHyHXJSPNICDgKibgKSbJHB/XJCPnLiLfKSXfKSTfKSbDGR7EGR7KHB/CGR3CGB3CGB7BGB7BGB3BGR3////NHyHLHiDo4ODWJCPMHiD//v7p4eHaJyTZJiTYJiTOICHXJSPYJSPPICHeKSXQISHVJCPunZzFGh/UIyPqmpvnzMv89PTlxMTYUVL78vL08fHomZrzzM399/f+/Pzm09PXTk7QNDbfKiXGGx/pmprnj47XSUvktrbompryxMXVOTncKCXKHSDHHB/t5+f7+vrdKCXbJyTsnJvcOTfhgYDIHB/18fHqm5v05eXaMzHZVFTYTEvHGx/++vrZLy3spKThiYnTLi78+vrs19fqnJzYKynVNDXjrq7VPT7rm5vJHSDebm3XKCbRISLZWFrTIyLSIiLtrKzEGh7cZmXWJiXgKibvtLTWQ0Tlvr7bXVzfd3bwvL3sm5vjW1nTIiLDGh7hKybtnJviKybCGR58TkH5AAAAUnRSTlMAAwUFie17+rn8r7n8HzqvFu9b73vWH1sK54nnida5/BaYr1uJ7fqal+cWOu/6H5oKr/q5mls6H9Y6Fnzte3vnfJeYmOcW7Zqa7e2Y1u/8/O/WqnF1KAAAAb9JREFUeF6FzGOb61AYheGV1B3btu05tLHbsY1j27Zt2/h9k7SnyZt0p7m/ruda0BAi59VkxGVlxWXUtEUKMBJhTflLpFgjwNO6qPC3TuHiZQiStPwDR3sStCwr9hpYaQFRnTliKLOa/IWNhBCmftafDqk+0OUdM5EHn2jbGRO2aMiKexU/zvVyFUOS6OhTjG85cKWPw5EIIL1fNc7Y5fM3+4OlA8KCIdUfxtjde18fDOktFVA2SEih5OL0s+eDOmWwdxJnmc+pk7Pv3ndq2JE7Rsih/7Tn85cxKhfNk8R3qQmcdhy6SpZmlL8injDV1p6OR9eUpRyun4Qc0tNduwOLC+GviUuMmrl9R1nCEfOCoOGO+w/JEoOEUWJKyW7cOjpKJSBqmNjP/Ha+eTysFYX5A4Q/7P74aUBvIVo8hBx2fzvoCdYCoYSEhxk7stnDUSIAqV2qbdtfdnGlAmiq8Cr2ePkqmiBZctzUGshKC56aKCiFT+wFE7H4r+hESEUIEOuuh1AnQpHs3GfImQxCrJowUCVCq2HVW47VDQiSnVP7S6c2Jxs8lflp/4i0/EoYERrj3WvXrd+wcZM7vlEANQfRAClqAtKfNQAAAABJRU5ErkJggg==';
+const regexalt = /\{(.*?)\}/;
 const regexdate = /joinedDateText(.*?)ext":"(.*?)ext":"(.*?)"}/;
-const regexdatemob = /joined_date_text(.*?)"}, {"text": "(.*?)"}]/;
 const regexid = /"video_id":"(.*?)"/;
 const regexlinew = /"logged_in","value":"(.*?)"/;
 const regexliold = /"logged_in":"(.*?)"/;
 const regexun = /"user_display_name":"(.*?)"/;
 const regexlang = /"host_language":"(.*?)"/;
-const regexlangmob = /\\"host_language\\": \\"(.*?)\\"/;
 const regexannyto = /(.*)(\r\n|\n\r|\n)([\W\w]+)/;
-const ERKYurl = 'https://raw.githubusercontent.com/FeignedAccomplice/Un-Yt-Kb-Rg/master/Un-Yt-Kb-Rg.CSV';
-const annYTOurl = 'https://raw.githubusercontent.com/YTObserver/YT-ACC-DB/master/announcement.txt';
+const ERKYurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/KB.CSV';
+const annYTOurl = 'https://raw.githubusercontent.com/FeignedAccomplice/Un-Yt-Kb-Rg/master/announcements.TXT';
 const minDCTime = 36*61;
 const maxDCTime = 71*58;
 const alerturl = 'https://кремлеботы.рф/alert';
@@ -147,27 +146,6 @@ if (window.location.hostname == "dislikemeter.com" || window.location.hostname =
     });
     return;
   }
-} else if (window.location.pathname == '/live_chat_replay' || window.location.pathname == '/live_chat') {
-  var requestDB = new XMLHttpRequest();
-  requestDB.onreadystatechange = function() {
-    if (requestDB.readyState === 4) {
-      if (requestDB.status === 404) {
-        console.log("[MetaBot for Youtube - Chat] XMLHttpRequest done: ERKY-db not found.");
-      }
-      if (requestDB.status === 200) {
-        var responseDB = requestDB.responseText;
-        if (responseDB !== "") {
-          console.log("[MetaBot for Youtube - Chat] XMLHttpRequest done: ERKY-db loaded.");
-          arrayERKY = responseDB.match(/[^\r\n=]+/g);
-          waitForKeyElements('a.ytd-menu-navigation-item-renderer', parsechat);
-        } else {
-          console.log("[MetaBot for Youtube] XMLHttpRequest failed.");
-        }
-      }
-    }
-  };
-  requestDB.open("GET", ERKYurl, true);
-  requestDB.send(null);
 } else {
   if (document.querySelector("meta[http-equiv='origin-trial']")) {
     console.log("[MetaBot for Youtube] YouTube New design detected.");
@@ -263,44 +241,11 @@ function waitforlists() {
         waitForKeyElements('div#c4-primary-header-contents.primary-header-contents.clearfix', insertchan);
         break;
       case 3:
-        waitForKeyElements('div.brb', parseitemMob);
+        console.log("[MetaBot for Youtube] YouTube Mobile mode not supported.");
     }
     return;
   } else {
     setTimeout(waitforlists, 500);
-  }
-}
-
-function parsechat(jNode) {
-  if ($(jNode)[0].hasAttribute('href')) {
-    var deftxt = $(jNode).find('yt-formatted-string.ytd-menu-navigation-item-renderer')[0].innerHTML;
-    markchatmenu(jNode, deftxt);
-    var mutationObserver = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        markchatmenu(jNode, deftxt);
-      });
-    });
-    mutationObserver.observe($(jNode)[0], {
-      attributes: true,
-      attributeFilter: ['href'],
-      characterData: false,
-      childList: false,
-      subtree: false,
-      attributeOldValue: false,
-      characterDataOldValue: false
-    });
-  }
-}
-
-function markchatmenu(jNode, deftxt) {
-  var userID = $(jNode)[0].href.split('/').pop();
-  var foundID = arrayERKY.indexOf(userID);
-  if (foundID > -1) {
-    $(jNode).parent()[0].style.backgroundColor = 'rgba(255,50,50,0.3)';
-    $(jNode).find('yt-formatted-string.ytd-menu-navigation-item-renderer')[0].innerHTML = deftxt + '<br><img src="' + mred + '" /> ' + arrayERKY[foundID + 1];
-  } else {
-    $(jNode).parent()[0].style.backgroundColor = '';
-    $(jNode).find('yt-formatted-string.ytd-menu-navigation-item-renderer')[0].innerHTML = deftxt;
   }
 }
 
@@ -527,7 +472,7 @@ function insertann(jNode) {
   annspan.style = 'margin:-4px 0 0 0.5em;font-size:2.3em;height:2rem;cursor:pointer;color:#000';
   $(jNode).find('h2.comment-section-header-renderer').append(annspan);
   var ytoinfosspan = document.createElement('span');
-  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:520px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA">Наблюдатель Youtube #ЕРКЮ</span><br><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
+  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:520px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/playlists">Наблюдатель Youtube #ЕРКЮ</span><br><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
   ytoinfosspan.id = 'ytoinfo';
   ytoinfosspan.style = 'max-width:605px;margin:0 auto 1em auto;display:table';
   $(ytoinfosspan).toggle();
@@ -644,7 +589,7 @@ function insertannNew(jNode) {
   annspan.classList.add("ytd-video-secondary-info-renderer");
   $(jNode).find('div#title').append(annspan);
   var ytoinfosspan = document.createElement('span');
-  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:585px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA">Наблюдатель Youtube #ЕРКЮ</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
+  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:585px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/playlists">Наблюдатель Youtube #ЕРКЮ</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
   ytoinfosspan.id = 'ytoinfo';
   ytoinfosspan.classList.add("description");
   ytoinfosspan.classList.add("content");
@@ -892,7 +837,7 @@ function parseitem(jNode) {
       $(jNode).parent().parent().after(hidspan);
       $(jNode).parent().parent().hide();
     } else {
-      markred(pNode, arrayERKY[foundID + 1]);
+      markbot(pNode, arrayERKY[foundID + 1]);
     }
     $(comURL).after(t30span);
   } else {
@@ -945,32 +890,6 @@ function parseitem(jNode) {
   $(jNode).find("#top30")[0].addEventListener("click", function opent30() {
     window.open('https://www.t30p.ru/search.aspx?s=' + $(jNode).find("a")[0].href.split('/').pop());
   }, false);
-}
-
-function parseitemMob(jNode) {
-  var userID = $(jNode).find("a")[0].href.split('/').pop();
-  var foundID = arrayERKY.indexOf(userID);
-  if (foundID > -1) {
-    console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
-    markredMob(jNode, arrayERKY[foundID + 1]);
-  } else {
-    $(jNode)[0].addEventListener("touchstart", function () {
-      $(this).data('moved', '0');
-    }, false);
-    $(jNode)[0].addEventListener("touchmove", function () {
-      $(this).data('moved', '1');
-    }, false);
-    $(jNode)[0].addEventListener("touchend", function ttend() {
-      if ($(this).data('moved') == 0){
-        if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlangmob()) < 0) {
-          alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\n \u2714 Беларуская \u2714 Български\nВы можете сменить язык интерфейса в меню настроек YouTube.');
-          return;
-        }
-        this.removeEventListener("touchend", ttend);
-        checkdateMob(this);
-      }
-    }, false);
-  }
 }
 
 function parseitemNew(jNode) {
@@ -1029,7 +948,7 @@ function parseitemNew(jNode) {
       $(jNode).parent().parent().after(hidspan);
       $(jNode).parent().parent().hide();
     } else {
-      markredNew($(pNode).parent(), arrayERKY[foundID + 1]);
+      markbotNew($(pNode).parent(), arrayERKY[foundID + 1]);
     }
     $(comURL).append(t30span);
     $(newspan).attr('data-chan', $(jNode).find("a#author-text")[0].href);
@@ -1209,33 +1128,6 @@ function checkdate(jNode) {
   getpage(procdate, jNode, $(jNode).find("a")[0].href + '/about');
 }
 
-function checkdateMob(jNode) {
-  var channelURL = $(jNode).find("a")[0].href + '/about?ajax=1';
-  var request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
-    if (request.readyState === 4) {
-      if (request.status === 200) {
-        var response = request.responseText;
-        if (response !== "") {
-          console.log("[MetaBot for Youtube] XMLHttpRequest done.");
-          var matches = regexdatemob.exec(response);
-          var testday = Dparse(decodeURIComponent(JSON.parse('"' + matches[3] + '"')));
-          $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + minf + '" title="Дата регистрации:" /> ' + testday;
-          $(jNode).parent().find("div.zqb").css({
-            "background": "rgba(170,170,170,0.3)",
-            "border-left": "3px solid rgba(170,170,170,0.3)",
-            "padding-left": "3px"
-          });
-        } else {
-          console.log("[MetaBot for Youtube] XMLHttpRequest failed.");
-        }
-      }
-    }
-  };
-  request.open("GET", channelURL, true);
-  request.send(null);
-}
-
 function checkdateNew(jNode) {
   if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlang()) < 0) {
     alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\n \u2714 Беларуская \u2714 Български\nВы можете сменить язык интерфейса в меню настроек YouTube.');
@@ -1246,7 +1138,7 @@ function checkdateNew(jNode) {
   var foundID = arrayERKY.indexOf(userID);
   if (foundID > -1) {
     console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
-    markredNew(jNode, arrayERKY[foundID + 1]);
+    markbotNew(jNode, arrayERKY[foundID + 1]);
   } else {
     getpage(procdateNew, jNode, $(jNode).find("a")[0].href + '/about');
   }
@@ -1294,10 +1186,10 @@ function procdateNew(jNode, response, url) {
   aNode.hide();
 }
 
-function markred(jNode, day) {
+function markbot(jNode, txt) {
   var newspan = document.createElement('span');
   newspan.id = 'botmark';
-  newspan.innerHTML = ' <img src="' + mred + '" title="- пользователь найден в #ЕРКЮ, дата регистрации -" /> ' + day;
+  newspan.innerHTML = ' <img src="' + mred + '" title="- пользователь найден в #ЕРКЮ, дата регистрации -" /> ' + txt;
   $(jNode).find("a.comment-author-text").after(newspan);
   $(jNode).next().css({
     "background": "rgba(255,50,50,0.3)",
@@ -1309,38 +1201,40 @@ function markred(jNode, day) {
   }
 }
 
-function markredMob(jNode, day) {
-  $(jNode).parent().find("div.erb").find("a")[0].innerHTML = $(jNode).parent().find("div.erb").find("a")[0].innerHTML + ' <img src="' + mred + '" title="Пользователь найден в ЕРКЮ" /> ' + day;
-  $(jNode).parent().find("div.zqb").css({
-    "background": "rgba(255,50,50,0.3)",
-    "border-left": "3px solid rgba(255,50,50,0.3)",
-    "padding-left": "3px"
-  });
-}
-
-function markredNew(jNode, day) {
+function markbotNew(jNode, txt) {
   var aNode = $(jNode).find("#author-text")[0];
   var cNode = $(jNode).parent().find("#content-text")[0];
   var newspan = document.createElement('span');
   newspan.id = 'botmark';
-  newspan.innerHTML = '<img src="' + mred + '" title="- найден в #ЕРКЮ, дата регистрации -" /> ' + day;
+  newspan.innerHTML = '<img src="' + mred + '" title="- найден в #ЕРКЮ, дата регистрации -" /> ' + txt;
   $(aNode).append(newspan);
   var checkBadge = $(aNode).parent().find('span#author-comment-badge')[0];
   if ($(checkBadge).length > 0) {
     $(checkBadge).attr('hidden', '');
     $(aNode).removeAttr('hidden');
   }
-  $(cNode).parent().css({
-    "background": "rgba(255,50,50,0.3)",
-    "border-left": "3px solid rgba(255,50,50,0.3)",
-    "padding-left": "3px"
-  });
+  if (regexalt.exec(txt) === null) {
+    $(cNode).parent().css({
+      "background": "rgba(255,50,50,0.3)",
+      "border-left": "3px solid rgba(255,50,50,0.3)",
+      "padding-left": "3px"
+    });
+  } else {
+    $(cNode).parent().css({
+      "background": "rgba(255,0,150,0.3)",
+      "border-left": "3px solid rgba(255,0,150,0.3)",
+      "padding-left": "3px"
+    });
+    $(cNode).parent().parent().css({
+      "background": "repeating-linear-gradient(135deg, rgba(140,140,140,0.1), rgba(140,140,140,0.1) 10px, rgba(0,0,0,0) 10px, rgba(0,0,0,0) 20px)"
+    });
+  }
   if (GM_config.get('option2') === true) {
     requestDislike(jNode, true);
   }
 }
 
-function markcustom(jNode, day, list) {
+function markcustom(jNode, txt, list) {
   switch (list) {
     case 1:
       var listname = Aparse(arrayListC1[0]);
@@ -1360,7 +1254,7 @@ function markcustom(jNode, day, list) {
     $(jNode).find("#checkbtn")[0].remove();
     var newspan = document.createElement('span');
     newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + day;
+    newspan.innerHTML = marktxt + txt;
     $(jNode).find("a.comment-author-text").after(newspan);
     $(jNode).next().css({
       "background": "rgba(" + rgbCustom + ",.3)",
@@ -1370,7 +1264,7 @@ function markcustom(jNode, day, list) {
   }
 }
 
-function markcustomNew(jNode, day, list) {
+function markcustomNew(jNode, txt, list) {
   switch (list) {
     case 1:
       var listname = Aparse(arrayListC1[0]);
@@ -1393,7 +1287,7 @@ function markcustomNew(jNode, day, list) {
     $(jNode).find("#checkbtn")[0].remove();
     var newspan = document.createElement('span');
     newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + day;
+    newspan.innerHTML = marktxt + txt;
     $(aNode).append(newspan);
     if ($(checkBadge).length > 0) {
       $(checkBadge).attr('hidden', '');
@@ -1407,7 +1301,7 @@ function markcustomNew(jNode, day, list) {
   }
 }
 
-function markpersonal(jNode, day) {
+function markpersonal(jNode, txt) {
   $(jNode).find("#listpadd").html('\u274C');
   $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
   var botmark = $(jNode).parent().find("#botmark");
@@ -1421,7 +1315,7 @@ function markpersonal(jNode, day) {
   } else {
     var newspan = document.createElement('span');
     newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + day;
+    newspan.innerHTML = marktxt + txt;
     $(jNode).find("a.comment-author-text").after(newspan);
     $(jNode).next().css({
       "background": "linear-gradient(230deg, rgba(" + rgbCustom + ",.4) 20%, rgba(0,0,0,0) 30%)"
@@ -1434,7 +1328,7 @@ function markpersonal(jNode, day) {
   });
 }
 
-function markpersonalNew(jNode, day) {
+function markpersonalNew(jNode, txt) {
   $(jNode).find("#listpadd").html('\u274C');
   $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
   var aNode = $(jNode).find("#author-text")[0];
@@ -1451,7 +1345,7 @@ function markpersonalNew(jNode, day) {
   } else {
     var newspan = document.createElement('span');
     newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + day;
+    newspan.innerHTML = marktxt + txt;
     $(aNode).append(newspan);
     if ($(checkBadge).length > 0) {
       $(checkBadge).attr('hidden', '');
@@ -1487,7 +1381,7 @@ function requestDislike(jNode, isNew) {
 }
 
 function scheduledDislike(isNew) {
-  if ( bDBlur || document.querySelector('paper-dialog.ytd-popup-container:not([style*="display:none"]):not([style*="display: none"])') || document.querySelector('div.yt-dialog-fg-content.yt-dialog-show-content') ) {
+  if ( bDBlur || document.querySelector('paper-dialog.ytd-popup-container:not([style*="display:none"]):not([style*="display: none"])') || document.querySelector('label.option-selectable-item-renderer-radio-container') ) {
     setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime), isNew);
   } else {
     if (orderedClicksArray.length) {
@@ -1548,10 +1442,6 @@ function Aparse(text) {
 
 function currentlang() {
   return regexlang.exec(document.body.innerHTML)[1];
-}
-
-function currentlangmob() {
-  return document.documentElement.lang;
 }
 
 function getURLParameter(name, link) {
