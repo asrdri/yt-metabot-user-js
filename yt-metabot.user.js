@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      200705
+// @version      200820
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -106,7 +106,7 @@ const regexid = /"video_id":"(.*?)"/;
 const regexlinew = /"logged_in","value":"(.*?)"/;
 const regexliold = /"logged_in":"(.*?)"/;
 const regexun = /"user_display_name":"(.*?)"/;
-const regexlang = /"host_language":"(.*?)"/;
+const regexlang = /"hostLanguage":"(.*?)"/;
 const regexannyto = /(.*)(\r\n|\n\r|\n)([\W\w]+)/;
 const ERKYurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/KB.CSV';
 const annYTOurl = 'https://raw.githubusercontent.com/FeignedAccomplice/Un-Yt-Kb-Rg/master/announcements.TXT';
