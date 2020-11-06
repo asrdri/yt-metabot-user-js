@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      200820
+// @version      201106
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -70,6 +70,16 @@ GM_config.init( {
       'type': 'text',
       'default': ''
     },
+    'listc4': {
+      'label': 'Custom list URL 4',
+      'type': 'text',
+      'default': ''
+    },
+    'listc5': {
+      'label': 'Custom list URL 5',
+      'type': 'text',
+      'default': ''
+    },
     'colorp1': {
       'label': 'Personal color',
       'type': 'int',
@@ -89,6 +99,16 @@ GM_config.init( {
       'label': 'Custom color 3',
       'type': 'int',
       'default': '8421504'
+    },
+    'colorc4': {
+      'label': 'Custom color 4',
+      'type': 'int',
+      'default': '8453888'
+    },
+    'colorc5': {
+      'label': 'Custom color 5',
+      'type': 'int',
+      'default': '51328'
     }
   },
 });
@@ -102,19 +122,14 @@ const imgdmd = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAZCAMAAACM5m
 const imgyto = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAACJVBMVEX///+qAADMMzP/MzPjKiXbJiPVIyPZJSPFGx/QIiLBGB7cKSXRIiLeKSnkKyfOICHcIiLRISLJHB7jKybCGB/QISHVKSDgKifMGRnhKyXMHR/CGR3ZJSPiLCbdKSXiKybFFyLCGR7WJCLdJyTDGB3JHSDhKiXIHB/ZJiPMHiHQIiLXIyPTIyLKHR/FGCDFGh/lMxnjKyXDGR3GGx/cJyTEGR7BGh7NICDUIiLOHiPcLiLiKyXgKSXhKyXPHyHXJSPNICDgKibgKSbJHB/XJCPnLiLfKSXfKSTfKSbDGR7EGR7KHB/CGR3CGB3CGB7BGB7BGB3BGR3////NHyHLHiDo4ODWJCPMHiD//v7p4eHaJyTZJiTYJiTOICHXJSPYJSPPICHeKSXQISHVJCPunZzFGh/UIyPqmpvnzMv89PTlxMTYUVL78vL08fHomZrzzM399/f+/Pzm09PXTk7QNDbfKiXGGx/pmprnj47XSUvktrbompryxMXVOTncKCXKHSDHHB/t5+f7+vrdKCXbJyTsnJvcOTfhgYDIHB/18fHqm5v05eXaMzHZVFTYTEvHGx/++vrZLy3spKThiYnTLi78+vrs19fqnJzYKynVNDXjrq7VPT7rm5vJHSDebm3XKCbRISLZWFrTIyLSIiLtrKzEGh7cZmXWJiXgKibvtLTWQ0Tlvr7bXVzfd3bwvL3sm5vjW1nTIiLDGh7hKybtnJviKybCGR58TkH5AAAAUnRSTlMAAwUFie17+rn8r7n8HzqvFu9b73vWH1sK54nnida5/BaYr1uJ7fqal+cWOu/6H5oKr/q5mls6H9Y6Fnzte3vnfJeYmOcW7Zqa7e2Y1u/8/O/WqnF1KAAAAb9JREFUeF6FzGOb61AYheGV1B3btu05tLHbsY1j27Zt2/h9k7SnyZt0p7m/ruda0BAi59VkxGVlxWXUtEUKMBJhTflLpFgjwNO6qPC3TuHiZQiStPwDR3sStCwr9hpYaQFRnTliKLOa/IWNhBCmftafDqk+0OUdM5EHn2jbGRO2aMiKexU/zvVyFUOS6OhTjG85cKWPw5EIIL1fNc7Y5fM3+4OlA8KCIdUfxtjde18fDOktFVA2SEih5OL0s+eDOmWwdxJnmc+pk7Pv3ndq2JE7Rsih/7Tn85cxKhfNk8R3qQmcdhy6SpZmlL8injDV1p6OR9eUpRyun4Qc0tNduwOLC+GviUuMmrl9R1nCEfOCoOGO+w/JEoOEUWJKyW7cOjpKJSBqmNjP/Ha+eTysFYX5A4Q/7P74aUBvIVo8hBx2fzvoCdYCoYSEhxk7stnDUSIAqV2qbdtfdnGlAmiq8Cr2ePkqmiBZctzUGshKC56aKCiFT+wFE7H4r+hESEUIEOuuh1AnQpHs3GfImQxCrJowUCVCq2HVW47VDQiSnVP7S6c2Jxs8lflp/4i0/EoYERrj3WvXrd+wcZM7vlEANQfRAClqAtKfNQAAAABJRU5ErkJggg==';
 const regexalt = /\{(.*?)\}/;
 const regexdate = /joinedDateText(.*?)ext":"(.*?)ext":"(.*?)"}/;
-const regexid = /"video_id":"(.*?)"/;
-const regexlinew = /"logged_in","value":"(.*?)"/;
-const regexliold = /"logged_in":"(.*?)"/;
-const regexun = /"user_display_name":"(.*?)"/;
-const regexlang = /"hostLanguage":"(.*?)"/;
+const regexlangnew = /"hostLanguage":"(.*?)"/;
+const regexlangold = /"host_language":"(.*?)"/;
 const regexannyto = /(.*)(\r\n|\n\r|\n)([\W\w]+)/;
 const ERKYurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/KB.CSV';
-const annYTOurl = 'https://raw.githubusercontent.com/FeignedAccomplice/Un-Yt-Kb-Rg/master/announcements.TXT';
+const annYTOurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/announcements.TXT';
 const minDCTime = 36*61;
 const maxDCTime = 71*58;
-const alerturl = 'https://кремлеботы.рф/alert';
 const reporturl = 'tg://resolve?domain=observers_chat';
-var alertSent = false;
 var annYTOtxt = [];
 var arrayERKY = [];
 var arrayListP1 = [];
@@ -129,34 +144,43 @@ var listqueue = 0;
 var descc1 = '';
 var descc2 = '';
 var descc3 = '';
-var iconsdef = ["\uD83D\uDCCC", "\uD83D\uDD32", "\uD83D\uDD34", "\uD83D\uDD3B"];
+var descc4 = '';
+var descc5 = '';
+var iconsdef = ["\uD83D\uDCCC", "\uD83D\uDD32", "\uD83D\uDD34", "\uD83D\uDD3B", "\uD83D\uDD3A", "\uD83D\uDD37"];
 const iconstyledef = 'font-family: Segoe UI Symbol; line-height: 1em;';
 const iconp1 = '<span style="' + iconstyledef + '">' + iconsdef[0] + '</span> ';
 const iconc1 = '<span style="' + iconstyledef + '">' + iconsdef[1] + '</span> ';
 const iconc2 = '<span style="' + iconstyledef + '">' + iconsdef[2] + '</span> ';
 const iconc3 = '<span style="' + iconstyledef + '">' + iconsdef[3] + '</span> ';
+const iconc4 = '<span style="' + iconstyledef + '">' + iconsdef[4] + '</span> ';
+const iconc5 = '<span style="' + iconstyledef + '">' + iconsdef[5] + '</span> ';
 var txtlistpadd = '\u2003<span id="listpadd" style="cursor: pointer; ' + iconstyledef + '" title="Добавить в закладки">' + iconsdef[0] + '</span>';
 
+console.log("[MetaBot for Youtube] Starting at URL: " + window.location);
 if (window.location.hostname == "dislikemeter.com" || window.location.hostname == "www.dislikemeter.com") {
   var videoid = getURLParameter('v', location.search);
   if (videoid) {
     waitForKeyElements('input#form_vid', function dmIDins(jNode) {
-      var pNode = jNode[0];
+      var pNode = $(jNode)[0];
       pNode.value = videoid;
     });
     return;
   }
+} else if (window.location.pathname == '/live_chat_replay' || window.location.pathname == '/live_chat') {
+  console.log("[MetaBot for Youtube] Live Chat page detected. Skipping.");
 } else {
-  if (document.querySelector("meta[http-equiv='origin-trial']")) {
+  if (document.head.innerHTML.indexOf('window.ShadyDOM') >= 0) {
     console.log("[MetaBot for Youtube] YouTube New design detected.");
     ytmode = 1;
-  } else if (document.querySelector("meta[http-equiv='Content-Type']")) {
+  } else if (document.head.innerHTML.indexOf('name="viewport"') >= 0) {
     console.log("[MetaBot for Youtube] YouTube Mobile mode detected.");
     ytmode = 3;
-  } else {
+  } else if (document.head.innerHTML.indexOf('ytcfg.set("LACT"') >= 0) {
     console.log("[MetaBot for Youtube] YouTube Classic design detected.");
     ytmode = 2;
     txtlistpadd = '\u2003<span id="listpadd" style="cursor: pointer; color: #767676;' + iconstyledef + '" title="Добавить в закладки">' + iconsdef[0] + '</span>';
+  } else {
+    console.log("[MetaBot for Youtube] Unable to detect YouTube design. Stopping.");
   }
   if (ytmode !== 3) {
     listqueue++;
@@ -177,6 +201,14 @@ if (window.location.hostname == "dislikemeter.com" || window.location.hostname =
     if (GM_config.get('listc3') !== '') {
       listqueue++;
       getlist(filllist, 3, GM_config.get('listc3'));
+    }
+    if (GM_config.get('listc4') !== '') {
+      listqueue++;
+      getlist(filllist, 4, GM_config.get('listc4'));
+    }
+    if (GM_config.get('listc5') !== '') {
+      listqueue++;
+      getlist(filllist, 5, GM_config.get('listc5'));
     }
   }
   waitforlists();
@@ -216,6 +248,16 @@ function filllist(numArr, response, code, url) {
         arrayListC3 = response.match(/[^\r\n=]+/g);
         var dbname = "Custom list #3";
         descc3 = '[' + (arrayListC3.length / 2 - 1) + '] ' + Aparse(arrayListC3[0]) + ': ' + Aparse(arrayListC3[1]) + '<br>\u2003';
+        break;
+      case 4:
+        arrayListC4 = response.match(/[^\r\n=]+/g);
+        var dbname = "Custom list #4";
+        descc4 = '[' + (arrayListC4.length / 2 - 1) + '] ' + Aparse(arrayListC4[0]) + ': ' + Aparse(arrayListC4[1]) + '<br>\u2003';
+        break;
+      case 5:
+        arrayListC5 = response.match(/[^\r\n=]+/g);
+        var dbname = "Custom list #5";
+        descc5 = '[' + (arrayListC5.length / 2 - 1) + '] ' + Aparse(arrayListC5[0]) + ': ' + Aparse(arrayListC5[1]) + '<br>\u2003';
     }
     if (code === 200) {
       console.log("[MetaBot for Youtube] " + dbname + " loaded. Code " + code);
@@ -479,7 +521,7 @@ function insertann(jNode) {
   $(jNode).find('h2.comment-section-header-renderer').after(ytoinfosspan);
   $(jNode).find("span#ytoinfo").toggle();
   var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:460px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Информация о наличии ботов под роликом будет отправлена на кремлеботы.рф"><input type="checkbox" id="mbcbox4">Уведомлять сервер при обнаружении ботов</label><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 440px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom1" style="height: 1rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom2" style="height: 1rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom3" style="height: 1rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить новый дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6);display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();">\uD83D\uDD03обновить страницу</span>.</span></span>';
+  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:460px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 440px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom1" style="height: 1rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom2" style="height: 1rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom3" style="height: 1rem; width: 40px"><br>' + iconc4 + descc4 + '<input type="text" id="listcustom4" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom4" style="height: 1rem; width: 40px"><br>' + iconc5 + descc5 + '<input type="text" id="listcustom5" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom5" style="height: 1rem; width: 40px"></span><br style="line-height:2em">Классический дизайн YouTube:' + Aparse("\u2003[Chrome](https://chrome.google.com/webstore/detail/good-old-youtube/klkejolkjcefmocpgpjiefbpmgofahmh)\u2003[Firefox](https://addons.mozilla.org/firefox/addon/good-old-youtube/)") + '<br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6);display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();">\uD83D\uDD03обновить страницу</span>.</span></span>';
   settingsspan.id = 'config';
   settingsspan.style = 'max-width:605px;margin:0 auto 1em auto;display:table';
   $(settingsspan).toggle();
@@ -506,7 +548,7 @@ function insertann(jNode) {
   }, function() {
     this.style.backgroundColor = '';
   });
-  $(jNode).find("span#classicbtn, span#resetbtn").hover(function() {
+  $(jNode).find("span#resetbtn").hover(function() {
     this.style.textDecoration = "underline";
   }, function() {
     this.style.textDecoration = "";
@@ -521,10 +563,6 @@ function insertann(jNode) {
   $(jNode).find("span#urlgithub, span#urlissues, span#urllists, span#urlyto").click(function() {
     window.open($(this).attr('data-url'));
   });
-  $(jNode).find("span#classicbtn").click(function() {
-    ytNewDesign();
-    saveconfig(jNode);
-  });
   $(jNode).find("span#resetbtn").click(function() {
     resetconfig(jNode);
     saveconfig(jNode);
@@ -532,22 +570,25 @@ function insertann(jNode) {
   $(jNode).find("select#mbcddm1").val(GM_config.get('option1'));
   $(jNode).find("input#mbcbox1").prop('checked', GM_config.get('option2'));
   $(jNode).find("input#mbcbox3").prop('checked', GM_config.get('option4'));
-  $(jNode).find("input#mbcbox4").prop('checked', GM_config.get('option5'));
   $(jNode).find("textarea#listpersonal").text(GM_config.get('listp1'));
   $(jNode).find("input#listcustom1").val(GM_config.get('listc1'));
   $(jNode).find("input#listcustom2").val(GM_config.get('listc2'));
   $(jNode).find("input#listcustom3").val(GM_config.get('listc3'));
+  $(jNode).find("input#listcustom4").val(GM_config.get('listc4'));
+  $(jNode).find("input#listcustom5").val(GM_config.get('listc5'));
   $(jNode).find("input#colorpersonal").val(parseColor(GM_config.get('colorp1'), false));
   $(jNode).find("input#colorcustom1").val(parseColor(GM_config.get('colorc1'), false));
   $(jNode).find("input#colorcustom2").val(parseColor(GM_config.get('colorc2'), false));
   $(jNode).find("input#colorcustom3").val(parseColor(GM_config.get('colorc3'), false));
+  $(jNode).find("input#colorcustom4").val(parseColor(GM_config.get('colorc4'), false));
+  $(jNode).find("input#colorcustom5").val(parseColor(GM_config.get('colorc5'), false));
   if ($(jNode).find("select#mbcddm1").val() == 2) {
     $(jNode).find("span#mbcswg1").hide();
   }
   if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
     $(jNode).find("span#mbcswg2").hide();
   }
-  $(jNode).find("input#mbcbox1, input#mbcbox3, input#mbcbox4, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
+  $(jNode).find("input#mbcbox1, input#mbcbox3, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#listcustom4, input#listcustom5, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3, input#colorcustom4, input#colorcustom5").change(function() {
     if ($(jNode).find("select#mbcddm1").val() == 2) {
       $(jNode).find("span#mbcswg1").hide();
     } else {
@@ -564,7 +605,7 @@ function insertann(jNode) {
 
 function insertannNew(jNode) {
   waitForKeyElements('div#icon-label.yt-dropdown-menu', function(jNode) {
-    jNode[0].innerHTML = '';
+    $(jNode)[0].innerHTML = '';
     $(jNode).parent()[0].setAttribute("style","margin-top:-0.1em;height:1.9em;width:2.9em");
     $(jNode).parent().hover(function() {
       this.style.backgroundColor = 'hsl(206.1, 79.3%, 52.7%)';
@@ -589,7 +630,7 @@ function insertannNew(jNode) {
   annspan.classList.add("ytd-video-secondary-info-renderer");
   $(jNode).find('div#title').append(annspan);
   var ytoinfosspan = document.createElement('span');
-  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:585px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/playlists">Наблюдатель Youtube #ЕРКЮ</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
+  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:585px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA">Наблюдатель Youtube #ЕРКЮ</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
   ytoinfosspan.id = 'ytoinfo';
   ytoinfosspan.classList.add("description");
   ytoinfosspan.classList.add("content");
@@ -597,7 +638,7 @@ function insertannNew(jNode) {
   ytoinfosspan.style = 'font-size:1.4rem;max-width:640px;margin:-10px auto 1em auto;display:none';
   $(jNode).find('div#title').after(ytoinfosspan);
   var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Информация о наличии ботов под роликом будет отправлена на кремлеботы.рф"><input type="checkbox" id="mbcbox4">Уведомлять сервер при обнаружении ботов</label><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em"><span id="classicbtn" style="cursor:pointer">Включить классический дизайн YouTube</span><br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
+  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"><br>' + iconc4 + descc4 + '<input type="text" id="listcustom4" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom4" style="height: 1.8rem; width: 40px"><br>' + iconc5 + descc5 + '<input type="text" id="listcustom5" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom5" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em">Классический дизайн YouTube:' + Aparse("\u2003[Chrome](https://chrome.google.com/webstore/detail/good-old-youtube/klkejolkjcefmocpgpjiefbpmgofahmh)\u2003[Firefox](https://addons.mozilla.org/firefox/addon/good-old-youtube/)") + '<br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
   settingsspan.id = 'config';
   settingsspan.classList.add("description");
   settingsspan.classList.add("content");
@@ -627,7 +668,7 @@ function insertannNew(jNode) {
   }, function() {
     this.style.backgroundColor = '';
   });
-  $(jNode).find("span#classicbtn, span#resetbtn").hover(function() {
+  $(jNode).find("span#resetbtn").hover(function() {
     this.style.textDecoration = "underline";
   }, function() {
     this.style.textDecoration = "";
@@ -642,10 +683,6 @@ function insertannNew(jNode) {
   $(jNode).find("span#urlgithub, span#urlissues, span#urllists, span#urlyto").click(function() {
     window.open($(this).attr('data-url'));
   });
-  $(jNode).find("span#classicbtn").click(function() {
-    ytOldDesign();
-    saveconfigNew(jNode);
-  });
   $(jNode).find("span#resetbtn").click(function() {
     resetconfigNew(jNode);
     saveconfigNew(jNode);
@@ -654,22 +691,25 @@ function insertannNew(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', GM_config.get('option2'));
   $(jNode).find("input#mbcbox2").prop('checked', GM_config.get('option3'));
   $(jNode).find("input#mbcbox3").prop('checked', GM_config.get('option4'));
-  $(jNode).find("input#mbcbox4").prop('checked', GM_config.get('option5'));
   $(jNode).find("textarea#listpersonal").text(GM_config.get('listp1'));
   $(jNode).find("input#listcustom1").val(GM_config.get('listc1'));
   $(jNode).find("input#listcustom2").val(GM_config.get('listc2'));
   $(jNode).find("input#listcustom3").val(GM_config.get('listc3'));
+  $(jNode).find("input#listcustom4").val(GM_config.get('listc4'));
+  $(jNode).find("input#listcustom5").val(GM_config.get('listc5'));
   $(jNode).find("input#colorpersonal").val(parseColor(GM_config.get('colorp1'), false));
   $(jNode).find("input#colorcustom1").val(parseColor(GM_config.get('colorc1'), false));
   $(jNode).find("input#colorcustom2").val(parseColor(GM_config.get('colorc2'), false));
   $(jNode).find("input#colorcustom3").val(parseColor(GM_config.get('colorc3'), false));
+  $(jNode).find("input#colorcustom4").val(parseColor(GM_config.get('colorc4'), false));
+  $(jNode).find("input#colorcustom5").val(parseColor(GM_config.get('colorc5'), false));
   if ($(jNode).find("select#mbcddm1").val() == 2) {
     $(jNode).find("span#mbcswg1").hide();
   }
   if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
     $(jNode).find("span#mbcswg2").hide();
   }
-  $(jNode).find("input#mbcbox1, input#mbcbox2, input#mbcbox3, input#mbcbox4, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3").change(function() {
+  $(jNode).find("input#mbcbox1, input#mbcbox2, input#mbcbox3, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#listcustom4, input#listcustom5, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3, input#colorcustom4, input#colorcustom5").change(function() {
     if ($(jNode).find("select#mbcddm1").val() == 2) {
       $(jNode).find("span#mbcswg1").hide();
     } else {
@@ -688,15 +728,18 @@ function saveconfig(jNode) {
   GM_config.set('option1', $(jNode).find("select#mbcddm1").val());
   GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
   GM_config.set('option4', $(jNode).find("input#mbcbox3").is(":checked"));
-  GM_config.set('option5', $(jNode).find("input#mbcbox4").is(":checked"));
   GM_config.set('listp1', $(jNode).find("textarea#listpersonal").val());
   GM_config.set('listc1', $(jNode).find("input#listcustom1").val());
   GM_config.set('listc2', $(jNode).find("input#listcustom2").val());
   GM_config.set('listc3', $(jNode).find("input#listcustom3").val());
+  GM_config.set('listc4', $(jNode).find("input#listcustom4").val());
+  GM_config.set('listc5', $(jNode).find("input#listcustom5").val());
   GM_config.set('colorp1', parseColor($(jNode).find("input#colorpersonal").val(), true));
   GM_config.set('colorc1', parseColor($(jNode).find("input#colorcustom1").val(), true));
   GM_config.set('colorc2', parseColor($(jNode).find("input#colorcustom2").val(), true));
   GM_config.set('colorc3', parseColor($(jNode).find("input#colorcustom3").val(), true));
+  GM_config.set('colorc4', parseColor($(jNode).find("input#colorcustom4").val(), true));
+  GM_config.set('colorc5', parseColor($(jNode).find("input#colorcustom5").val(), true));
   arrayListP1 = GM_config.get('listp1').match(/[^\r\n=]+/g);
   GM_config.save();
   $(jNode).find("span#configsaved").show();
@@ -709,15 +752,18 @@ function saveconfigNew(jNode) {
   GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
   GM_config.set('option3', $(jNode).find("input#mbcbox2").is(":checked"));
   GM_config.set('option4', $(jNode).find("input#mbcbox3").is(":checked"));
-  GM_config.set('option5', $(jNode).find("input#mbcbox4").is(":checked"));
   GM_config.set('listp1', $(jNode).find("textarea#listpersonal").val());
   GM_config.set('listc1', $(jNode).find("input#listcustom1").val());
   GM_config.set('listc2', $(jNode).find("input#listcustom2").val());
   GM_config.set('listc3', $(jNode).find("input#listcustom3").val());
+  GM_config.set('listc4', $(jNode).find("input#listcustom4").val());
+  GM_config.set('listc5', $(jNode).find("input#listcustom5").val());
   GM_config.set('colorp1', parseColor($(jNode).find("input#colorpersonal").val(), true));
   GM_config.set('colorc1', parseColor($(jNode).find("input#colorcustom1").val(), true));
   GM_config.set('colorc2', parseColor($(jNode).find("input#colorcustom2").val(), true));
   GM_config.set('colorc3', parseColor($(jNode).find("input#colorcustom3").val(), true));
+  GM_config.set('colorc4', parseColor($(jNode).find("input#colorcustom4").val(), true));
+  GM_config.set('colorc5', parseColor($(jNode).find("input#colorcustom5").val(), true));
   arrayListP1 = GM_config.get('listp1').match(/[^\r\n=]+/g);
   GM_config.save();
   $(jNode).find("span#configsaved").show();
@@ -732,14 +778,17 @@ function resetconfig(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', false);
   $(jNode).find("input#mbcbox2").prop('checked', true);
   $(jNode).find("input#mbcbox3").prop('checked', true);
-  $(jNode).find("input#mbcbox4").prop('checked', false);
   $(jNode).find("input#listcustom1").val('https://github.com/asrdri/yt-metabot-user-js/raw/master/list-sample.txt');
   $(jNode).find("input#listcustom2").val('');
   $(jNode).find("input#listcustom3").val('');
+  $(jNode).find("input#listcustom4").val('');
+  $(jNode).find("input#listcustom5").val('');
   $(jNode).find("input#colorpersonal").val(parseColor(33023, false));
   $(jNode).find("input#colorcustom1").val(parseColor(8388863, false));
   $(jNode).find("input#colorcustom2").val(parseColor(16744448, false));
   $(jNode).find("input#colorcustom3").val(parseColor(8421504, false));
+  $(jNode).find("input#colorcustom4").val(parseColor(8453888, false));
+  $(jNode).find("input#colorcustom5").val(parseColor(51328, false));
 }
 
 function resetconfigNew(jNode) {
@@ -749,36 +798,17 @@ function resetconfigNew(jNode) {
   $(jNode).find("input#mbcbox1").prop('checked', false);
   $(jNode).find("input#mbcbox2").prop('checked', true);
   $(jNode).find("input#mbcbox3").prop('checked', true);
-  $(jNode).find("input#mbcbox4").prop('checked', false);
   $(jNode).find("input#listcustom1").val('https://github.com/asrdri/yt-metabot-user-js/raw/master/list-sample.txt');
   $(jNode).find("input#listcustom2").val('');
   $(jNode).find("input#listcustom3").val('');
+  $(jNode).find("input#listcustom4").val('');
+  $(jNode).find("input#listcustom5").val('');
   $(jNode).find("input#colorpersonal").val(parseColor(33023, false));
   $(jNode).find("input#colorcustom1").val(parseColor(8388863, false));
   $(jNode).find("input#colorcustom2").val(parseColor(16744448, false));
   $(jNode).find("input#colorcustom3").val(parseColor(8421504, false));
-}
-
-function sendAlert(jNode) {
-  if (alertSent || GM_config.get('option5') === false)
-    return;
-  if (ytmode === 1) {
-    var commentURL = $(jNode).find('.published-time-text a').prop('href');
-  } else {
-    var commentURL = $(jNode).find('.comment-renderer-time a').prop('href');
-  }
-  var commendid = getURLParameter('lc', commentURL);
-  var videoid = getURLParameter('v', commentURL);
-  var data = $.param({v: videoid, lc: commendid});
-  var request = new XMLHttpRequest();
-  request.open("POST", alerturl, true);
-  request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  request.send(data);
-  alertSent = true;
-  this.addEventListener('yt-navigate-start', function clearAlertSentFlag() {
-    this.removeEventListener('yt-navigate-start', clearAlertSentFlag);
-    alertSent = false;
-  });
+  $(jNode).find("input#colorcustom4").val(parseColor(8453888, false));
+  $(jNode).find("input#colorcustom5").val(parseColor(51328, false));
 }
 
 function parseitem(jNode) {
@@ -793,13 +823,15 @@ function parseitem(jNode) {
   }, function blockHide() {
     $(pNode).find("#t30sp").hide();
   });
-  pNode = jNode[0];
+  pNode = $(jNode)[0];
   var userID = $(jNode).find("a")[0].href.split('/').pop();
   var foundID = arrayERKY.indexOf(userID);
   var foundIDp1 = -1;
   var foundIDc1 = -1;
   var foundIDc2 = -1;
   var foundIDc3 = -1;
+  var foundIDc4 = -1;
+  var foundIDc5 = -1;
   if (GM_config.get('option4') === true) {
     if (arrayListP1 !== null) {
       foundIDp1 = arrayListP1.indexOf(userID);
@@ -813,6 +845,12 @@ function parseitem(jNode) {
     if (typeof arrayListC3 !== 'undefined' && arrayListC3.length > 1) {
       foundIDc3 = arrayListC3.indexOf(userID);
     }
+    if (typeof arrayListC4 !== 'undefined' && arrayListC4.length > 1) {
+      foundIDc4 = arrayListC4.indexOf(userID);
+    }
+    if (typeof arrayListC5 !== 'undefined' && arrayListC5.length > 1) {
+      foundIDc5 = arrayListC5.indexOf(userID);
+    }
   }
   var comURL = $(jNode).find("span.comment-renderer-time")[0];
   if ($(jNode).find("span.comment-renderer-linked-comment").length > 0) {
@@ -823,13 +861,14 @@ function parseitem(jNode) {
   t30span.id = 't30sp';
   t30span.style = "display:none";
   if (foundID > -1) {
-    sendAlert(jNode);
     console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
     if (GM_config.get('option1') == 2) {
       foundIDp1 = -1;
       foundIDc1 = -1;
       foundIDc2 = -1;
       foundIDc3 = -1;
+      foundIDc4 = -1;
+      foundIDc5 = -1;
       var hidspan = document.createElement('span');
       hidspan.innerHTML = 'Комментарий скрыт: пользователь найден в ЕРКЮ';
       hidspan.classList.add('yt-badge');
@@ -863,6 +902,12 @@ function parseitem(jNode) {
     }
     if (foundIDc3 > -1) {
       markcustom(pNode, arrayListC3[foundIDc3 + 1], 3);
+    }
+    if (foundIDc4 > -1) {
+      markcustom(pNode, arrayListC4[foundIDc4 + 1], 4);
+    }
+    if (foundIDc5 > -1) {
+      markcustom(pNode, arrayListC5[foundIDc5 + 1], 5);
     }
     if (foundIDp1 > -1) {
       if ($(jNode).find("#checkbtn").length > 0) {
@@ -910,6 +955,8 @@ function parseitemNew(jNode) {
   var foundIDc1 = -1;
   var foundIDc2 = -1;
   var foundIDc3 = -1;
+  var foundIDc4 = -1;
+  var foundIDc5 = -1;
   if (GM_config.get('option4') === true) {
     if (arrayListP1 !== null) {
       foundIDp1 = arrayListP1.indexOf(userID);
@@ -923,6 +970,12 @@ function parseitemNew(jNode) {
     if (typeof arrayListC3 !== 'undefined' && arrayListC3.length > 1) {
       foundIDc3 = arrayListC3.indexOf(userID);
     }
+    if (typeof arrayListC4 !== 'undefined' && arrayListC4.length > 1) {
+      foundIDc4 = arrayListC4.indexOf(userID);
+    }
+    if (typeof arrayListC5 !== 'undefined' && arrayListC5.length > 1) {
+      foundIDc5 = arrayListC5.indexOf(userID);
+    }
   }
   var comURL = $(jNode).find(".published-time-text")[0];
   var t30span = document.createElement('span');
@@ -932,13 +985,14 @@ function parseitemNew(jNode) {
   var newspan = document.createElement('span');
   newspan.id = 'checksp';
   if (foundID > -1) {
-    sendAlert(jNode);
     console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
     if (GM_config.get('option1') == 2) {
       foundIDp1 = -1;
       foundIDc1 = -1;
       foundIDc2 = -1;
       foundIDc3 = -1;
+      foundIDc4 = -1;
+      foundIDc5 = -1;
       var hidspan = document.createElement('span');
       hidspan.innerHTML = 'Комментарий скрыт: пользователь найден в ЕРКЮ';
       hidspan.classList.add('badge');
@@ -975,6 +1029,12 @@ function parseitemNew(jNode) {
     }
     if (foundIDc3 > -1) {
       markcustomNew($(pNode).parent(), arrayListC3[foundIDc3 + 1], 3);
+    }
+    if (foundIDc4 > -1) {
+      markcustomNew($(pNode).parent(), arrayListC4[foundIDc4 + 1], 4);
+    }
+    if (foundIDc5 > -1) {
+      markcustomNew($(pNode).parent(), arrayListC5[foundIDc5 + 1], 5);
     }
     if (foundIDp1 > -1) {
       if ($(jNode).find("#checkbtn").length > 0) {
@@ -1129,7 +1189,7 @@ function checkdate(jNode) {
 }
 
 function checkdateNew(jNode) {
-  if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlang()) < 0) {
+  if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlangNew()) < 0) {
     alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\n \u2714 Беларуская \u2714 Български\nВы можете сменить язык интерфейса в меню настроек YouTube.');
     return;
   }
@@ -1191,11 +1251,19 @@ function markbot(jNode, txt) {
   newspan.id = 'botmark';
   newspan.innerHTML = ' <img src="' + mred + '" title="- пользователь найден в #ЕРКЮ, дата регистрации -" /> ' + txt;
   $(jNode).find("a.comment-author-text").after(newspan);
-  $(jNode).next().css({
-    "background": "rgba(255,50,50,0.3)",
-    "border-left": "3px solid rgba(255,50,50,0.3)",
-    "padding-left": "3px"
-  });
+  if (regexalt.exec(txt) === null) {
+    $(jNode).next().css({
+      "background": "rgba(255,50,50,0.3)",
+      "border-left": "3px solid rgba(255,50,50,0.3)",
+      "padding-left": "3px"
+    });
+  } else {
+    $(jNode).next().css({
+      "background": "rgba(255,0,150,0.3)",
+      "border-left": "3px solid rgba(255,0,150,0.3)",
+      "padding-left": "3px"
+    });
+  }
   if (GM_config.get('option2') === true) {
     requestDislike(jNode, false);
   }
@@ -1244,6 +1312,12 @@ function markcustom(jNode, txt, list) {
       break
     case 3:
       var listname = Aparse(arrayListC3[0]);
+      break
+    case 4:
+      var listname = Aparse(arrayListC4[0]);
+      break
+    case 5:
+      var listname = Aparse(arrayListC5[0]);
   }
   var botmark = $(jNode).find("#botmark");
   var rgbCustom = gmColor('colorc' + list, 1) + "," + gmColor('colorc' + list, 2) + "," + gmColor('colorc' + list, 3);
@@ -1274,6 +1348,12 @@ function markcustomNew(jNode, txt, list) {
       break
     case 3:
       var listname = Aparse(arrayListC3[0]);
+      break
+    case 4:
+      var listname = Aparse(arrayListC4[0]);
+      break
+    case 5:
+      var listname = Aparse(arrayListC5[0]);
   }
   var aNode = $(jNode).find("#author-text")[0];
   var cNode = $(jNode).parent().find("#content-text")[0];
@@ -1416,7 +1496,12 @@ function Dparse(day) {
   day = day.replace(/ нояб\. | ноября | лист\. |\.11\./i, ' Nov, ');
   day = day.replace(/ дек\. | декабря | груд\. |\.12\./i, ' Dec, ');
   day = day.replace(/ г\.| р\./i, '');
-  return day;
+  return Dymd(day);
+}
+
+function Dymd(day) {
+  var ymd = new Date(day);
+  return new Date(ymd.getTime() - (ymd.getTimezoneOffset()*60000)).toISOString().split("T")[0];
 }
 
 function Aparse(text) {
@@ -1441,41 +1526,15 @@ function Aparse(text) {
 }
 
 function currentlang() {
-  return regexlang.exec(document.body.innerHTML)[1];
+  return regexlangold.exec(document.body.innerHTML)[1];
+}
+
+function currentlangNew() {
+  return regexlangnew.exec(document.body.innerHTML)[1];
 }
 
 function getURLParameter(name, link) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=([^&;]+?)(&|#|;|$)').exec(link) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
-function ytOldDesign() {
-  var getDesignCookie = function (cookie) {
-    var prefs = cookie.split("; ").filter(function (v) {
-      return v.indexOf("PREF=") === 0;
-    })[0];
-    if (!prefs) {
-      return "PREF=f6=8";
-    }
-    var entries = prefs.substr(5).split('&');
-    var set = false;
-    for (var i = 0; i < entries.length; i++) {
-      if (entries[i].indexOf("f6=") === 0) {
-        set = true;
-        entries[i] = "f6=8";
-      }
-    }
-    if (!set) {
-      entries.push("f6=8");
-    }
-    return "PREF=" + entries.join('&');
-  };
-  document.cookie = getDesignCookie(document.cookie) + ";domain=.youtube.com;path=/";
-}
-
-function ytNewDesign() {
-  var requestSw = new XMLHttpRequest();
-  requestSw.open("POST", "https://www.youtube.com/new?optin=true", true);
-  requestSw.send(null);
 }
 
 function parseColor(color, toNumber) {
@@ -1539,19 +1598,17 @@ function getlist(callback, numArr, url) {
   }
 }
 
-function waitForKeyElements(selectorTxt, actionFunction, bWaitOnce, iframeSelector) {
+function waitForKeyElements (selectorTxt,actionFunction,bWaitOnce) {
   var targetNodes, btargetsFound;
-  if (typeof iframeSelector == "undefined") targetNodes = $(selectorTxt);
-  else targetNodes = $(iframeSelector).contents().find(selectorTxt);
-  if (targetNodes && targetNodes.length > 0) {
+  targetNodes = document.querySelectorAll(selectorTxt);
+  if (targetNodes  &&  targetNodes.length > 0) {
     btargetsFound = true;
-    targetNodes.each(function() {
-      var jThis = $(this);
-      var alreadyFound = jThis.data('alreadyFound') || false;
+    targetNodes.forEach(function(element) {
+      var alreadyFound = element.dataset.found == 'alreadyFound' ? 'alreadyFound' : false;
       if (!alreadyFound) {
-        var cancelFound = actionFunction(jThis);
+        var cancelFound  = actionFunction (element);
         if (cancelFound) btargetsFound = false;
-        else jThis.data('alreadyFound', true);
+        else element.dataset.found = 'alreadyFound';
       }
     });
   } else {
@@ -1566,7 +1623,7 @@ function waitForKeyElements(selectorTxt, actionFunction, bWaitOnce, iframeSelect
   } else {
     if (!timeControl) {
       timeControl = setInterval(function() {
-        waitForKeyElements(selectorTxt, actionFunction, bWaitOnce, iframeSelector);
+        waitForKeyElements(selectorTxt, actionFunction, bWaitOnce);
       }, 300);
       controlObj[controlKey] = timeControl;
     }
