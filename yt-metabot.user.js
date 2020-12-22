@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      201106
+// @version      201222
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -169,6 +169,18 @@ if (window.location.hostname == "dislikemeter.com" || window.location.hostname =
 } else if (window.location.pathname == '/live_chat_replay' || window.location.pathname == '/live_chat') {
   console.log("[MetaBot for Youtube] Live Chat page detected. Skipping.");
 } else {
+  waitforinit();
+}
+
+function waitforinit() {
+  if (document.head === null) {
+    setTimeout(waitforinit, 100);
+  } else {
+    init();
+  }
+}
+
+function init() {
   if (document.head.innerHTML.indexOf('window.ShadyDOM') >= 0) {
     console.log("[MetaBot for Youtube] YouTube New design detected.");
     ytmode = 1;
