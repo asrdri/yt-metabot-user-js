@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      210225
+// @version      210313
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -16,7 +16,7 @@
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
 
 GM_config.init( {
@@ -122,8 +122,7 @@ const imgdmd = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAZCAMAAACM5m
 const imgyto = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAACJVBMVEX///+qAADMMzP/MzPjKiXbJiPVIyPZJSPFGx/QIiLBGB7cKSXRIiLeKSnkKyfOICHcIiLRISLJHB7jKybCGB/QISHVKSDgKifMGRnhKyXMHR/CGR3ZJSPiLCbdKSXiKybFFyLCGR7WJCLdJyTDGB3JHSDhKiXIHB/ZJiPMHiHQIiLXIyPTIyLKHR/FGCDFGh/lMxnjKyXDGR3GGx/cJyTEGR7BGh7NICDUIiLOHiPcLiLiKyXgKSXhKyXPHyHXJSPNICDgKibgKSbJHB/XJCPnLiLfKSXfKSTfKSbDGR7EGR7KHB/CGR3CGB3CGB7BGB7BGB3BGR3////NHyHLHiDo4ODWJCPMHiD//v7p4eHaJyTZJiTYJiTOICHXJSPYJSPPICHeKSXQISHVJCPunZzFGh/UIyPqmpvnzMv89PTlxMTYUVL78vL08fHomZrzzM399/f+/Pzm09PXTk7QNDbfKiXGGx/pmprnj47XSUvktrbompryxMXVOTncKCXKHSDHHB/t5+f7+vrdKCXbJyTsnJvcOTfhgYDIHB/18fHqm5v05eXaMzHZVFTYTEvHGx/++vrZLy3spKThiYnTLi78+vrs19fqnJzYKynVNDXjrq7VPT7rm5vJHSDebm3XKCbRISLZWFrTIyLSIiLtrKzEGh7cZmXWJiXgKibvtLTWQ0Tlvr7bXVzfd3bwvL3sm5vjW1nTIiLDGh7hKybtnJviKybCGR58TkH5AAAAUnRSTlMAAwUFie17+rn8r7n8HzqvFu9b73vWH1sK54nnida5/BaYr1uJ7fqal+cWOu/6H5oKr/q5mls6H9Y6Fnzte3vnfJeYmOcW7Zqa7e2Y1u/8/O/WqnF1KAAAAb9JREFUeF6FzGOb61AYheGV1B3btu05tLHbsY1j27Zt2/h9k7SnyZt0p7m/ruda0BAi59VkxGVlxWXUtEUKMBJhTflLpFgjwNO6qPC3TuHiZQiStPwDR3sStCwr9hpYaQFRnTliKLOa/IWNhBCmftafDqk+0OUdM5EHn2jbGRO2aMiKexU/zvVyFUOS6OhTjG85cKWPw5EIIL1fNc7Y5fM3+4OlA8KCIdUfxtjde18fDOktFVA2SEih5OL0s+eDOmWwdxJnmc+pk7Pv3ndq2JE7Rsih/7Tn85cxKhfNk8R3qQmcdhy6SpZmlL8injDV1p6OR9eUpRyun4Qc0tNduwOLC+GviUuMmrl9R1nCEfOCoOGO+w/JEoOEUWJKyW7cOjpKJSBqmNjP/Ha+eTysFYX5A4Q/7P74aUBvIVo8hBx2fzvoCdYCoYSEhxk7stnDUSIAqV2qbdtfdnGlAmiq8Cr2ePkqmiBZctzUGshKC56aKCiFT+wFE7H4r+hESEUIEOuuh1AnQpHs3GfImQxCrJowUCVCq2HVW47VDQiSnVP7S6c2Jxs8lflp/4i0/EoYERrj3WvXrd+wcZM7vlEANQfRAClqAtKfNQAAAABJRU5ErkJggg==';
 const regexalt = /\{(.*?)\}/;
 const regexdate = /joinedDateText(.*?)ext":"(.*?)ext":"(.*?)"}/;
-const regexlangnew = /"hostLanguage":"(.*?)"/;
-const regexlangold = /"host_language":"(.*?)"/;
+const regexlang = /"hostLanguage":"(.*?)"/;
 const regexannyto = /(.*)(\r\n|\n\r|\n)([\W\w]+)/;
 const ERKYurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/KB.CSV';
 const annYTOurl = 'https://raw.githubusercontent.com/FeignedAccomplice/YOUTUBOTS/master/announcements.TXT';
@@ -239,7 +238,6 @@ function filllist(numArr, response, code, url) {
             waitForKeyElements('ytd-comments-header-renderer.ytd-item-section-renderer', insertannNew);
             break;
           case 2:
-            waitForKeyElements('div.comments-header-renderer', insertann);
         }
         break;
       case 0:
@@ -286,13 +284,11 @@ function waitforlists() {
       case 1:
         spinnercheckNew();
         waitForKeyElements('div#main.style-scope.ytd-comment-renderer', parseitemNew);
-        waitForKeyElements('yt-view-count-renderer.style-scope.ytd-video-primary-info-renderer', preparedmNew);
+        waitForKeyElements('ytd-menu-renderer.style-scope.ytd-video-primary-info-renderer', preparedmNew);
         waitForKeyElements('div#channel-header.ytd-c4-tabbed-header-renderer', insertchanNew);
         break;
       case 2:
-        waitForKeyElements('.comment-renderer-header', parseitem);
-        waitForKeyElements('div#watch7-views-info', insertdm);
-        waitForKeyElements('div#c4-primary-header-contents.primary-header-contents.clearfix', insertchan);
+        console.log("[MetaBot for Youtube] YouTube Classic design not supported.");
         break;
       case 3:
         console.log("[MetaBot for Youtube] YouTube Mobile mode not supported.");
@@ -381,22 +377,6 @@ function recheckallNew(){
   });
 }
 
-function insertchan(jNode) {
-  var noticespan = document.createElement('div');
-  var chanURL = $(jNode).find('a.spf-link.branded-page-header-title-link.yt-uix-sessionlink')[0].href;
-  var userID = chanURL.split('/').pop();
-  var foundID = arrayERKY.indexOf(userID);
-  if (foundID > -1) {
-    noticespan.innerHTML = '<img src="' + mred + '" /> Пользователь найден в ЕРКЮ, дата регистрации: <a href="' + chanURL + '/about" title="Открыть страницу с датой регистрации">' + arrayERKY[foundID + 1] + "</a>";
-    noticespan.style = 'background:rgba(255,50,50,0.3);border-radius:5px;padding:4px 7px 4px 7px';
-  } else {
-    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + minf + '" title="Открыть страницу с датой регистрации" /></a>';
-    noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px';
-  }
-  noticespan.id = 'erkynotice';
-  $(jNode).find('h1.branded-page-header-title').append(noticespan);
-}
-
 function insertchanNew(jNode) {
   this.addEventListener('yt-navigate-finish', function insertchanNewR() {
     this.removeEventListener('yt-navigate-finish', insertchanNewR);
@@ -408,48 +388,27 @@ function insertchanNew(jNode) {
   }
   var reuse = false;
   var userID = chanURL.split('/').pop();
-  if ($(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer')[0]) {
-    var noticespan = $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer')[0];
+  if ($(jNode).find('span#subscriber-count.ytd-channel-name')[0]) {
+    var noticespan = $(jNode).find('span#subscriber-count.ytd-channel-name')[0];
     reuse = true;
   } else {
     var noticespan = document.createElement('span');
     noticespan.id = 'subscriber-count';
-    noticespan.classList.add("ytd-c4-tabbed-header-renderer");
+    noticespan.classList.add("ytd-channel-name");
   }
   var foundID = arrayERKY.indexOf(userID);
-  var top30 = '\u2003<a href="https://www.t30p.ru/search.aspx?s=' + userID + '" target="_blank"style="color:hsl(206.1, 79.3%, 52.7%);text-decoration:none" title="Найти другие комментарии автора с помощью агрегатора ТОП30">top30</a>';
+  var stylecommon = 'border-radius: 5px; padding: 4px 7px 4px 7px; font-weight: 400; line-height: 3rem; text-transform: none; color: var(--yt-lightsource-primary-title-color); margin-left: 7px';
+  var top30 = '<a href="https://www.t30p.ru/search.aspx?s=' + userID + '" target="_blank" style="color: hsl(206.1, 79.3%, 52.7%); text-decoration:none; font-family: Segoe UI Symbol; color: var(--yt-spec-icon-inactive)">\uD83D\uDD0D<tp-yt-paper-tooltip>Найти комментарии автора с помощью агрегатора ТОП30</tp-yt-paper-tooltip></a> ';
   if (foundID > -1) {
-    noticespan.innerHTML = '<img src="' + mred + '" /> Пользователь найден в ЕРКЮ: <a href="' + chanURL + '/about" style="color:hsl(206.1, 79.3%, 52.7%);text-decoration:none" title="Открыть страницу с датой регистрации">' + arrayERKY[foundID + 1] + '</a>' + top30;
-    noticespan.style = 'background:rgba(255,50,50,0.3);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
+    noticespan.innerHTML = top30 + '<a href="' + chanURL + '/about" style="text-decoration: none; font-family: Segoe UI Symbol; color: #cc0000">\uD83D\uDD34<tp-yt-paper-tooltip>Пользователь найден в ЕРКЮ</tp-yt-paper-tooltip></a> ' + arrayERKY[foundID + 1];
+    noticespan.style = 'background: rgba(255,50,50,0.3); ' + stylecommon;
   } else {
-    noticespan.innerHTML = 'Пользователь не найден в ЕРКЮ <a href="' + chanURL + '/about"><img src="' + minf + '" title="Открыть страницу с датой регистрации" /></a>' + top30;
-    noticespan.style = 'background:rgba(100,100,100,0.2);border-radius:5px;padding:4px 7px 4px 7px;font-weight:400;line-height:3rem;text-transform:none;color:var(--yt-lightsource-primary-title-color)';
+    noticespan.innerHTML = top30 + '<a href="' + chanURL + '/about" style="text-decoration: none; font-family: Segoe UI Symbol; color: var(--yt-spec-icon-inactive)">\u2139<tp-yt-paper-tooltip>Пользователь не найден в ЕРКЮ</tp-yt-paper-tooltip></a>';
+    noticespan.style = 'background: rgba(100,100,100,0.2); ' + stylecommon;
   }
   if (!reuse) {
-    $(jNode).find('ytd-channel-name#channel-name.ytd-c4-tabbed-header-renderer').after(noticespan);
-    $(jNode).find('span#subscriber-count.ytd-c4-tabbed-header-renderer').after('<br>');
+    $(jNode).find('ytd-channel-name#channel-name.ytd-c4-tabbed-header-renderer').append(noticespan);
   }
-}
-
-function insertdm(jNode) {
-  var videoid = getURLParameter('v', location.search);
-  var pNode = $(jNode)[0];
-  var newspan = document.createElement('span');
-  newspan.innerHTML = '<a id="dmAdd" title="Добавить видео на анализатор Дизлайкметр" href="https://dislikemeter.com/?v=' + videoid + '"><img src="' + imgdma + '" /></a><span style="padding:0 1em 0 0"></span><a style="padding:0 0 0 1px" id="dmGo" title="Открыть статистику видео на анализаторе Дизлайкметр" href="https://dislikemeter.com/video/' + videoid + '" ><img src="' + imgdm + '" /></a>';
-  newspan.id = 'dmPanel';
-  $(pNode).css('text-align', 'right');
-  pNode.insertBefore(newspan, pNode.firstChild);
-  $(pNode).find("#dmPanel")[0].addEventListener("click", function dmClick() {
-    this.removeEventListener("click", dmClick);
-    var newspan = document.createElement('span');
-    newspan.innerHTML = '<a target="_blank" title="Помочь проекту Дизлайкметр" href="https://dislikemeter.com/?donate"><img src="' + imgdmd + '" /></a><span style="padding:0 1em 0 0"></span>';
-    $(pNode).find("#dmPanel")[0].insertBefore(newspan, $(pNode).find("#dmPanel")[0].firstChild);
-  }, false);
-  $(pNode).find("#dmPanel")[0].addEventListener("mouseover", function dmOver() {
-    this.removeEventListener("mouseover", dmOver);
-    $(this).find("#dmAdd")[0].target = "_blank";
-    $(this).find("#dmGo")[0].target = "_blank";
-  }, false);
 }
 
 function preparedmNew(jNode) {
@@ -512,110 +471,6 @@ function insertdmNew(jNode, response, code, url) {
   $(jNode).find('ytd-button-renderer#dmbutton').html('<a class="yt-simple-endpoint style-scope ytd-button-renderer"><yt-icon-button id="button" class="style-scope ytd-button-renderer style-default size-default" style="padding:8px;width:36px;height:36px;color:rgb(255,200,0)" onclick="window.open(\'' + dmurl + '\', \'_blank\');"><svg viewBox="0 0 20 20" preserveAspectRatio="xMidYMid meet" focusable="false" class="style-scope yt-icon" style="pointer-events: none; display: block; width: 100%; height: 100%; fill:' + dmclr + '"><g class="style-scope yt-icon"><path d="m0 2c0 5.5 8 5.5 8 0 0-1-2-1-2 0 0 3-4 3-4 0 0-1-2-1-2 0m12 0c0 5.5 8 5.5 8 0 0-1-2-1-2 0 0 3-4 3-4 0 0-1-2-1-2 0m-12 16q2-6.5 10-6.5v2q-6 0-8 4.5c0 0.5-2 0.7-2 0m6 2v-3l4-1v4m1 0v-8h4v8m1 0v-11l4-1v12" class="style-scope yt-icon"></path></g></svg></yt-icon-button><tp-yt-paper-tooltip>' + dmtxt + '</tp-yt-paper-tooltip></a>');
 }
 
-function insertann(jNode) {
-  $(jNode).find('h2.comment-section-header-renderer')[0].style = 'padding-bottom:10;display:inline-flex;align-items:center;line-height:2rem';
-  var cfgspan = document.createElement('span');
-  cfgspan.innerHTML = '<span style="opacity:0.4">[</span><span style="font-family: Segoe UI Symbol; color: #848484">\uD83D\uDD27</span><span style="opacity:0.4">]</span>';
-  cfgspan.id = 'cfgbtn';
-  cfgspan.title = 'Настройки MetaBot for YouTube';
-  cfgspan.style = 'margin:-4px 0 0 0.5em;font-size:2.3em;height:2rem;cursor:pointer;color:#000';
-  $(jNode).find('h2.comment-section-header-renderer').append(cfgspan);
-  var annspan = document.createElement('span');
-  annspan.innerHTML = '<span style="display:inline-flex;align-items:center"><span style="opacity:0.4">[</span><span style="font-family: Segoe UI Symbol; color: #af1611">\uD83D\uDCE3</span><span style="color:#555;font-size:0.5em;font-weight:420;margin:-1.8em 0.2em 0 0.2em;height:0.3em;text-transform:none">' + Aparse(annYTOtxt[1]) + '</span><span style="opacity:0.4">]</span></span>';
-  annspan.id = 'annbtn';
-  annspan.title = 'Последняя информация от Наблюдателя YouTube (#ЕРКЮ)';
-  annspan.style = 'margin:-4px 0 0 0.5em;font-size:2.3em;height:2rem;cursor:pointer;color:#000';
-  $(jNode).find('h2.comment-section-header-renderer').append(annspan);
-  var ytoinfosspan = document.createElement('span');
-  ytoinfosspan.innerHTML = '<span style="float:left;width:40px"><img src="' + imgyto + '" width="40px" height="40px" /></span><span style="float:right;margin: 0 0 0 10px;width:520px"><span id="urlyto" style="font-weight:500;cursor:pointer" data-url="https://www.youtube.com/channel/UCwBID52XA-aajCKYuwsQxWA/playlists">Наблюдатель Youtube #ЕРКЮ</span><br><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">' + Aparse(annYTOtxt[1]) + '</span><span id="annholder"></span></span>';
-  ytoinfosspan.id = 'ytoinfo';
-  ytoinfosspan.style = 'max-width:605px;margin:0 auto 1em auto;display:table';
-  $(ytoinfosspan).toggle();
-  $(jNode).find('h2.comment-section-header-renderer').after(ytoinfosspan);
-  $(jNode).find("span#ytoinfo").toggle();
-  var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:460px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 440px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom1" style="height: 1rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom2" style="height: 1rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom3" style="height: 1rem; width: 40px"><br>' + iconc4 + descc4 + '<input type="text" id="listcustom4" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom4" style="height: 1rem; width: 40px"><br>' + iconc5 + descc5 + '<input type="text" id="listcustom5" style="height: 1rem; width: 385px"> <input type="color" id="colorcustom5" style="height: 1rem; width: 40px"></span><br style="line-height:2em">Классический дизайн YouTube:' + Aparse("\u2003[Chrome](https://chrome.google.com/webstore/detail/good-old-youtube/klkejolkjcefmocpgpjiefbpmgofahmh)\u2003[Firefox](https://addons.mozilla.org/firefox/addon/good-old-youtube/)") + '<br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="yt-badge" style="margin:4px 0 4px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6);display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();">\uD83D\uDD03обновить страницу</span>.</span></span>';
-  settingsspan.id = 'config';
-  settingsspan.style = 'max-width:605px;margin:0 auto 1em auto;display:table';
-  $(settingsspan).toggle();
-  $(jNode).find('h2.comment-section-header-renderer').after(settingsspan);
-  $(jNode).find("span#config").toggle();
-  var annexspan = document.createElement('span');
-  annexspan.innerHTML = Aparse(annYTOtxt[3]);
-  $(jNode).find('span#annholder').append(annexspan);
-  $(jNode).find("span#cfgbtn")[0].addEventListener("click", function() {
-    $(jNode).find("span#config").toggle();
-    $(jNode).find("span#ytoinfo").hide();
-  }, false);
-  $(jNode).find("span#annbtn")[0].addEventListener("click", function() {
-    $(jNode).find("span#ytoinfo").toggle();
-    $(jNode).find("span#config").hide();
-  }, false);
-  $(jNode).find("span#cfgbtn").hover(function() {
-    this.style.backgroundColor = 'hsl(206.1, 79.3%, 52.7%)';
-  }, function() {
-    this.style.backgroundColor = '';
-  });
-  $(jNode).find("span#annbtn").hover(function() {
-    this.style.backgroundColor = 'hsl(206.1, 79.3%, 52.7%)';
-  }, function() {
-    this.style.backgroundColor = '';
-  });
-  $(jNode).find("span#resetbtn").hover(function() {
-    this.style.textDecoration = "underline";
-  }, function() {
-    this.style.textDecoration = "";
-  });
-  $(jNode).find("span#urlgithub, span#urlissues, span#urllists, span#urlyto").hover(function() {
-    this.style.textDecoration = "underline";
-    this.style.color = "hsl(206.1, 79.3%, 52.7%)";
-  }, function() {
-    this.style.textDecoration = "";
-    this.style.color = "";
-  });
-  $(jNode).find("span#urlgithub, span#urlissues, span#urllists, span#urlyto").click(function() {
-    window.open($(this).attr('data-url'));
-  });
-  $(jNode).find("span#resetbtn").click(function() {
-    resetconfig(jNode);
-    saveconfig(jNode);
-  });
-  $(jNode).find("select#mbcddm1").val(GM_config.get('option1'));
-  $(jNode).find("input#mbcbox1").prop('checked', GM_config.get('option2'));
-  $(jNode).find("input#mbcbox3").prop('checked', GM_config.get('option4'));
-  $(jNode).find("textarea#listpersonal").text(GM_config.get('listp1'));
-  $(jNode).find("input#listcustom1").val(GM_config.get('listc1'));
-  $(jNode).find("input#listcustom2").val(GM_config.get('listc2'));
-  $(jNode).find("input#listcustom3").val(GM_config.get('listc3'));
-  $(jNode).find("input#listcustom4").val(GM_config.get('listc4'));
-  $(jNode).find("input#listcustom5").val(GM_config.get('listc5'));
-  $(jNode).find("input#colorpersonal").val(parseColor(GM_config.get('colorp1'), false));
-  $(jNode).find("input#colorcustom1").val(parseColor(GM_config.get('colorc1'), false));
-  $(jNode).find("input#colorcustom2").val(parseColor(GM_config.get('colorc2'), false));
-  $(jNode).find("input#colorcustom3").val(parseColor(GM_config.get('colorc3'), false));
-  $(jNode).find("input#colorcustom4").val(parseColor(GM_config.get('colorc4'), false));
-  $(jNode).find("input#colorcustom5").val(parseColor(GM_config.get('colorc5'), false));
-  if ($(jNode).find("select#mbcddm1").val() == 2) {
-    $(jNode).find("span#mbcswg1").hide();
-  }
-  if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
-    $(jNode).find("span#mbcswg2").hide();
-  }
-  $(jNode).find("input#mbcbox1, input#mbcbox3, select#mbcddm1, textarea#listpersonal, input#listcustom1, input#listcustom2, input#listcustom3, input#listcustom4, input#listcustom5, input#colorpersonal, input#colorcustom1, input#colorcustom2, input#colorcustom3, input#colorcustom4, input#colorcustom5").change(function() {
-    if ($(jNode).find("select#mbcddm1").val() == 2) {
-      $(jNode).find("span#mbcswg1").hide();
-    } else {
-      $(jNode).find("span#mbcswg1").show();
-    }
-    if ($(jNode).find("input#mbcbox3").prop('checked') == false) {
-      $(jNode).find("span#mbcswg2").hide();
-    } else {
-      $(jNode).find("span#mbcswg2").show();
-    }
-    saveconfig(jNode);
-  });
-}
-
 function insertannNew(jNode) {
   waitForKeyElements('div#icon-label.yt-dropdown-menu', function(jNode) {
     $(jNode)[0].innerHTML = '';
@@ -651,7 +506,7 @@ function insertannNew(jNode) {
   ytoinfosspan.style = 'font-size:1.4rem;max-width:640px;margin:-10px auto 1em auto;display:none';
   $(jNode).find('div#title').after(ytoinfosspan);
   var settingsspan = document.createElement('span');
-  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"><br>' + iconc4 + descc4 + '<input type="text" id="listcustom4" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom4" style="height: 1.8rem; width: 40px"><br>' + iconc5 + descc5 + '<input type="text" id="listcustom5" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom5" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em">Классический дизайн YouTube:' + Aparse("\u2003[Chrome](https://chrome.google.com/webstore/detail/youtube-redux/mdgdgieddpndgjlmeblhjgljejejkikf)\u2003[Firefox](https://addons.mozilla.org/firefox/addon/youtube-redux/)") + '<br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration: underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
+  settingsspan.innerHTML = '<span style="float:left;width:100px"><img src="https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/logo.png" width="100px" height="100px" /></span><span style="float:right;margin: 0 0 0 10px;width:525px"><span style="font-weight:500">' + GM_info.script.name + ' v' + GM_info.script.version + '</span>\u2003<span id="urlgithub" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/">GitHub</span>\u2003<span id="urlissues" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues">Предложения и баги</span>\u2003<span id="urllists" style="cursor:pointer" data-url="https://github.com/asrdri/yt-metabot-user-js/issues/23">Списки</span><span class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center">Настройки</span>Комментарии от известных ботов из ЕРКЮ <select id="mbcddm1"><option value="1">помечать</option><option value="2">скрывать</option></select><span id="mbcswg1"><br style="line-height:2em"><label title="Пункт 5.1.H Условий использования YouTube не нарушается - запросы отправляются со значительным интервалом"><input type="checkbox" id="mbcbox1">Автоматически ставить <span style="font-family: Segoe UI Symbol">\uD83D\uDC4E</span> комментариям от ботов из ЕРКЮ</label></span><br style="line-height:2em"><label title="Актуально для русского интерфейса и небольшой ширины окна браузера"><input type="checkbox" id="mbcbox2">Скрывать длинные подписи кнопок Мне (не) понравилось / Поделиться</label><br style="line-height:2em"><label><input type="checkbox" id="mbcbox3">Дополнительные списки</label><span id="mbcswg2"><br style="line-height:2em">' + iconp1 + ' Закладки: <input type="color" id="colorpersonal" style="height: 1.8rem; width: 40px"><br style="line-height:1.8em"><textarea id="listpersonal" rows="3" style="width: 500px"></textarea><br style="line-height:1.2em">Сторонние списки:<br>' + iconc1 + descc1 + '<input type="text" id="listcustom1" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom1" style="height: 1.8rem; width: 40px"><br>' + iconc2 + descc2 + '<input type="text" id="listcustom2" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom2" style="height: 1.8rem; width: 40px"><br>' + iconc3 + descc3 + '<input type="text" id="listcustom3" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom3" style="height: 1.8rem; width: 40px"><br>' + iconc4 + descc4 + '<input type="text" id="listcustom4" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom4" style="height: 1.8rem; width: 40px"><br>' + iconc5 + descc5 + '<input type="text" id="listcustom5" style="height: 1.7rem; width: 440px"> <input type="color" id="colorcustom5" style="height: 1.8rem; width: 40px"></span><br style="line-height:2em">Классический дизайн YouTube:' + Aparse("\u2003[Chrome](https://chrome.google.com/webstore/detail/youtube-redux/mdgdgieddpndgjlmeblhjgljejejkikf)\u2003[Firefox](https://addons.mozilla.org/firefox/addon/youtube-redux/)") + '<br><span id="resetbtn" style="cursor:pointer">Сбросить настройки</span><span id="configsaved" class="badge badge-style-type-simple ytd-badge-supported-renderer" style="margin:4px 0 4px 0;text-align:center;display:none;-webkit-transition: background-color 0.3s ease-in-out;-moz-transition: background-color 0.3s ease-in-out;-ms-transition: background-color 0.3s ease-in-out;-o-transition: background-color 0.3s ease-in-out;transition: background-color 0.3s ease-in-out;">Настройки сохранены. Для вступления в силу необходимо <span style="cursor:pointer;text-decoration:underline" onclick="javascript:window.location.reload();"><span style="font-family: Segoe UI Symbol">\uD83D\uDD03</span>обновить страницу</span>.</span></span>';
   settingsspan.id = 'config';
   settingsspan.classList.add("description");
   settingsspan.classList.add("content");
@@ -737,29 +592,6 @@ function insertannNew(jNode) {
   });
 }
 
-function saveconfig(jNode) {
-  GM_config.set('option1', $(jNode).find("select#mbcddm1").val());
-  GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
-  GM_config.set('option4', $(jNode).find("input#mbcbox3").is(":checked"));
-  GM_config.set('listp1', $(jNode).find("textarea#listpersonal").val());
-  GM_config.set('listc1', $(jNode).find("input#listcustom1").val());
-  GM_config.set('listc2', $(jNode).find("input#listcustom2").val());
-  GM_config.set('listc3', $(jNode).find("input#listcustom3").val());
-  GM_config.set('listc4', $(jNode).find("input#listcustom4").val());
-  GM_config.set('listc5', $(jNode).find("input#listcustom5").val());
-  GM_config.set('colorp1', parseColor($(jNode).find("input#colorpersonal").val(), true));
-  GM_config.set('colorc1', parseColor($(jNode).find("input#colorcustom1").val(), true));
-  GM_config.set('colorc2', parseColor($(jNode).find("input#colorcustom2").val(), true));
-  GM_config.set('colorc3', parseColor($(jNode).find("input#colorcustom3").val(), true));
-  GM_config.set('colorc4', parseColor($(jNode).find("input#colorcustom4").val(), true));
-  GM_config.set('colorc5', parseColor($(jNode).find("input#colorcustom5").val(), true));
-  arrayListP1 = GM_config.get('listp1').match(/[^\r\n=]+/g);
-  GM_config.save();
-  $(jNode).find("span#configsaved").show();
-  $(jNode).find("span#configsaved")[0].style.backgroundColor = 'rgba(40,150,230,1)';
-  setTimeout(function(){$(jNode).find("span#configsaved")[0].style.backgroundColor = 'rgba(40,150,230,0)';}, 400);
-}
-
 function saveconfigNew(jNode) {
   GM_config.set('option1', $(jNode).find("select#mbcddm1").val());
   GM_config.set('option2', $(jNode).find("input#mbcbox1").is(":checked"));
@@ -784,26 +616,6 @@ function saveconfigNew(jNode) {
   setTimeout(function(){$(jNode).find("span#configsaved")[0].style.backgroundColor = 'rgba(40,150,230,0)';}, 400);
 }
 
-function resetconfig(jNode) {
-  $(jNode).find("span#mbcswg1").show();
-  $(jNode).find("span#mbcswg2").show();
-  $(jNode).find("select#mbcddm1").val(1);
-  $(jNode).find("input#mbcbox1").prop('checked', false);
-  $(jNode).find("input#mbcbox2").prop('checked', true);
-  $(jNode).find("input#mbcbox3").prop('checked', true);
-  $(jNode).find("input#listcustom1").val('https://github.com/asrdri/yt-metabot-user-js/raw/master/list-sample.txt');
-  $(jNode).find("input#listcustom2").val('');
-  $(jNode).find("input#listcustom3").val('');
-  $(jNode).find("input#listcustom4").val('');
-  $(jNode).find("input#listcustom5").val('');
-  $(jNode).find("input#colorpersonal").val(parseColor(33023, false));
-  $(jNode).find("input#colorcustom1").val(parseColor(8388863, false));
-  $(jNode).find("input#colorcustom2").val(parseColor(16744448, false));
-  $(jNode).find("input#colorcustom3").val(parseColor(8421504, false));
-  $(jNode).find("input#colorcustom4").val(parseColor(8453888, false));
-  $(jNode).find("input#colorcustom5").val(parseColor(51328, false));
-}
-
 function resetconfigNew(jNode) {
   $(jNode).find("span#mbcswg1").show();
   $(jNode).find("span#mbcswg2").show();
@@ -822,132 +634,6 @@ function resetconfigNew(jNode) {
   $(jNode).find("input#colorcustom3").val(parseColor(8421504, false));
   $(jNode).find("input#colorcustom4").val(parseColor(8453888, false));
   $(jNode).find("input#colorcustom5").val(parseColor(51328, false));
-}
-
-function parseitem(jNode) {
-  if (GM_config.get('option4') === true) {
-    var spanlistpadd = txtlistpadd;
-  } else {
-    var spanlistpadd = '';
-  }
-  var pNode = $(jNode).parent().parent()[0];
-  $(pNode).hover(function blockShow() {
-    $(pNode).find("#t30sp").show();
-  }, function blockHide() {
-    $(pNode).find("#t30sp").hide();
-  });
-  pNode = $(jNode)[0];
-  var userID = $(jNode).find("a")[0].href.split('/').pop();
-  var foundID = arrayERKY.indexOf(userID);
-  var foundIDp1 = -1;
-  var foundIDc1 = -1;
-  var foundIDc2 = -1;
-  var foundIDc3 = -1;
-  var foundIDc4 = -1;
-  var foundIDc5 = -1;
-  if (GM_config.get('option4') === true) {
-    if (arrayListP1 !== null) {
-      foundIDp1 = arrayListP1.indexOf(userID);
-    }
-    if (typeof arrayListC1 !== 'undefined' && arrayListC1.length > 1) {
-      foundIDc1 = arrayListC1.indexOf(userID);
-    }
-    if (typeof arrayListC2 !== 'undefined' && arrayListC2.length > 1) {
-      foundIDc2 = arrayListC2.indexOf(userID);
-    }
-    if (typeof arrayListC3 !== 'undefined' && arrayListC3.length > 1) {
-      foundIDc3 = arrayListC3.indexOf(userID);
-    }
-    if (typeof arrayListC4 !== 'undefined' && arrayListC4.length > 1) {
-      foundIDc4 = arrayListC4.indexOf(userID);
-    }
-    if (typeof arrayListC5 !== 'undefined' && arrayListC5.length > 1) {
-      foundIDc5 = arrayListC5.indexOf(userID);
-    }
-  }
-  var comURL = $(jNode).find("span.comment-renderer-time")[0];
-  if ($(jNode).find("span.comment-renderer-linked-comment").length > 0) {
-    comURL = $(jNode).find("span.comment-renderer-linked-comment")[0];
-  }
-  var t30span = document.createElement('span');
-  t30span.innerHTML = '\u2003<span id="about" style="cursor: pointer; font-family: Segoe UI Symbol; color: #767676" title="Открыть страницу с датой регистрации">\u2753</span>\u2003<span id="top30" style="cursor: pointer" title="Найти другие комментарии автора с помощью агрегатора ТОП30"><font color="#7777fa">top</font><font color="#fa7777">30</font></span>' + spanlistpadd;
-  t30span.id = 't30sp';
-  t30span.style = "display:none";
-  if (foundID > -1) {
-    console.log("[MetaBot for Youtube] user found in ERKY-db: " + userID);
-    if (GM_config.get('option1') == 2) {
-      foundIDp1 = -1;
-      foundIDc1 = -1;
-      foundIDc2 = -1;
-      foundIDc3 = -1;
-      foundIDc4 = -1;
-      foundIDc5 = -1;
-      var hidspan = document.createElement('span');
-      hidspan.innerHTML = 'Комментарий скрыт: пользователь найден в ЕРКЮ';
-      hidspan.classList.add('yt-badge');
-      hidspan.style = 'margin:0 0 10px 0;text-align:center;text-transform:none;font-weight:500;width:100%;background-color:hsla(0, 0%, 93.3%, .6)';
-      $(jNode).parent().parent().after(hidspan);
-      $(jNode).parent().parent().hide();
-    } else {
-      markbot(pNode, arrayERKY[foundID + 1]);
-    }
-    $(comURL).after(t30span);
-  } else {
-    var newspan = document.createElement('span');
-    newspan.innerHTML = '<img id="checkbtn" src="' + checkb + '" title="Проверить дату регистрации" style="cursor: help" />';
-    newspan.id = 'checksp';
-    pNode.insertBefore(newspan, pNode.firstChild);
-    t30span.innerHTML += '\u2003<span id="sendlink" style="cursor: pointer" title="Помогите пополнить список известных ботов - отправьте нам данные о подозрительном комментарии">\u27A4</span>';
-    $(comURL).after(t30span);
-    $(jNode).find("img")[0].addEventListener("click", function checkcomment() {
-      checkdate(pNode);
-    }, false);
-    $(jNode).find("#sendlink")[0].addEventListener("click", function displayinfo() {
-      sendinfo();
-    }, false);
-  }
-  if (GM_config.get('option4') === true) {
-    if (foundIDc1 > -1) {
-      markcustom(pNode, arrayListC1[foundIDc1 + 1], 1);
-    }
-    if (foundIDc2 > -1) {
-      markcustom(pNode, arrayListC2[foundIDc2 + 1], 2);
-    }
-    if (foundIDc3 > -1) {
-      markcustom(pNode, arrayListC3[foundIDc3 + 1], 3);
-    }
-    if (foundIDc4 > -1) {
-      markcustom(pNode, arrayListC4[foundIDc4 + 1], 4);
-    }
-    if (foundIDc5 > -1) {
-      markcustom(pNode, arrayListC5[foundIDc5 + 1], 5);
-    }
-    if (foundIDp1 > -1) {
-      if ($(jNode).find("#checkbtn").length > 0) {
-        $(jNode).find("#checkbtn")[0].remove();
-      }
-      markpersonal(pNode, arrayListP1[foundIDp1 + 1]);
-    }
-    $(jNode).find("#listpadd")[0].addEventListener("click", function addtolistNew() {
-      if ($(pNode).find("span#bookmark").length > 0) {
-        listpdel(pNode);
-        $(jNode).find("#listpadd").html(iconsdef[0]);
-        $(jNode).find("#listpadd")[0].title = 'Добавить в закладки';
-      } else {
-        if ($(jNode).find("#checkbtn").length > 0) {
-          $(jNode).find("#checkbtn")[0].remove();
-        }
-        $(jNode).find("#listpadd").html('\u23F3');
-        getpage(listpadd, pNode, $(jNode).find("a")[0].href + '/about')
-      }
-    }, false);
-  }
-  $(jNode).find("#about")[0].addEventListener("click", function openabout() {
-    window.open($(jNode).find("a")[0].href + '/about');
-  }, false);
-  $(jNode).find("#top30")[0].addEventListener("click", function opent30() {
-    window.open('https://www.t30p.ru/search.aspx?s=' + $(jNode).find("a")[0].href.split('/').pop());
-  }, false);
 }
 
 function parseitemNew(jNode) {
@@ -1118,27 +804,6 @@ function sendinfo() {
   }
 }
 
-function listpadd(jNode, response, url) {
-  window.tempHTML = document.createElement('html');
-  tempHTML.innerHTML = response;
-  window.aboutSTAT = tempHTML.getElementsByClassName('about-stat');
-  var day = Dparse(aboutSTAT[aboutSTAT.length - 1].innerHTML);
-  $('textarea#listpersonal')[0].value += url.substring(0, url.length - 6).split('/').pop() + '=' + day + '\n';
-  var tempArray = $('textarea#listpersonal')[0].value.split('\n');
-  var uniqArray = tempArray.reduce(function(a,b){
-    if (a.indexOf(b) < 0) a.push(b);
-    return a;
-  },[]);
-  $('textarea#listpersonal')[0].value = uniqArray.join('\n');
-  GM_config.set('listp1', uniqArray.join('\n'));
-  GM_config.save();
-  arrayListP1 = GM_config.get('listp1').match(/[^\r\n=]+/g);
-  $(jNode).find("#listpadd").html('\u274C');
-  $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
-  markpersonal(jNode, day);
-  console.log("[MetaBot for Youtube] Bookmarks (personal list) updated.");
-}
-
 function listpaddNew(jNode, response, url) {
   var matches = regexdate.exec(response);
   var day = Dparse(matches[3]);
@@ -1155,23 +820,6 @@ function listpaddNew(jNode, response, url) {
   $(jNode).find("#listpadd").html('\u274C');
   $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
   markpersonalNew($(jNode).parent(), day);
-  console.log("[MetaBot for Youtube] Bookmarks (personal list) updated.");
-}
-
-function listpdel(jNode) {
-  $(jNode).find("span#bookmark").remove();
-  var tempArray = $('textarea#listpersonal')[0].value.split('\n');
-  var itemDel = arrayListP1.indexOf($(jNode).find("a")[0].href.split('/').pop());
-  tempArray.splice(itemDel / 2,1);
-  $('textarea#listpersonal')[0].value = tempArray.join('\n');
-  GM_config.set('listp1', tempArray.join('\n'));
-  GM_config.save();
-  arrayListP1 = GM_config.get('listp1').match(/[^\r\n=]+/g);
-  $(jNode).next().css({
-    "background-image": "none",
-    "border-right": "",
-    "padding-right": ""
-  });
   console.log("[MetaBot for Youtube] Bookmarks (personal list) updated.");
 }
 
@@ -1192,15 +840,6 @@ function listpdelNew(jNode) {
   console.log("[MetaBot for Youtube] Bookmarks (personal list) updated.");
 }
 
-function checkdate(jNode) {
-  if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlang()) < 0) {
-    alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\n \u2714 Беларуская \u2714 Български\nВы можете сменить язык интерфейса в меню настроек YouTube.');
-    return;
-  }
-  $(jNode).find("img")[0].remove();
-  getpage(procdate, jNode, $(jNode).find("a")[0].href + '/about');
-}
-
 function checkdateNew(jNode) {
   if (['en', 'en-US', 'en-GB', 'ru', 'uk', 'be', 'bg'].indexOf(currentlangNew()) < 0) {
     alert('Функция поддерживается только на языках:\n \u2714 English\n \u2714 Русский\n \u2714 Українська\n \u2714 Беларуская \u2714 Български\nВы можете сменить язык интерфейса в меню настроек YouTube.');
@@ -1215,24 +854,6 @@ function checkdateNew(jNode) {
   } else {
     getpage(procdateNew, jNode, $(jNode).find("a")[0].href + '/about');
   }
-}
-
-function procdate(jNode, response, url) {
-  window.tempHTML = document.createElement('html');
-  tempHTML.innerHTML = response;
-  window.aboutSTAT = tempHTML.getElementsByClassName('about-stat');
-  var testday = Dparse(aboutSTAT[aboutSTAT.length - 1].innerHTML);
-  var newspan = document.createElement('span');
-  newspan.id = 'botmark';
-  newspan.innerHTML = ' <img src="' + minf + '" title="Дата регистрации:" /> ' + testday;
-  $(jNode).find("a.comment-author-text").after(newspan);
-  $(jNode).next().css({
-    "background": "rgba(170,170,170,0.3)",
-    "border-left": "3px solid rgba(170,170,170,0.3)",
-    "padding-left": "3px"
-  });
-  delete window.aboutSTAT;
-  delete window.tempHTML;
 }
 
 function procdateNew(jNode, response, url) {
@@ -1257,29 +878,6 @@ function procdateNew(jNode, response, url) {
   aNode = $(jNode).find("#checksp");
   aNode.attr('data-chan', $(jNode).find("a#author-text")[0].href);
   aNode.hide();
-}
-
-function markbot(jNode, txt) {
-  var newspan = document.createElement('span');
-  newspan.id = 'botmark';
-  newspan.innerHTML = ' <img src="' + mred + '" title="- пользователь найден в #ЕРКЮ, дата регистрации -" /> ' + txt;
-  $(jNode).find("a.comment-author-text").after(newspan);
-  if (regexalt.exec(txt) === null) {
-    $(jNode).next().css({
-      "background": "rgba(255,50,50,0.3)",
-      "border-left": "3px solid rgba(255,50,50,0.3)",
-      "padding-left": "3px"
-    });
-  } else {
-    $(jNode).next().css({
-      "background": "rgba(255,0,150,0.3)",
-      "border-left": "3px solid rgba(255,0,150,0.3)",
-      "padding-left": "3px"
-    });
-  }
-  if (GM_config.get('option2') === true) {
-    requestDislike(jNode, false);
-  }
 }
 
 function markbotNew(jNode, txt) {
@@ -1312,42 +910,6 @@ function markbotNew(jNode, txt) {
   }
   if (GM_config.get('option2') === true) {
     requestDislike(jNode, true);
-  }
-}
-
-function markcustom(jNode, txt, list) {
-  switch (list) {
-    case 1:
-      var listname = Aparse(arrayListC1[0]);
-      break
-    case 2:
-      var listname = Aparse(arrayListC2[0]);
-      break
-    case 3:
-      var listname = Aparse(arrayListC3[0]);
-      break
-    case 4:
-      var listname = Aparse(arrayListC4[0]);
-      break
-    case 5:
-      var listname = Aparse(arrayListC5[0]);
-  }
-  var botmark = $(jNode).find("#botmark");
-  var rgbCustom = gmColor('colorc' + list, 1) + "," + gmColor('colorc' + list, 2) + "," + gmColor('colorc' + list, 3);
-  var marktxt = ' <span style="' + iconstyledef + ' color: rgb(' + rgbCustom + '); font-size: 1.3em;" title="Найден в списке ' + listname + '">' + iconsdef[list] + '</span> ';
-  if (botmark.length > 0) {
-    $(botmark).prepend(marktxt);
-  } else {
-    $(jNode).find("#checkbtn")[0].remove();
-    var newspan = document.createElement('span');
-    newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + txt;
-    $(jNode).find("a.comment-author-text").after(newspan);
-    $(jNode).next().css({
-      "background": "rgba(" + rgbCustom + ",.3)",
-      "border-left": "3px solid rgba(" + rgbCustom + ",0.3)",
-      "padding-left": "3px"
-    });
   }
 }
 
@@ -1394,33 +956,6 @@ function markcustomNew(jNode, txt, list) {
   }
 }
 
-function markpersonal(jNode, txt) {
-  $(jNode).find("#listpadd").html('\u274C');
-  $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
-  var botmark = $(jNode).parent().find("#botmark");
-  var rgbCustom = gmColor('colorp1', 1) + "," + gmColor('colorp1', 2) + "," + gmColor('colorp1', 3);
-  var marktxt = ' <span id="bookmark" style="' + iconstyledef + ' color: rgb(' + rgbCustom + '); font-size: 1.3em;" title="Добавлен в закладки">' + iconsdef[0] + '</span> ';
-  if (botmark.length > 0) {
-    $(botmark).prepend(marktxt);
-    $(jNode).next().css({
-      "background-image": "linear-gradient(230deg, rgba(" + rgbCustom + ",.4) 20%, rgba(0,0,0,0) 30%)"
-    });
-  } else {
-    var newspan = document.createElement('span');
-    newspan.id = 'botmark';
-    newspan.innerHTML = marktxt + txt;
-    $(jNode).find("a.comment-author-text").after(newspan);
-    $(jNode).next().css({
-      "background": "linear-gradient(230deg, rgba(" + rgbCustom + ",.4) 20%, rgba(0,0,0,0) 30%)"
-    });
-  }
-  $(jNode).next().css({
-    "background-origin": "border-box",
-    "border-right": "3px solid rgba(" + rgbCustom + ",.3)",
-    "padding-right": "3px"
-  });
-}
-
 function markpersonalNew(jNode, txt) {
   $(jNode).find("#listpadd").html('\u274C');
   $(jNode).find("#listpadd")[0].title = 'Удалить из закладок';
@@ -1459,35 +994,31 @@ function gmColor(gmVar, colpos) {
   return parseInt(parseColor(GM_config.get(gmVar), false).slice(colpos*2-1, colpos*2+1), 16)
 }
 
-function requestDislike(jNode, isNew) {
+function requestDislike(jNode) {
   var element;
-  if (isNew) {
-    element = $(jNode).parent().find("ytd-toggle-button-renderer.ytd-comment-action-buttons-renderer:not(.style-default-active)")[1];
-  } else {
-    element = $(jNode).parent().find(".yt-uix-button.comment-action-buttons-renderer-thumb[aria-checked='false']")[1];
-  }
+  element = $(jNode).parent().find("ytd-toggle-button-renderer.ytd-comment-action-buttons-renderer:not(.style-default-active)")[1];
   if (element) orderedClicksArray.push(element);
   if (bDTaskSet == 0) {
     bDTaskSet = 1;
-    setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime), isNew);
+    setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime));
   }
 }
 
-function scheduledDislike(isNew) {
+function scheduledDislike() {
   if ( bDBlur || document.querySelector('paper-dialog.ytd-popup-container:not([style*="display:none"]):not([style*="display: none"])') || document.querySelector('label.option-selectable-item-renderer-radio-container') ) {
-    setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime), isNew);
+    setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime));
   } else {
     if (orderedClicksArray.length) {
       var element = orderedClicksArray.shift();
-      if ( (isNew && !(element.classList.contains("style-default-active"))) || (element.getAttribute("aria-checked") == "false") ) {
+      if ( !(element.classList.contains("style-default-active")) || (element.getAttribute("aria-checked") == "false") ) {
         $(element).css({"background": "rgba(255,50,50,0.3)"});
-        if (isNew) {$(element).css({"border-radius": "50%"});}
+        $(element).css({"border-radius": "50%"});
         element.click();
       } else {
-        setTimeout(scheduledDislike, 100, isNew);
+        setTimeout(scheduledDislike, 100);
         return;
       }
-      setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime), isNew);
+      setTimeout(scheduledDislike, minDCTime + Math.random() * (maxDCTime - minDCTime));
     } else {
       bDTaskSet = 0;
     }
@@ -1518,32 +1049,19 @@ function Dymd(day) {
 }
 
 function Aparse(text) {
-  if (ytmode === 1) {
-    var isNew = true;
-  } else {
-    var isNew = false;
-  }
   text = text.replace(/&/g, '&amp;');
   text = text.replace(/</g, '&lt;');
   text = text.replace(/>/g, '&gt;');
   text = text.replace(/\r\n/g, '<br>');
-  if (isNew) {
-    text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color:rgba(39,147,230,1);">$1</a>');
-  } else {
-    text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>');
-  }
+  text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color:rgba(39,147,230,1);">$1</a>');
   text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
   text = text.replace(/\*(.*?)\*/g, '<i>$1</i>');
   text = text.replace(/__(.*?)__/g, '<u>$1</u>');
   return text;
 }
 
-function currentlang() {
-  return regexlangold.exec(document.body.innerHTML)[1];
-}
-
 function currentlangNew() {
-  return regexlangnew.exec(document.body.innerHTML)[1];
+  return regexlang.exec(document.head.innerHTML)[1];
 }
 
 function getURLParameter(name, link) {
@@ -1611,7 +1129,7 @@ function getlist(callback, numArr, url) {
   }
 }
 
-function waitForKeyElements (selectorTxt,actionFunction,bWaitOnce) {
+function waitForKeyElements(selectorTxt,actionFunction,bWaitOnce) {
   var targetNodes, btargetsFound;
   targetNodes = document.querySelectorAll(selectorTxt);
   if (targetNodes  &&  targetNodes.length > 0) {

@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      210225
+// @version      210313
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -16,5 +16,5 @@
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
