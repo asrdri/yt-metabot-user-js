@@ -24,7 +24,6 @@ Userscript для Violentmonkey/Tampermonkey/Greasemonkey.
 ### Firefox:
 1. Установите расширение для поддержки userscript, рекомендую [Violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/).<br>Альтернативы: [Tampermonkey](https://addons.mozilla.org/firefox/addon/tampermonkey/), [Greasemonkey](https://addons.mozilla.org/firefox/addon/greasemonkey/).
 2. Пройдите по ссылке [yt-metabot.user.js](https://github.com/asrdri/yt-metabot-user-js/raw/master/yt-metabot.user.js) - установленное расширение предложит установить скрипт. Установите.
-3. Ознакомьтесь с [дополнительной информацией](https://github.com/asrdri/yt-metabot-user-js/issues/29).
 
 ### Opera:
 1. Установите расширение для поддержки Chrome Web Store - [Install Chrome Extensions](https://addons.opera.com/extensions/details/install-chrome-extensions/).
@@ -39,7 +38,6 @@ Userscript для Violentmonkey/Tampermonkey/Greasemonkey.
 - По умолчанию браузер будет автоматически обновлять расширение.
 - По умолчанию расширение будет автоматически обновлять скрипт.
 - Рекомендую Violentmonkey из-за простоты и доступности. Tampermonkey имеет больше функционала, но менее наглядный интерфейс. В процессе тестирования и отладки больше всего проблем замечено в Greasemonkey (по состоянию на июнь 2018).
-- В Firefox после выхода версии 57 до сих пор имеются проблемы в работе всех расширений для userscript. Если какой-то элемент не отображается как нужно, может понадобиться обновить страницу. Информация [здесь](https://github.com/asrdri/yt-metabot-user-js/issues/29).
 
 # Удаление
 - Скрипт можно удалить через интерфейс установленного расширения.
