@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      210313
+// @version      230102
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -284,7 +284,7 @@ function waitforlists() {
       case 1:
         spinnercheckNew();
         waitForKeyElements('div#main.style-scope.ytd-comment-renderer', parseitemNew);
-        waitForKeyElements('ytd-menu-renderer.style-scope.ytd-video-primary-info-renderer', preparedmNew);
+//        waitForKeyElements('ytd-menu-renderer.style-scope.ytd-video-primary-info-renderer', preparedmNew);
         waitForKeyElements('div#channel-header.ytd-c4-tabbed-header-renderer', insertchanNew);
         break;
       case 2:
@@ -1027,19 +1027,19 @@ function scheduledDislike() {
 
 function Dparse(day) {
   day = day.replace(/Joined |Дата регистрации: |Ви приєдналися |Член от |Далучыўся(-лася) /i, '');
-  day = day.replace(/ янв\. | января | січ\. |\.01\./i, ' Jan, ');
-  day = day.replace(/ февр\. | февраля | лют\. |\.02\./i, ' Feb, ');
-  day = day.replace(/ мар\. | марта | бер\. |\.03\./i, ' Mar, ');
-  day = day.replace(/ апр\. | апреля | квіт\. |\.04\./i, ' Apr, ');
+  day = day.replace(/ янв\. | января | січ\. | сту |\.01\./i, ' Jan, ');
+  day = day.replace(/ февр\. | февраля | лют\. | лют |\.02\./i, ' Feb, ');
+  day = day.replace(/ мар\. | марта | бер\. | сак |\.03\./i, ' Mar, ');
+  day = day.replace(/ апр\. | апреля | квіт\. | кра |\.04\./i, ' Apr, ');
   day = day.replace(/ мая\. | мая | трав\. |\.05\./i, ' May, ');
-  day = day.replace(/ июн\. | июня | черв\.|\.06\./i, ' Jun, ');
-  day = day.replace(/ июл\. | июля | лип\. |\.07\./i, ' Jul, ');
-  day = day.replace(/ авг\. | августа | серп\. |\.08\./i, ' Aug, ');
-  day = day.replace(/ сент\. | сентября | вер\. |\.09\./i, ' Sep, ');
-  day = day.replace(/ окт\. | октября | жовт\. |\.10\./i, ' Oct, ');
-  day = day.replace(/ нояб\. | ноября | лист\. |\.11\./i, ' Nov, ');
-  day = day.replace(/ дек\. | декабря | груд\. |\.12\./i, ' Dec, ');
-  day = day.replace(/ г\.| р\./i, '');
+  day = day.replace(/ июн\. | июня | черв\.| чэр |\.06\./i, ' Jun, ');
+  day = day.replace(/ июл\. | июля | лип\. | ліп |\.07\./i, ' Jul, ');
+  day = day.replace(/ авг\. | августа | серп\. | жні |\.08\./i, ' Aug, ');
+  day = day.replace(/ сент\. | сентября | вер\. | вер |\.09\./i, ' Sep, ');
+  day = day.replace(/ окт\. | октября | жовт\. | кас |\.10\./i, ' Oct, ');
+  day = day.replace(/ нояб\. | ноября | лист\. | ліс |\.11\./i, ' Nov, ');
+  day = day.replace(/ дек\. | декабря | груд\.| сне |\.12\./i, ' Dec, ');
+  day = day.replace(/ г\.| г\.| р\.| р\./i, '');
   return Dymd(day);
 }
 
