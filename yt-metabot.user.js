@@ -2,7 +2,7 @@
 // @name         MetaBot for YouTube
 // @namespace    yt-metabot-user-js
 // @description  More information about users and videos on YouTube.
-// @version      230102
+// @version      230103
 // @homepageURL  https://vk.com/public159378864
 // @supportURL   https://github.com/asrdri/yt-metabot-user-js/issues
 // @updateURL    https://raw.githubusercontent.com/asrdri/yt-metabot-user-js/master/yt-metabot.meta.js
@@ -1038,7 +1038,7 @@ function Dparse(day) {
   day = day.replace(/ сент\. | сентября | вер\. | вер |\.09\./i, ' Sep, ');
   day = day.replace(/ окт\. | октября | жовт\. | кас |\.10\./i, ' Oct, ');
   day = day.replace(/ нояб\. | ноября | лист\. | ліс |\.11\./i, ' Nov, ');
-  day = day.replace(/ дек\. | декабря | груд\.| сне |\.12\./i, ' Dec, ');
+  day = day.replace(/ дек\. | декабря | груд\. | сне |\.12\./i, ' Dec, ');
   day = day.replace(/ г\.| г\.| р\.| р\./i, '');
   return Dymd(day);
 }
